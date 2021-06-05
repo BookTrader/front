@@ -1,10 +1,6 @@
-import React from 'react';
-import { KeyboardAvoidingView } from 'react-native';
+import React from 'react'
+import { KeyboardAvoidingView } from 'react-native'
 
-
-export default function Register(){
-    return(
-        <KeyboardAvoidingView>
-        </KeyboardAvoidingView>
-    );
+export default function Register() {
+    return <KeyboardAvoidingView></KeyboardAvoidingView>
 }

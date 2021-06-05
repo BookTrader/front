@@ -18,5 +18,11 @@
   "devDependencies": {
     "@babel/core": "^7.9.0"
   },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": false,
+    "singleQuote": true
+  },
   "private": true
 }
