@@ -20,7 +20,7 @@ export default function Register() {
         <StatusBar />
         <View style={styles.container}>
                 <Text style={styles.textLabel}>
-                    Seus dados
+                    Dados
                 </Text>
                 <TextInput
                     style={styles.input}
