@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import {
     View,
     KeyboardAvoidingView,
@@ -9,10 +9,10 @@ import {
     Animated,
     Keyboard,
     StatusBar,
-} from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function Login() {
+export default function Login({ navigation }) {
     const [input, setInput] = useState('')
     const [hidePass, setHidePass] = useState(true)
     const [offset] = useState(new Animated.ValueXY({ x: 0, y: 80 }))
@@ -127,7 +127,7 @@ export default function Login() {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.btnRegister}>
-                    <Text style={styles.btnRegisterText}>
+                    <Text onPress={ () => navigation.navigate('Register')} style={styles.btnRegisterText}>
                         Não possui uma conta? Cadastre-se
                     </Text>
                 </TouchableOpacity>
