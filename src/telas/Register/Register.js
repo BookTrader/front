@@ -19,6 +19,9 @@ export default function Register() {
     <KeyboardAvoidingView style={styles.background}>
         <StatusBar />
         <View style={styles.container}>
+                <Text style={styles.textLabel}>
+                    Seus dados
+                </Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Nome"
@@ -27,7 +30,7 @@ export default function Register() {
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Email"
+                    placeholder="E-mail"
                     autoCorrect={false}
                     onChangeText={() => {}}
                 />
@@ -45,11 +48,11 @@ export default function Register() {
                         onPress={() => setHidePass(!hidePass)}
                     >
                         {hidePass ? (
-                            <Ionicons name="eye" color="#242424" size={25} />
+                            <Ionicons name="eye" color="gray" size={25} />
                         ) : (
                             <Ionicons
                                 name="eye-off"
-                                color="#242424"
+                                color="gray"
                                 size={25}
                             />
                         )}
@@ -57,7 +60,7 @@ export default function Register() {
                 </View>
 
                 <TouchableOpacity style={styles.btnSubmit}>
-                    <Text style={styles.btnSubmitText}>Cadastrar</Text>
+                    <Text style={styles.btnSubmitText}>Cadastre-se</Text>
                 </TouchableOpacity>
             </View>
     </KeyboardAvoidingView>
@@ -69,19 +72,27 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#242424',
+        backgroundColor: '#FFF',
     },
     container: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         width: '90%',
         paddingBottom: 50,
+        marginTop: 30,
+    },
+    textLabel:{
+        fontSize: 18,
+        color: '#000',
+        fontWeight: 'bold',
+        paddingBottom: 10,
     },
     input: {
         backgroundColor: '#FFF',
         width: '90%',
         marginBottom: 15,
+        borderWidth: 1,
+        borderColor: 'gray',
         color: '#242424',
         fontSize: 17,
         borderRadius: 5,
@@ -91,6 +102,8 @@ const styles = StyleSheet.create({
     inputArea: {
         flexDirection: 'row',
         width: '90%',
+        borderWidth: 1,
+        borderColor: 'gray',
         backgroundColor: '#FFF',
         borderRadius: 5,
         height: 50,

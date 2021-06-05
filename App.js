@@ -13,14 +13,20 @@ export default function App() {
             <Stack.Screen 
             name="Login" 
             component={Login}
-            options={{headerShown: false}}
+            options={{
+              title: 'Entrar',
+              headerStyle:{
+                backgroundColor: '#e0ac21'
+              },
+              headerTintColor: '#FFF'
+            }}
             />
 
             <Stack.Screen 
             name="Register" 
             component={Register}
             options={{
-              title: 'Cadastre-se',
+              title: 'Cadastrar',
               headerStyle:{
                 backgroundColor: '#e0ac21'
               },

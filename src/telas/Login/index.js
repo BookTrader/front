@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     KeyboardAvoidingView,
@@ -6,101 +6,36 @@ import {
     TouchableOpacity,
     Text,
     StyleSheet,
-    Animated,
-    Keyboard,
     StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+
 export default function Login({ navigation }) {
     const [input, setInput] = useState('')
     const [hidePass, setHidePass] = useState(true)
-    const [offset] = useState(new Animated.ValueXY({ x: 0, y: 80 }))
-    const [logo] = useState(new Animated.ValueXY({ x: 200, y: 200 }))
 
-    useEffect(() => {
-        keyboardDidShowListener = Keyboard.addListener(
-            'keyboardDidShow',
-            keyboardDidShow
-        )
-        keyboardDidHideListener = Keyboard.addListener(
-            'keyboardDidHide',
-            keyboardDidHide
-        )
-
-        Animated.spring(offset.y, {
-            toValue: 0,
-            speed: 4,
-            bounciness: 30,
-            useNativeDriver: false,
-        }).start()
-    }, [])
-
-    function keyboardDidShow() {
-        Animated.parallel([
-            Animated.timing(logo.x, {
-                toValue: 100,
-                duration: 200,
-                useNativeDriver: false,
-            }),
-            Animated.timing(logo.y, {
-                toValue: 100,
-                duration: 200,
-                useNativeDriver: false,
-            }),
-        ]).start()
-    }
-
-    function keyboardDidHide() {
-        Animated.parallel([
-            Animated.timing(logo.x, {
-                toValue: 200,
-                duration: 200,
-                useNativeDriver: false,
-            }),
-            Animated.timing(logo.y, {
-                toValue: 200,
-                duration: 200,
-                useNativeDriver: false,
-            }),
-        ]).start()
-    }
 
     return (
         <KeyboardAvoidingView style={styles.background}>
             <StatusBar />
-            <View style={styles.containerLogo}>
-                <Animated.Image
-                    style={{
-                        width: logo.x,
-                        height: logo.y,
-                    }}
-                    source={require('./assets/logo.png')}
-                />
-            </View>
-
-            <Animated.View
-                style={[
-                    styles.container,
-                    {
-                        transform: [
-                            {
-                                translateY: offset.y,
-                            },
-                        ],
-                    },
-                ]}
-            >
+            <View style={styles.container}>
+                <Text style={styles.textLabel}>
+                    E-mail
+                </Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Email"
+                    placeholder="Ex: alley@book.com"
                     autoCorrect={false}
                     onChangeText={() => {}}
                 />
+                <Text style={styles.textLabel}>
+                        Senha
+                </Text>
                 <View style={styles.inputArea}>
                     <TextInput
                         style={styles.inputPass}
-                        placeholder="Senha"
+                        placeholder=""
                         autoCorrect={false}
                         value={input}
                         onChangeText={(texto) => setInput(texto)}
@@ -111,11 +46,11 @@ export default function Login({ navigation }) {
                         onPress={() => setHidePass(!hidePass)}
                     >
                         {hidePass ? (
-                            <Ionicons name="eye" color="#242424" size={25} />
+                            <Ionicons name="eye" color="gray" size={25} />
                         ) : (
                             <Ionicons
                                 name="eye-off"
-                                color="#242424"
+                                color="gray"
                                 size={25}
                             />
                         )}
@@ -123,41 +58,44 @@ export default function Login({ navigation }) {
                 </View>
 
                 <TouchableOpacity style={styles.btnSubmit}>
-                    <Text style={styles.btnSubmitText}>Acessar</Text>
+                    <Text style={styles.btnSubmitText}>Entrar</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.btnRegister}>
                     <Text onPress={ () => navigation.navigate('Register')} style={styles.btnRegisterText}>
-                        Não possui uma conta? Cadastre-se
+                        Não tem uma conta? <Text style={styles.btnRegisterCTA}>Cadastre-se</Text>
                     </Text>
                 </TouchableOpacity>
-            </Animated.View>
+            </View>
         </KeyboardAvoidingView>
     )
 }
 
 const styles = StyleSheet.create({
-    background: {
+        background: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#242424',
-    },
-    containerLogo: {
-        flex: 1,
-        justifyContent: 'center',
+        backgroundColor: '#FFF',
     },
     container: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         width: '90%',
-        paddingBottom: 50,
+        paddingBottom: 20
+    },
+    textLabel:{
+        fontSize: 18,
+        color: '#000',
+        fontWeight: 'bold',
+        paddingBottom: 10,
     },
     input: {
         backgroundColor: '#FFF',
+        borderWidth: 1,
+        borderColor: 'gray',
         width: '90%',
-        marginBottom: 15,
+        marginBottom: 10,
         color: '#242424',
         fontSize: 17,
         borderRadius: 5,
@@ -166,12 +104,14 @@ const styles = StyleSheet.create({
     },
     inputArea: {
         flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: 'gray',
         width: '90%',
         backgroundColor: '#FFF',
         borderRadius: 5,
         height: 50,
         alignItems: 'center',
-        marginBottom: 15,
+        marginBottom: 10,
     },
     inputPass: {
         width: '85%',
@@ -202,6 +142,11 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     btnRegisterText: {
-        color: '#FFF',
+        fontSize: 16,
+        color: '#000',
+    },
+    btnRegisterCTA: {
+        color: '#e0ac21',
+        fontWeight: 'bold'
     },
 })
