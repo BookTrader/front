@@ -7,7 +7,7 @@ export default function Login() {
   const [input, setInput] = useState('');
   const [hidePass, setHidePass] = useState(true);
   const [offset] = useState(new Animated.ValueXY({x: 0, y: 80}));
-  const [logo] = useState(new Animated.ValueXY({x: 200, y: 201}));
+  const [logo] = useState(new Animated.ValueXY({x: 200, y: 200}));
 
 
   useEffect(()=> {
@@ -31,7 +31,7 @@ export default function Login() {
         useNativeDriver: false,
       }),
       Animated.timing(logo.y, {
-        toValue: 101,
+        toValue: 100,
         duration: 200,
         useNativeDriver: false,
       })
@@ -46,7 +46,7 @@ export default function Login() {
         useNativeDriver: false,
       }),
       Animated.timing(logo.y, {
-        toValue: 201,
+        toValue: 200,
         duration: 200,
         useNativeDriver: false,
       })
