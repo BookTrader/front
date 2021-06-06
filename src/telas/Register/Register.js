@@ -24,7 +24,7 @@ export default function Register() {
                 </Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Nome"
+                    placeholder="Apelido"
                     autoCorrect={false}
                     onChangeText={() => {}}
                 />
@@ -82,10 +82,12 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
     textLabel:{
+        alignSelf: 'flex-start',
         fontSize: 18,
         color: '#000',
         fontWeight: 'bold',
         paddingBottom: 10,
+        padding: 20,
     },
     input: {
         backgroundColor: '#FFF',

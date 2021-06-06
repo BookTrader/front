@@ -85,10 +85,12 @@ const styles = StyleSheet.create({
         paddingBottom: 20
     },
     textLabel:{
+        alignSelf: 'flex-start',
         fontSize: 18,
         color: '#000',
         fontWeight: 'bold',
         paddingBottom: 10,
+        padding: 20,
     },
     input: {
         backgroundColor: '#FFF',
