@@ -17,11 +17,11 @@ export default function Login({ navigation }) {
 
 
     return (
-        <KeyboardAvoidingView style={styles.background}>
+        <KeyboardAvoidingView style={styles.container}>
             <StatusBar />
-            <View style={styles.container}>
-                <Text style={styles.textLabel}>
-                    E-mail
+            <View style={styles.form}>
+                <Text style={styles.label}>
+                    E-mail *
                 </Text>
                 <TextInput
                     style={styles.input}
@@ -29,10 +29,10 @@ export default function Login({ navigation }) {
                     autoCorrect={false}
                     onChangeText={() => {}}
                 />
-                <Text style={styles.textLabel}>
-                        Senha
+                <Text style={styles.label}>
+                        Senha *
                 </Text>
-                <View style={styles.inputArea}>
+                <View style={styles.inputPassArea}>
                     <TextInput
                         style={styles.inputPass}
                         placeholder=""
@@ -72,68 +72,65 @@ export default function Login({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-        background: {
+        container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#FFF',
     },
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '90%',
-        paddingBottom: 20
+    form: {
+        alignSelf: 'stretch',
+        paddingHorizontal: 30,
     },
-    textLabel:{
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        color: '#000',
+    label:{
         fontWeight: 'bold',
-        paddingBottom: 10,
-        padding: 20,
+        fontSize: 18,
+        color: '#242424',
+        marginBottom: 8,
     },
     input: {
-        backgroundColor: '#FFF',
         borderWidth: 1,
         borderColor: 'gray',
-        width: '90%',
-        marginBottom: 10,
+        paddingHorizontal: 20,
+        fontSize: 16,
         color: '#242424',
-        fontSize: 17,
+        height: 44,
+        marginBottom: 10,
         borderRadius: 5,
-        padding: 10,
-        height: 50,
     },
-    inputArea: {
+    inputPassArea: {
         flexDirection: 'row',
         borderWidth: 1,
         borderColor: 'gray',
-        width: '90%',
-        backgroundColor: '#FFF',
-        borderRadius: 5,
-        height: 50,
-        alignItems: 'center',
+        paddingHorizontal: 20,
+        fontSize: 16,
+        color: '#242424',
+        height: 44,
         marginBottom: 10,
+        borderRadius: 5,
     },
     inputPass: {
         width: '85%',
-        height: 50,
+        height: 44,
         color: '#242424',
         padding: 8,
         fontSize: 17,
     },
     icon: {
         width: '15%',
-        height: 50,
+        height: 44,
         justifyContent: 'center',
         alignItems: 'center',
     },
     btnSubmit: {
         backgroundColor: '#e0ac21',
-        width: '90%',
-        height: 45,
         alignItems: 'center',
         justifyContent: 'center',
+        paddingHorizontal: 20,
+        fontSize: 16,
+        color: '#242424',
+        height: 44,
+        marginBottom: 5,
         borderRadius: 5,
     },
     btnSubmitText: {
@@ -141,6 +138,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     btnRegister: {
+        alignSelf: 'center',
         marginTop: 10,
     },
     btnRegisterText: {

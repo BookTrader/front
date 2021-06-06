@@ -16,10 +16,10 @@ export default function Register() {
     const [hidePass, setHidePass] = useState(true)
 
     return (
-    <KeyboardAvoidingView style={styles.background}>
+    <KeyboardAvoidingView style={styles.container}>
         <StatusBar />
-        <View style={styles.container}>
-                <Text style={styles.textLabel}>
+        <View style={styles.form}>
+                <Text style={styles.label}>
                     Dados
                 </Text>
                 <TextInput
@@ -34,7 +34,7 @@ export default function Register() {
                     autoCorrect={false}
                     onChangeText={() => {}}
                 />
-                <View style={styles.inputArea}>
+                <View style={styles.inputPassArea}>
                     <TextInput
                         style={styles.inputPass}
                         placeholder="Senha"
@@ -68,69 +68,65 @@ export default function Register() {
 }
 
 const styles = StyleSheet.create({
-    background: {
+    container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#FFF',
     },
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '90%',
-        paddingBottom: 50,
-        marginTop: 30,
+    form: {
+        alignSelf: 'stretch',
+        paddingHorizontal: 30,
     },
-    textLabel:{
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        color: '#000',
+    label:{
         fontWeight: 'bold',
-        paddingBottom: 10,
-        padding: 20,
+        fontSize: 18,
+        color: '#242424',
+        marginBottom: 8,
     },
     input: {
-        backgroundColor: '#FFF',
-        width: '90%',
-        marginBottom: 15,
         borderWidth: 1,
         borderColor: 'gray',
+        paddingHorizontal: 20,
+        fontSize: 16,
         color: '#242424',
-        fontSize: 17,
+        height: 44,
+        marginBottom: 10,
         borderRadius: 5,
-        padding: 10,
-        height: 50,
     },
-    inputArea: {
+    inputPassArea: {
         flexDirection: 'row',
-        width: '90%',
         borderWidth: 1,
         borderColor: 'gray',
-        backgroundColor: '#FFF',
+        paddingHorizontal: 20,
+        fontSize: 16,
+        color: '#242424',
+        height: 44,
+        marginBottom: 10,
         borderRadius: 5,
-        height: 50,
-        alignItems: 'center',
-        marginBottom: 15,
     },
     inputPass: {
         width: '85%',
-        height: 50,
+        height: 44,
         color: '#242424',
         padding: 8,
         fontSize: 17,
     },
     icon: {
         width: '15%',
-        height: 50,
+        height: 44,
         justifyContent: 'center',
         alignItems: 'center',
     },
     btnSubmit: {
         backgroundColor: '#e0ac21',
-        width: '90%',
-        height: 45,
         alignItems: 'center',
         justifyContent: 'center',
+        paddingHorizontal: 20,
+        fontSize: 16,
+        color: '#242424',
+        height: 44,
+        marginBottom: 5,
         borderRadius: 5,
     },
     btnSubmitText: {
