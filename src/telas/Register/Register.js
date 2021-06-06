@@ -20,7 +20,7 @@ export default function Register() {
         <StatusBar 
             barStyle="light-content"
             hidden={false}
-            backgroundColor="#b58f28"
+            backgroundColor="#77242a"
         />
         <View style={styles.form}>
                 <Text style={styles.label}>
@@ -52,11 +52,11 @@ export default function Register() {
                         onPress={() => setHidePass(!hidePass)}
                     >
                         {hidePass ? (
-                            <Ionicons name="eye" color="gray" size={25} />
+                            <Ionicons name="eye" color="#031d44" size={25} />
                         ) : (
                             <Ionicons
                                 name="eye-off"
-                                color="gray"
+                                color="#031d44"
                                 size={25}
                             />
                         )}
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#FFF',
+        backgroundColor: '#ECECEC',
     },
     form: {
         alignSelf: 'stretch',
@@ -85,12 +85,13 @@ const styles = StyleSheet.create({
     label:{
         fontWeight: 'bold',
         fontSize: 18,
-        color: '#242424',
+        color: '#031d44',
         marginBottom: 8,
     },
     input: {
         borderWidth: 1,
-        borderColor: 'gray',
+        borderColor: '#031d44',
+        backgroundColor: '#FFF',
         paddingHorizontal: 20,
         fontSize: 16,
         color: '#242424',
@@ -101,8 +102,9 @@ const styles = StyleSheet.create({
     inputPassArea: {
         flexDirection: 'row',
         borderWidth: 1,
-        borderColor: 'gray',
+        borderColor: '#031d44',
         paddingHorizontal: 20,
+        backgroundColor: '#FFF',
         fontSize: 16,
         color: '#242424',
         height: 44,
@@ -113,8 +115,7 @@ const styles = StyleSheet.create({
         width: '90%',
         height: 44,
         color: '#242424',
-        padding: 8,
-        fontSize: 17,
+        fontSize: 16,
     },
     icon: {
         width: '10%',
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     btnSubmit: {
-        backgroundColor: '#e0ac21',
+        backgroundColor: '#e53945',
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 20,

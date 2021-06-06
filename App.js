@@ -16,7 +16,7 @@ export default function App() {
             options={{
               title: 'Entrar',
               headerStyle:{
-                backgroundColor: '#e0ac21'
+                backgroundColor: '#e53945'
               },
               headerTintColor: '#FFF'
             }}
@@ -28,7 +28,7 @@ export default function App() {
             options={{
               title: 'Cadastrar',
               headerStyle:{
-                backgroundColor: '#e0ac21'
+                backgroundColor: '#e53945'
               },
               headerTintColor: '#FFF'
             }}
