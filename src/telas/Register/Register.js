@@ -17,7 +17,11 @@ export default function Register() {
 
     return (
     <KeyboardAvoidingView style={styles.container}>
-        <StatusBar />
+        <StatusBar 
+            barStyle="light-content"
+            hidden={false}
+            backgroundColor="#b58f28"
+        />
         <View style={styles.form}>
                 <Text style={styles.label}>
                     Dados
@@ -106,14 +110,14 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     inputPass: {
-        width: '85%',
+        width: '90%',
         height: 44,
         color: '#242424',
         padding: 8,
         fontSize: 17,
     },
     icon: {
-        width: '15%',
+        width: '10%',
         height: 44,
         justifyContent: 'center',
         alignItems: 'center',
