@@ -10,6 +10,7 @@ import {
     Alert,
 } from 'react-native';
 import { Formik } from 'formik';
+import { api } from '../../service/api';
 
 // API Client
 
@@ -17,9 +18,8 @@ import { Formik } from 'formik';
 export default function Login({ navigation }) {
 
     async function handleLogin(values){
-        await applicationCache.post('/login', values)
+        await api.post('/login', values)
         .then(response => {
-            setLoader(false);
             signIn(response.data);
         })
         .catch(err =>  {
@@ -65,7 +65,7 @@ export default function Login({ navigation }) {
                         onChange={handleChange('senha')}
                     />
                     <TouchableOpacity style={styles.btnSubmit}>
-                        <Text style={styles.btnSubmitText}>Entrar</Text>
+                        <Text onPress={handleSubmit} style={styles.btnSubmitText}>Entrar</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.btnRegister}>
