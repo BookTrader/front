@@ -6,6 +6,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
+//Get data
+
+
 export default function App() {
     return (
       <NavigationContainer>
