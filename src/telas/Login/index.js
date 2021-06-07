@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     View,
     KeyboardAvoidingView,
@@ -7,71 +7,76 @@ import {
     Text,
     StyleSheet,
     StatusBar,
+    Alert,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Formik } from 'formik';
+
+// API Client
 
 
 export default function Login({ navigation }) {
-    const [input, setInput] = useState('')
-    const [hidePass, setHidePass] = useState(true)
+
+    async function handleLogin(values){
+        await applicationCache.post('/login', values)
+        .then(response => {
+            setLoader(false);
+            signIn(response.data);
+        })
+        .catch(err =>  {
+            Alert.alert('Usuário ou senha inválidos');
+        })
+    }
 
 
     return (
-        <KeyboardAvoidingView style={styles.container}>
-            <StatusBar 
-            barStyle="light-content"
-            hidden={false}
-            backgroundColor="#77242a"
-            />
-            <View style={styles.form}>
-                <Text style={styles.label}>
-                    E-mail *
-                </Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Ex: alley@book.com"
-                    autoCorrect={false}
-                    onChangeText={() => {}}
+        <Formik
+            initialValues={{email: '', senha: ''}}
+            onSubmit={values => handleLogin(values)}
+        >
+        
+        {({ handleChange, handleSubmit, values }) => (
+
+            <KeyboardAvoidingView style={styles.container}>
+                <StatusBar 
+                barStyle="light-content"
+                hidden={false}
+                backgroundColor="#77242a"
                 />
-                <Text style={styles.label}>
-                        Senha *
-                </Text>
-                <View style={styles.inputPassArea}>
+                <View style={styles.form}>
+                    <Text style={styles.label}>
+                        E-mail *
+                    </Text>
                     <TextInput
-                        style={styles.inputPass}
+                        style={styles.input}
+                        placeholder="Ex: alley@book.com"
+                        autoCorrect={false}
+                        value={values.email}
+                        onChange={handleChange('email')}
+                    />
+                    <Text style={styles.label}>
+                            Senha *
+                    </Text>
+                    <TextInput
+                        style={styles.input}
                         placeholder=""
                         autoCorrect={false}
-                        value={input}
-                        onChangeText={(texto) => setInput(texto)}
-                        secureTextEntry={hidePass}
+                        secureTextEntry={true}
+                        value={values.senha}
+                        onChange={handleChange('senha')}
                     />
-                    <TouchableOpacity
-                        style={styles.icon}
-                        onPress={() => setHidePass(!hidePass)}
-                    >
-                        {hidePass ? (
-                            <Ionicons name="eye" color="#031d44" size={25} />
-                        ) : (
-                            <Ionicons
-                                name="eye-off"
-                                color="#031d44"
-                                size={25}
-                            />
-                        )}
+                    <TouchableOpacity style={styles.btnSubmit}>
+                        <Text style={styles.btnSubmitText}>Entrar</Text>
                     </TouchableOpacity>
                 </View>
-
-                <TouchableOpacity style={styles.btnSubmit}>
-                    <Text style={styles.btnSubmitText}>Entrar</Text>
-                </TouchableOpacity>
-
                 <TouchableOpacity style={styles.btnRegister}>
                     <Text onPress={ () => navigation.navigate('Register')} style={styles.btnRegisterText}>
                         Não tem uma conta? <Text style={styles.btnRegisterCTA}>Cadastre-se</Text>
                     </Text>
                 </TouchableOpacity>
-            </View>
-        </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
+
+        )}
+        </Formik>
     )
 }
 
@@ -102,30 +107,6 @@ const styles = StyleSheet.create({
         height: 44,
         marginBottom: 10,
         borderRadius: 5,
-    },
-    inputPassArea: {
-        flexDirection: 'row',
-        backgroundColor: '#FFF',
-        borderWidth: 1,
-        borderColor: '#031d44',
-        paddingHorizontal: 20,
-        fontSize: 16,
-        color: '#242424',
-        height: 44,
-        marginBottom: 10,
-        borderRadius: 5,
-    },
-    inputPass: {
-        width: '90%',
-        height: 44,
-        color: '#242424',
-        fontSize: 16,
-    },
-    icon: {
-        width: '10%',
-        height: 44,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     btnSubmit: {
         backgroundColor: '#e53945',
