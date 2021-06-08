@@ -12,10 +12,12 @@ import {
 import { Formik } from 'formik';
 import { api } from '../../../service/api';
 import { useAuth } from '../../../context/auth';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function Login({ navigation }) {
 
+    const {navigate} = useNavigation();
     const {login} = useAuth();
 
     async function handleLogin(values){
@@ -23,7 +25,9 @@ export default function Login({ navigation }) {
         .then(response => {
             login(response.data);
             Alert.alert('Sucesso');
+            
         })
+        .then(response => navigate('Register'))
         .catch(err =>  {
             Alert.alert('Ih! Meteu essa?');
         })
@@ -32,7 +36,7 @@ export default function Login({ navigation }) {
     return (
         <Formik
             initialValues={{usr_email: '', usr_senha: ''}}
-            onSubmit={values => Alert.alert(JSON.stringify(values))}
+            onSubmit={values => handleLogin(values)}
         >
         
         {({ handleChange, handleSubmit, values }) => (
@@ -70,7 +74,7 @@ export default function Login({ navigation }) {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.btnRegister}>
-                    <Text onPress={ () => navigation.navigate('Register')} style={styles.btnRegisterText}>
+                    <Text onPress={ () => navigation.navigate('Register') } style={styles.btnRegisterText}>
                         Não tem uma conta? <Text style={styles.btnRegisterCTA}>Cadastre-se</Text>
                     </Text>
                 </TouchableOpacity>
