@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
     View,
     KeyboardAvoidingView,
@@ -21,16 +21,19 @@ export default function Login({ navigation }) {
     const {navigate} = useNavigation();
     const {login} = useAuth();
     const [hidePass, setHidePass] = useState(true)
+    const [loading, setLoading] = useState(false);
 
     async function handleLogin(values){
         await api.post('/login', values)
+        .then(setLoading(true))
         .then(response => {
+            setLoading(false);
             login(response.data);
             Alert.alert('Sucesso');
-            
         })
-        .then(response => navigate('Register'))
+        .then(response => navigate('Feed'))
         .catch(err =>  {
+            setLoading(false);
             Alert.alert('Ih! Meteu essa?');
         })
     }
@@ -88,7 +91,7 @@ export default function Login({ navigation }) {
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity style={styles.btnSubmit}>
-                        <Text onPress={handleSubmit} style={styles.btnSubmitText}>Entrar</Text>
+                        <Text onPress={handleSubmit} style={styles.btnSubmitText}>{loading ? 'Enviando...' : 'Enviar'}</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.btnRegister}>
