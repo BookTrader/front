@@ -4,6 +4,8 @@ import Register from './src/telas/userAccess/Register/Register';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import AuthProvider from './src/context/auth';
+
 const Stack = createStackNavigator();
 
 //Get data
@@ -11,32 +13,34 @@ const Stack = createStackNavigator();
 
 export default function App() {
     return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen 
-            name="Login" 
-            component={Login}
-            options={{
-              title: 'Entrar',
-              headerStyle:{
-                backgroundColor: '#e53945'
-              },
-              headerTintColor: '#FFF'
-            }}
-            />
+      <AuthProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login">
+              <Stack.Screen 
+              name="Login" 
+              component={Login}
+              options={{
+                title: 'Entrar',
+                headerStyle:{
+                  backgroundColor: '#e53945'
+                },
+                headerTintColor: '#FFF'
+              }}
+              />
 
-            <Stack.Screen 
-            name="Register" 
-            component={Register}
-            options={{
-              title: 'Cadastrar',
-              headerStyle:{
-                backgroundColor: '#e53945'
-              },
-              headerTintColor: '#FFF'
-            }}
-            />
-        </Stack.Navigator>
-      </NavigationContainer>
+              <Stack.Screen 
+              name="Register" 
+              component={Register}
+              options={{
+                title: 'Cadastrar',
+                headerStyle:{
+                  backgroundColor: '#e53945'
+                },
+                headerTintColor: '#FFF'
+              }}
+              />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AuthProvider>
     );
 }

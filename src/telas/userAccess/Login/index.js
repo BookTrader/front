@@ -21,19 +21,18 @@ export default function Login({ navigation }) {
     async function handleLogin(values){
         await api.post('/login', values)
         .then(response => {
-           login(response.data);
-           Alert.alert('Sucesso');
+            login(response.data);
+            Alert.alert('Sucesso');
         })
         .catch(err =>  {
-            Alert.alert(JSON.stringify(values));
+            Alert.alert('Ih! Meteu essa?');
         })
     }
-
 
     return (
         <Formik
             initialValues={{usr_email: '', usr_senha: ''}}
-            onSubmit={values => handleLogin(values)}
+            onSubmit={values => Alert.alert(JSON.stringify(values))}
         >
         
         {({ handleChange, handleSubmit, values }) => (
@@ -53,7 +52,7 @@ export default function Login({ navigation }) {
                         placeholder="Ex: alley@book.com"
                         autoCorrect={false}
                         value={values.usr_email}
-                        onChange={handleChange('usr_email')}
+                        onChangeText={handleChange('usr_email')}
                     />
                     <Text style={styles.label}>
                             Senha *
@@ -64,7 +63,7 @@ export default function Login({ navigation }) {
                         autoCorrect={false}
                         secureTextEntry={true}
                         value={values.usr_senha}
-                        onChange={handleChange('usr_senha')}
+                        onChangeText={handleChange('usr_senha')}
                     />
                     <TouchableOpacity style={styles.btnSubmit}>
                         <Text onPress={handleSubmit} style={styles.btnSubmitText}>Entrar</Text>
