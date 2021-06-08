@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'
 import {
     View,
     KeyboardAvoidingView,
@@ -13,12 +13,14 @@ import { Formik } from 'formik';
 import { api } from '../../../service/api';
 import { useAuth } from '../../../context/auth';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 
 
 export default function Login({ navigation }) {
 
     const {navigate} = useNavigation();
     const {login} = useAuth();
+    const [hidePass, setHidePass] = useState(true)
 
     async function handleLogin(values){
         await api.post('/login', values)
@@ -61,14 +63,30 @@ export default function Login({ navigation }) {
                     <Text style={styles.label}>
                             Senha *
                     </Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder=""
-                        autoCorrect={false}
-                        secureTextEntry={true}
-                        value={values.usr_senha}
-                        onChangeText={handleChange('usr_senha')}
-                    />
+                    <View style={styles.inputPassArea}>
+                        <TextInput
+                            style={styles.inputPass}
+                            placeholder=""
+                            autoCorrect={false}
+                            value={values.usr_senha}
+                            onChangeText={handleChange('usr_senha')}
+                            secureTextEntry={hidePass}
+                        />
+                        <TouchableOpacity
+                            style={styles.icon}
+                            onPress={() => setHidePass(!hidePass)}
+                        >
+                            {hidePass ? (
+                                <Ionicons name="eye" color="#031d44" size={25} />
+                            ) : (
+                                <Ionicons
+                                    name="eye-off"
+                                    color="#031d44"
+                                    size={25}
+                                />
+                        )}
+                        </TouchableOpacity>
+                    </View>
                     <TouchableOpacity style={styles.btnSubmit}>
                         <Text onPress={handleSubmit} style={styles.btnSubmitText}>Entrar</Text>
                     </TouchableOpacity>
@@ -86,7 +104,7 @@ export default function Login({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-        container: {
+    container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -104,14 +122,38 @@ const styles = StyleSheet.create({
     },
     input: {
         borderWidth: 1,
-        backgroundColor: '#FFF',
         borderColor: '#031d44',
+        backgroundColor: '#FFF',
         paddingHorizontal: 20,
         fontSize: 16,
         color: '#242424',
         height: 44,
         marginBottom: 10,
         borderRadius: 5,
+    },
+    inputPassArea: {
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: '#031d44',
+        paddingHorizontal: 20,
+        backgroundColor: '#FFF',
+        fontSize: 16,
+        color: '#242424',
+        height: 44,
+        marginBottom: 10,
+        borderRadius: 5,
+    },
+    inputPass: {
+        width: '90%',
+        height: 44,
+        color: '#242424',
+        fontSize: 16,
+    },
+    icon: {
+        width: '10%',
+        height: 44,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     btnSubmit: {
         backgroundColor: '#e53945',

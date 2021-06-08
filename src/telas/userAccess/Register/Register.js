@@ -12,7 +12,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function Register() {
 
-    const [input, setInput] = useState('')
     const [hidePass, setHidePass] = useState(true)
 
     return (
@@ -43,8 +42,6 @@ export default function Register() {
                         style={styles.inputPass}
                         placeholder="Senha"
                         autoCorrect={false}
-                        value={input}
-                        onChangeText={(texto) => setInput(texto)}
                         secureTextEntry={hidePass}
                     />
                     <TouchableOpacity
