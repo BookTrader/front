@@ -10,27 +10,29 @@ import {
     Alert,
 } from 'react-native';
 import { Formik } from 'formik';
-import { api } from '../../service/api';
-
-// API Client
+import { api } from '../../../service/api';
+import { useAuth } from '../../../context/auth';
 
 
 export default function Login({ navigation }) {
 
+    const {login} = useAuth();
+
     async function handleLogin(values){
         await api.post('/login', values)
         .then(response => {
-            signIn(response.data);
+           login(response.data);
+           Alert.alert('Sucesso');
         })
         .catch(err =>  {
-            Alert.alert('Usuário ou senha inválidos');
+            Alert.alert(JSON.stringify(values));
         })
     }
 
 
     return (
         <Formik
-            initialValues={{email: '', senha: ''}}
+            initialValues={{usr_email: '', usr_senha: ''}}
             onSubmit={values => handleLogin(values)}
         >
         
@@ -50,8 +52,8 @@ export default function Login({ navigation }) {
                         style={styles.input}
                         placeholder="Ex: alley@book.com"
                         autoCorrect={false}
-                        value={values.email}
-                        onChange={handleChange('email')}
+                        value={values.usr_email}
+                        onChange={handleChange('usr_email')}
                     />
                     <Text style={styles.label}>
                             Senha *
@@ -61,8 +63,8 @@ export default function Login({ navigation }) {
                         placeholder=""
                         autoCorrect={false}
                         secureTextEntry={true}
-                        value={values.senha}
-                        onChange={handleChange('senha')}
+                        value={values.usr_senha}
+                        onChange={handleChange('usr_senha')}
                     />
                     <TouchableOpacity style={styles.btnSubmit}>
                         <Text onPress={handleSubmit} style={styles.btnSubmitText}>Entrar</Text>

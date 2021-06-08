@@ -1,6 +1,6 @@
 import React from 'react';
-import Login from './src/telas/Login';
-import Register from './src/telas/Register/Register';
+import Login from './src/telas/userAccess/Login';
+import Register from './src/telas/userAccess/Register/Register';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
