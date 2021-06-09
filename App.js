@@ -1,7 +1,7 @@
 import React from 'react';
-import Login from './src/telas/userAccess/Login';
-import Register from './src/telas/userAccess/Register/Register';
-import Feed from './src/telas/Feed/Feed';
+import Login from './src/telas/AcessoLivre/Login';
+import Register from './src/telas/AcessoLivre/Register/Register';
+import Feed from './src/telas/AcessoLivre/Feed/Feed';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -16,7 +16,7 @@ export default function App() {
     return (
       <AuthProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator initialRouteName="Feed">
               <Stack.Screen 
               name="Login" 
               component={Login}

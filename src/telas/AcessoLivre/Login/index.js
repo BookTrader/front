@@ -29,12 +29,12 @@ export default function Login({ navigation }) {
         .then(response => {
             setLoading(false);
             login(response.data);
-            Alert.alert('Sucesso');
+            Alert.alert('Sucesso!');
         })
-        .then(response => navigate('Feed'))
+        .then(() => (navigate('Feed')))
         .catch(err =>  {
             setLoading(false);
-            Alert.alert('Ih! Meteu essa?');
+            Alert.alert('Usuário ou senha incorretos!');
         })
     }
 
@@ -90,6 +90,11 @@ export default function Login({ navigation }) {
                         )}
                         </TouchableOpacity>
                     </View>
+                    <TouchableOpacity style={styles.btnForgotPass}>
+                        <Text onPress={ () => navigation.navigate('Register') } style={styles.btnForgotPassText}>
+                            Esqueceu a senha?
+                        </Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.btnSubmit}>
                         <Text onPress={handleSubmit} style={styles.btnSubmitText}>{loading ? 'Enviando...' : 'Enviar'}</Text>
                     </TouchableOpacity>
@@ -178,6 +183,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     btnRegisterText: {
+        fontSize: 16,
+        color: '#031d44',
+    },
+    btnForgotPass: {
+        alignSelf: 'center',
+        marginBottom: 10,
+    },
+    btnForgotPassText: {
         fontSize: 16,
         color: '#031d44',
     },
