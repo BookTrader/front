@@ -81,10 +81,10 @@ export default function Register() {
                             onPress={() => setHidePass(!hidePass)}
                         >
                             {hidePass ? (
-                                <Ionicons name="eye" color="#031d44" size={25} />
+                                <Ionicons name="eye-off" color="#031d44" size={25} />
                             ) : (
                                 <Ionicons
-                                    name="eye-off"
+                                    name="eye"
                                     color="#031d44"
                                     size={25}
                                 />
