@@ -7,64 +7,98 @@ import {
     Text,
     StyleSheet,
     StatusBar,
+    Alert,
     } from 'react-native';
+import { Formik } from 'formik';
 import { Ionicons } from '@expo/vector-icons';
+import { api } from '../../../service/api';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Register() {
 
-    const [hidePass, setHidePass] = useState(true)
+    const [hidePass, setHidePass] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const {navigate} = useNavigation();
+
+    async function handleRegister(values){
+        await api.post('/usuario', values)
+        .then(setLoading(true))
+        .then(response => {
+            setLoading(false);
+            Alert.alert('Cadastro realizado com sucesso!');
+        })
+        .then(() => (navigate('Login')))
+        .catch(err =>  {
+            setLoading(false);
+            Alert.alert('Erro ao cadastrar!');
+        })
+    }
 
     return (
-    <KeyboardAvoidingView style={styles.container}>
-        <StatusBar 
-            barStyle="light-content"
-            hidden={false}
-            backgroundColor="#77242a"
-        />
-        <View style={styles.form}>
-                <Text style={styles.label}>
-                    Dados
-                </Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Apelido"
-                    autoCorrect={false}
-                    onChangeText={() => {}}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="E-mail"
-                    autoCorrect={false}
-                    onChangeText={() => {}}
-                />
-                <View style={styles.inputPassArea}>
+
+        <Formik
+        initialValues={{usr_apelido: '', usr_email: '', usr_senha: ''}}
+        onSubmit={values => handleRegister(values)}
+    >
+    
+    {({ handleChange, handleSubmit, values }) => (
+
+        <KeyboardAvoidingView style={styles.container}>
+            <StatusBar 
+                barStyle="light-content"
+                hidden={false}
+                backgroundColor="#77242a"
+            />
+            <View style={styles.form}>
+                    <Text style={styles.label}>
+                        Dados
+                    </Text>
                     <TextInput
-                        style={styles.inputPass}
-                        placeholder="Senha"
+                        style={styles.input}
+                        placeholder="Apelido"
                         autoCorrect={false}
-                        secureTextEntry={hidePass}
+                        value={values.usr_apelido}
+                        onChangeText={handleChange('usr_apelido')}
                     />
-                    <TouchableOpacity
-                        style={styles.icon}
-                        onPress={() => setHidePass(!hidePass)}
-                    >
-                        {hidePass ? (
-                            <Ionicons name="eye" color="#031d44" size={25} />
-                        ) : (
-                            <Ionicons
-                                name="eye-off"
-                                color="#031d44"
-                                size={25}
-                            />
-                        )}
+                    <TextInput
+                        style={styles.input}
+                        placeholder="E-mail"
+                        autoCorrect={false}
+                        value={values.usr_email}
+                        onChangeText={handleChange('usr_email')}
+                    />
+                    <View style={styles.inputPassArea}>
+                        <TextInput
+                            style={styles.inputPass}
+                            placeholder="Senha"
+                            autoCorrect={false}
+                            value={values.usr_senha}
+                            onChangeText={handleChange('usr_senha')}
+                            secureTextEntry={hidePass}
+                        />
+                        <TouchableOpacity
+                            style={styles.icon}
+                            onPress={() => setHidePass(!hidePass)}
+                        >
+                            {hidePass ? (
+                                <Ionicons name="eye" color="#031d44" size={25} />
+                            ) : (
+                                <Ionicons
+                                    name="eye-off"
+                                    color="#031d44"
+                                    size={25}
+                                />
+                            )}
+                        </TouchableOpacity>
+                    </View>
+
+                    <TouchableOpacity style={styles.btnSubmit}>
+                    <Text onPress={handleSubmit} style={styles.btnSubmitText}>{loading ? 'Cadastrando...' : 'Cadastrar'}</Text>
                     </TouchableOpacity>
                 </View>
-
-                <TouchableOpacity style={styles.btnSubmit}>
-                    <Text style={styles.btnSubmitText}>Cadastre-se</Text>
-                </TouchableOpacity>
-            </View>
-    </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+    )}
+    </Formik>
     );
 }
 

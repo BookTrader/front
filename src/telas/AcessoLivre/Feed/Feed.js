@@ -4,13 +4,12 @@ import {
   View,
   StatusBar,
   StyleSheet,
-  TouchableOpacity,
   Text,
 } from 'react-native';
-import { useAuth } from '../../../context/auth';
+//import { useAuth } from '../../../context/auth';
 
 export default function Feed({ navigation }) {
-    const {usuario} = useAuth();
+
 
     return (
     <KeyboardAvoidingView style={styles.container}>
@@ -19,20 +18,8 @@ export default function Feed({ navigation }) {
         hidden={false}
         backgroundColor="#77242a"
         />
-        <View>
-            <Text style={styles.texto}>Olá, <Text style={styles.Dinamico}>{usuario.usr_apelido}</Text></Text>
-        </View>
         <View style={styles.navegacao}>
-        <TouchableOpacity style={styles.btnNavegacao}>
-            <Text onPress={ () => navigation.navigate('Login') } style={styles.btnNavegacaoText}>
-                Login
-            </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btnNavegacao}>
-            <Text onPress={ () => navigation.navigate('Register') } style={styles.btnNavegacaoText}>
-                Cadastro
-            </Text>
-        </TouchableOpacity>
+          <Text>Feed</Text>
         </View>
     </KeyboardAvoidingView>
     );
