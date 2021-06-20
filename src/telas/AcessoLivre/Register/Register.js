@@ -14,11 +14,30 @@ import { Ionicons } from '@expo/vector-icons';
 import { api } from '../../../service/api';
 import { useNavigation } from '@react-navigation/native';
 
+import * as yup from 'yup';
+
 export default function Register() {
 
     const [hidePass, setHidePass] = useState(true);
+    const [hideConfirmPass, setHideConfirmPass] = useState(true);
     const [loading, setLoading] = useState(false);
     const {navigate} = useNavigation();
+
+    const schema = yup.object().shape({
+        usr_apelido: yup
+            .string()
+            .required('Este campo é obrigatório!')
+            .min(2, 'Apelido deve possuir pelo menos 2 caracteres'),
+        usr_email: yup
+            .string()
+            .required('Este campo é obrigatório!')
+            .email('Digite um email válido!'),
+        usr_confirmSenha: yup
+            .string()
+            .required('Este campo é obrigatório!')
+            .min(4, 'Senha deve possuir pelo menos 4 caracteres!')
+            .oneOf([yup.ref('usr_senha'), null], "Campos de senha devem ser iguais!"),
+    })
 
     async function handleRegister(values){
         await api.post('/usuario', values)
@@ -37,11 +56,12 @@ export default function Register() {
     return (
 
         <Formik
-        initialValues={{usr_apelido: '', usr_email: '', usr_senha: ''}}
+        initialValues={{usr_apelido: '', usr_email: '', usr_senha: '', usr_confirmSenha: ''}}
+        validationSchema={schema}
         onSubmit={values => handleRegister(values)}
     >
     
-    {({ handleChange, handleSubmit, values }) => (
+    {({ handleChange, handleSubmit, values, errors, touched }) => (
 
         <KeyboardAvoidingView style={styles.container}>
             <StatusBar 
@@ -60,6 +80,9 @@ export default function Register() {
                         value={values.usr_apelido}
                         onChangeText={handleChange('usr_apelido')}
                     />
+                    {errors.usr_apelido && touched.usr_apelido ? (
+                        <Text>{errors.usr_apelido}</Text>
+                    ) : null}
                     <TextInput
                         style={styles.input}
                         placeholder="E-mail"
@@ -67,6 +90,9 @@ export default function Register() {
                         value={values.usr_email}
                         onChangeText={handleChange('usr_email')}
                     />
+                    {errors.usr_email && touched.usr_email ? (
+                        <Text>{errors.usr_email}</Text>
+                    ) : null}
                     <View style={styles.inputPassArea}>
                         <TextInput
                             style={styles.inputPass}
@@ -91,6 +117,33 @@ export default function Register() {
                             )}
                         </TouchableOpacity>
                     </View>
+                    <View style={styles.inputPassArea}>
+                        <TextInput
+                            style={styles.inputPass}
+                            placeholder="Confirmar Senha"
+                            autoCorrect={false}
+                            value={values.usr_confirmSenha}
+                            onChangeText={handleChange('usr_confirmSenha')}
+                            secureTextEntry={hideConfirmPass}
+                        />
+                        <TouchableOpacity
+                            style={styles.icon}
+                            onPress={() => setHideConfirmPass(!hideConfirmPass)}
+                        >
+                            {hideConfirmPass ? (
+                                <Ionicons name="eye-off" color="#031d44" size={25} />
+                            ) : (
+                                <Ionicons
+                                    name="eye"
+                                    color="#031d44"
+                                    size={25}
+                                />
+                            )}
+                        </TouchableOpacity>
+                    </View>
+                    {errors.usr_confirmSenha && touched.usr_confirmSenha ? (
+                        <Text>{errors.usr_confirmSenha}</Text>
+                    ) : null}
 
                     <TouchableOpacity style={styles.btnSubmit}>
                     <Text onPress={handleSubmit} style={styles.btnSubmitText}>{loading ? 'Cadastrando...' : 'Cadastrar'}</Text>

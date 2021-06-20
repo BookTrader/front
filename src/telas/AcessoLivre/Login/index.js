@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
     View,
     KeyboardAvoidingView,
@@ -8,105 +8,138 @@ import {
     StyleSheet,
     StatusBar,
     Alert,
-} from 'react-native';
-import { Formik } from 'formik';
-import { api } from '../../../service/api';
-import { useAuth } from '../../../context/auth';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+} from 'react-native'
+import { Formik } from 'formik'
+import { api } from '../../../service/api'
+import { useAuth } from '../../../context/auth'
+import { useNavigation } from '@react-navigation/native'
+import { Ionicons } from '@expo/vector-icons'
 
+import * as yup from 'yup'
 
 export default function Login({ navigation }) {
-
-    const {navigate} = useNavigation();
-    const {login} = useAuth();
+    const { navigate } = useNavigation()
+    const { login } = useAuth()
     const [hidePass, setHidePass] = useState(true)
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false)
 
-    async function handleLogin(values){
-        await api.post('/login', values)
-        .then(setLoading(true))
-        .then(response => {
-            setLoading(false);
-            login(response.data);
-            Alert.alert('Sucesso!');
-        })
-        .then(() => (navigate('Feed')))
-        .catch(err =>  {
-            setLoading(false);
-            Alert.alert('Usuário ou senha incorretos!');
-        })
+    const schema = yup.object().shape({
+        usr_email: yup
+            .string()
+            .required('Este campo é obrigatório!')
+            .email('Digite um email válido!'),
+        usr_senha: yup
+            .string()
+            .required('Este campo é obrigatório!')
+            .min(4, 'Senha deve possuir pelo menos 4 caracteres'),
+    });
+
+    async function handleLogin(values) {
+        await api
+            .post('/login', values)
+            .then(setLoading(true))
+            .then((response) => {
+                setLoading(false)
+                login(response.data)
+                Alert.alert('Sucesso!')
+            })
+            .then(() => navigate('Feed'))
+            .catch((err) => {
+                setLoading(false)
+                Alert.alert('Usuário ou senha incorretos!')
+            })
     }
 
     return (
         <Formik
-            initialValues={{usr_email: '', usr_senha: ''}}
-            onSubmit={values => handleLogin(values)}
+            initialValues={{ usr_email: '', usr_senha: '' }}
+            validationSchema={schema}
+            onSubmit={(values) => handleLogin(values)}
         >
-        
-        {({ handleChange, handleSubmit, values }) => (
-
-            <KeyboardAvoidingView style={styles.container}>
-                <StatusBar 
-                barStyle="light-content"
-                hidden={false}
-                backgroundColor="#77242a"
-                />
-                <View style={styles.form}>
-                    <Text style={styles.label}>
-                        E-mail *
-                    </Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Ex: alley@book.com"
-                        autoCorrect={false}
-                        value={values.usr_email}
-                        onChangeText={handleChange('usr_email')}
+            {({ handleChange, handleSubmit, values, errors, touched }) => (
+                <KeyboardAvoidingView style={styles.container}>
+                    <StatusBar
+                        barStyle="light-content"
+                        hidden={false}
+                        backgroundColor="#77242a"
                     />
-                    <Text style={styles.label}>
-                            Senha *
-                    </Text>
-                    <View style={styles.inputPassArea}>
+                    <View style={styles.form}>
+                        <Text style={styles.label}>E-mail *</Text>
                         <TextInput
-                            style={styles.inputPass}
-                            placeholder=""
+                            style={styles.input}
+                            placeholder="Ex: alley@book.com"
                             autoCorrect={false}
-                            value={values.usr_senha}
-                            onChangeText={handleChange('usr_senha')}
-                            secureTextEntry={hidePass}
+                            value={values.usr_email}
+                            onChangeText={handleChange('usr_email')}
                         />
-                        <TouchableOpacity
-                            style={styles.icon}
-                            onPress={() => setHidePass(!hidePass)}
-                        >
-                            {hidePass ? (
-                                <Ionicons name="eye-off" color="#031d44" size={25} />
-                            ) : (
-                                <Ionicons
-                                    name="eye"
-                                    color="#031d44"
-                                    size={25}
-                                />
-                        )}
+                        {errors.usr_email && touched.usr_email ? (
+                          <Text>{errors.usr_email}</Text>
+                        ) : null}
+                        
+                        <Text style={styles.label}>Senha *</Text>
+                        <View style={styles.inputPassArea}>
+                            <TextInput
+                                style={styles.inputPass}
+                                placeholder=""
+                                autoCorrect={false}
+                                value={values.usr_senha}
+                                onChangeText={handleChange('usr_senha')}
+                                secureTextEntry={hidePass}
+                            />
+                            
+                            <TouchableOpacity
+                                style={styles.icon}
+                                onPress={() => setHidePass(!hidePass)}
+                            >
+                                {hidePass ? (
+                                    <Ionicons
+                                        name="eye-off"
+                                        color="#031d44"
+                                        size={25}
+                                    />
+                                ) : (
+                                    <Ionicons
+                                        name="eye"
+                                        color="#031d44"
+                                        size={25}
+                                    />
+                                )}
+                            </TouchableOpacity>
+                        </View>
+                        {errors.usr_senha && touched.usr_senha ? (
+                          <Text>{errors.usr_senha}</Text>
+                        ) : null}
+
+                        <TouchableOpacity style={styles.btnForgotPass}>
+                            <Text
+                                onPress={() => navigation.navigate('Register')}
+                                style={styles.btnForgotPassText}
+                            >
+                                Esqueceu a senha?
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.btnSubmit}>
+                            <Text
+                                onPress={handleSubmit}
+                                style={styles.btnSubmitText}
+                            >
+                                {loading ? 'Enviando...' : 'Enviar'}
+                            </Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.btnForgotPass}>
-                        <Text onPress={ () => navigation.navigate('Register') } style={styles.btnForgotPassText}>
-                            Esqueceu a senha?
+                    <TouchableOpacity style={styles.btnRegister}>
+                        <Text
+                            onPress={() => navigation.navigate('Register')}
+                            style={styles.btnRegisterText}
+                        >
+                            Não tem uma conta?{' '}
+                            <Text style={styles.btnRegisterCTA}>
+                                Cadastre-se
+                            </Text>
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnSubmit}>
-                        <Text onPress={handleSubmit} style={styles.btnSubmitText}>{loading ? 'Enviando...' : 'Enviar'}</Text>
-                    </TouchableOpacity>
-                </View>
-                <TouchableOpacity style={styles.btnRegister}>
-                    <Text onPress={ () => navigation.navigate('Register') } style={styles.btnRegisterText}>
-                        Não tem uma conta? <Text style={styles.btnRegisterCTA}>Cadastre-se</Text>
-                    </Text>
-                </TouchableOpacity>
-            </KeyboardAvoidingView>
-
-        )}
+                </KeyboardAvoidingView>
+            )}
         </Formik>
     )
 }
@@ -122,7 +155,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         paddingHorizontal: 30,
     },
-    label:{
+    label: {
         fontWeight: 'bold',
         fontSize: 18,
         color: '#031d44',
@@ -196,6 +229,6 @@ const styles = StyleSheet.create({
     },
     btnRegisterCTA: {
         color: '#031d44',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
 })
