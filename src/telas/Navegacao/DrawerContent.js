@@ -58,7 +58,7 @@ export function DrawerContent(props){
 
                             <DrawerItem icon={({size}) => (
                                     <Icon 
-                                    name="bookmark-outline"
+                                    name="book-plus-multiple-outline"
                                     color="#e53945"
                                     size={size}
                                     />
@@ -69,7 +69,18 @@ export function DrawerContent(props){
 
                             <DrawerItem icon={({size}) => (
                                     <Icon 
-                                    name="account-check-outline"
+                                    name="bookshelf"
+                                    color="#e53945"
+                                    size={size}
+                                    />
+                                )}
+                                label="Minha biblioteca"
+                                onPress={() => {}}
+                            />
+
+                            <DrawerItem icon={({size}) => (
+                                    <Icon 
+                                    name="tools"
                                     color="#e53945"
                                     size={size}
                                     />
