@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
       },
     uploadedImage: {
         width: 64,
-        height: 120,
+        height: 64,
         borderRadius: 5,
         marginBottom: 32,
         marginRight: 8,

@@ -12,9 +12,13 @@ import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer';
+
+{/*import { useAuth } from '../../context/auth';*/}
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export function DrawerContent(props){
+    {/* const {usuario} = useAuth(); */}
+
     return(
         <View style={{flex:1}}>
                 <DrawerContentScrollView { ... props}>
