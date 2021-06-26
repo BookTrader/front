@@ -41,11 +41,11 @@ export default function Register() {
 
     async function handleRegister(values){
         await api.post('/usuario', values)
-        .then(setLoading(true))
         .then(response => {
             setLoading(false);
             Alert.alert('Cadastro realizado com sucesso!');
         })
+        .then(setLoading(true))
         .then(() => (navigate('Login')))
         .catch(err =>  {
             setLoading(false);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Login from './src/telas/AcessoLivre/Login';
+import Login from './src/telas/AcessoLivre/Login/Login';
 import Register from './src/telas/AcessoLivre/Register/Register';
 import Feed from './src/telas/AcessoLivre/Feed/Feed';
 import CriarAnuncio from './src/telas/AcessoUsuario/Anuncio/CriarAnuncio';
@@ -96,13 +96,11 @@ function App() {
     return (
       <AuthProvider>
         <NavigationContainer>
-        <Drawer.Navigator drawerContent={props => <DrawerContent { ... props} />} initialRouteName="Feed">
-        <Drawer.Screen name="Feed" component={FeedStackScreen} />
-        <Drawer.Screen name="Login" component={LoginStackScreen} />
-        <Drawer.Screen name="CriarAnuncio" component={CriarAnuncioStackScreen} />
-      </Drawer.Navigator>
-        {/* 
-         */}
+            <Drawer.Navigator drawerContent={props => <DrawerContent { ... props} />} initialRouteName="CriarAnuncio">
+                <Drawer.Screen name="Feed" component={FeedStackScreen} />
+                <Drawer.Screen name="Login" component={LoginStackScreen} />
+                <Drawer.Screen name="CriarAnuncio" component={CriarAnuncioStackScreen} />
+            </Drawer.Navigator>
         </NavigationContainer>
       </AuthProvider>
     );
