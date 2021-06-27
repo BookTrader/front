@@ -15,6 +15,7 @@ export function DrawerContent(props, {navigation}) {
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props}>
                 <View style={styles.drawerContent}>
+                { usuario ? (
                     <View style={styles.userInfoSection}>
                         <View style={{ flexDirection: 'row', marginTop: 15 }}>
                             <Avatar.Image
@@ -36,7 +37,7 @@ export function DrawerContent(props, {navigation}) {
                             </View>
                         </View>
                     </View>
-
+                ) : null }
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItem
                             icon={({ size }) => (
@@ -65,7 +66,8 @@ export function DrawerContent(props, {navigation}) {
                                 props.navigation.navigate('Login')
                             }}
                         />
-
+                    { usuario ? (
+                        <>
                         <DrawerItem
                             icon={({ size }) => (
                                 <Icon
@@ -103,9 +105,12 @@ export function DrawerContent(props, {navigation}) {
                             label="Configurações"
                             onPress={() => {}}
                         />
+                        </>
+                    ) : null }
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>
+        { usuario ? (
             <Drawer.Section style={styles.bottomDrawerSection}>
                 <DrawerItem
                     icon={({ size }) => (
@@ -115,6 +120,7 @@ export function DrawerContent(props, {navigation}) {
                     onPress={logOut}
                 />
             </Drawer.Section>
+        ) : null }
         </View>
     )
 }
