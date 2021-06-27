@@ -96,7 +96,7 @@ export default function CriarAnuncio() {
             onSubmit={(values) => handleRegister(values)}
         >
             {({ handleChange, handleSubmit, values, errors, touched }) => (
-                <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={110}>
+                <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={80}>
                     <ScrollView>
                     <StatusBar
                         barStyle="light-content"
@@ -104,18 +104,23 @@ export default function CriarAnuncio() {
                         backgroundColor="#77242a"
                     />
                     <View style={styles.form}>
-                        <View style={styles.uploadedImagesContainer}>
-                            {images.map((image) => {
-                                return (
-                                    <Image
-                                        key={image}
-                                        source={{ uri: image }}
-                                        style={styles.uploadedImage}
-                                    />
-                                )
-                            })}
-                        </View>
-
+                        <ScrollView
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                            pagingEnabled={true}
+                        >
+                            <View style={styles.uploadedImagesContainer}>
+                                {images.map((image) => {
+                                    return (
+                                        <Image
+                                            key={image}
+                                            source={{ uri: image }}
+                                            style={styles.uploadedImage}
+                                        />
+                                    )
+                                })}
+                            </View>
+                        </ScrollView>           
                         <TouchableOpacity
                             style={styles.imagesInput}
                             onPress={handleSelectImages}
@@ -228,6 +233,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#242424',
         height: 84,
+        textAlignVertical : "top",
+        paddingTop: 10,
         marginBottom: 10,
         borderRadius: 5,
     },
