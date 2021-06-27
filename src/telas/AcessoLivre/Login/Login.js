@@ -43,7 +43,6 @@ export default function Login({ navigation }) {
                 login(response.data)
                 Alert.alert('Sucesso!')
             })
-            .then(() => navigate('Feed'))
             .catch((err) => {
                 setLoading(false)
                 Alert.alert('Usuário ou senha incorretos!')

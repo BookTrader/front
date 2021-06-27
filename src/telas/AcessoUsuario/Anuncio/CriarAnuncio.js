@@ -120,7 +120,7 @@ export default function CriarAnuncio() {
                             style={styles.imagesInput}
                             onPress={handleSelectImages}
                         >
-                            <Feather name="plus" size={30} color="#031d44" />
+                            <Feather name="file-plus" size={30} color="#031d44" />
                         </TouchableOpacity>
 
                         <Text style={styles.label}>Dados do exemplar</Text>
