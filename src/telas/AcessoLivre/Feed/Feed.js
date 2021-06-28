@@ -1,63 +1,97 @@
-import React from 'react';
+import React from 'react'
 import {
-  KeyboardAvoidingView,
-  View,
-  StatusBar,
-  StyleSheet,
-  Text,
-} from 'react-native';
+    View,
+    StatusBar,
+    StyleSheet,
+    TouchableOpacity,
+    Image,
+    ScrollView,
+    Text,
+} from 'react-native'
+import Card from './Card';
+
 //import { useAuth } from '../../../context/auth';
 
 export default function Feed({ navigation }) {
-
-
     return (
-    <KeyboardAvoidingView style={styles.container}>
-        <StatusBar 
-        barStyle="light-content"
-        hidden={false}
-        backgroundColor="#77242a"
-        />
-        <View style={styles.navegacao}>
-          <Text>Feed</Text>
+        <View style={styles.container}>
+            <StatusBar
+                barStyle="light-content"
+                hidden={false}
+                backgroundColor="#77242a"
+            />
+            <ScrollView style={styles.cardContainer}>
+                <TouchableOpacity onPress={() => {}}>
+                    <Card>
+                        <View style={{ flexDirection: 'row', flex: 1,}}>
+                            <Image style={styles.ExemplarImage}
+                                source={require('../../Navegacao/assets/livro.jpg')}
+                            />
+                            <View
+                                style={{
+                                    flexDirection: 'column',
+                                    marginLeft: 15,
+                                    marginTop: 10,
+                                }}
+                            >
+                                <Text style={styles.title}>
+                                    Estrutura de dados
+                                </Text>
+                                <Text style={styles.label}>
+                                Autor: <Text style={styles.caption}>André Backes</Text>
+                                </Text>
+                                <Text style={styles.label}>
+                                Gênero: <Text style={styles.caption}>Acadêmico</Text>
+                                </Text>
+                                <Text style={styles.label}>
+                                Editora: <Text style={styles.caption}>Elsevier</Text>
+                                </Text>
+
+                                <Text style={styles.regiao}>
+                                Jardim Tranquilidade, Guarulhos
+                                </Text>
+                            </View>
+                        </View>
+                    </Card>
+                </TouchableOpacity>
+            </ScrollView>
         </View>
-    </KeyboardAvoidingView>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ECECEC',
-  },
-  texto:{
-    fontSize: 18,
-    marginBottom: 30,
-  },
-  Dinamico:{
-    color: '#e53945',
-    fontWeight: 'bold',
-    textTransform: 'capitalize',
-  },
-  navegacao:{
-    alignSelf: 'stretch',
-    paddingHorizontal: 30,
-  },    
-  btnNavegacao: {
-    backgroundColor: '#e53945',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    fontSize: 16,
-    color: '#242424',
-    height: 44,
-    marginBottom: 5,
-    borderRadius: 5,
-},
-btnNavegacaoText: {
-    color: '#FFF',
-    fontSize: 18,
-},
-});
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: '#ECECEC',
+    },
+    cardContainer: {
+        flex: 1,
+        marginTop: 10,
+        paddingHorizontal: 5,
+        alignSelf: 'stretch',
+    },
+    ExemplarImage: {
+      width: 140,
+      height: 140,
+      borderTopLeftRadius: 5,
+      borderBottomLeftRadius: 5,
+    },
+    title: {
+      fontSize: 16,
+      marginBottom: 10,
+    },
+    caption: {
+      fontSize: 14,
+      fontWeight: 'normal',
+    },
+    label:{
+      fontSize: 14,
+      fontWeight: 'bold',
+    },
+    regiao:{
+      marginTop: 12,
+      fontSize: 12,
+      color: '#333',
+    }
+})
