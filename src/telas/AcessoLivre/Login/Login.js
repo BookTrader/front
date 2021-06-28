@@ -12,13 +12,11 @@ import {
 import { Formik } from 'formik'
 import { api } from '../../../service/api'
 import { useAuth } from '../../../context/auth'
-import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 
 import * as yup from 'yup'
 
 export default function Login({ navigation }) {
-    const { navigate } = useNavigation()
     const { login } = useAuth()
     const [hidePass, setHidePass] = useState(true)
     const [loading, setLoading] = useState(false)
@@ -40,6 +38,7 @@ export default function Login({ navigation }) {
             .then(setLoading(true))
             .then((response) => {
                 setLoading(false)
+                console.log(response.data)
                 login(response.data)
                 Alert.alert('Sucesso!')
             })
@@ -117,9 +116,12 @@ export default function Login({ navigation }) {
                                 Esqueceu a senha?
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.btnSubmit}>
+                        <TouchableOpacity 
+                            style={styles.btnSubmit}
+                            onPress={handleSubmit}
+                        >
                             <Text
-                                onPress={handleSubmit}
+
                                 style={styles.btnSubmitText}
                             >
                                 {loading ? 'Enviando...' : 'Enviar'}

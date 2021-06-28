@@ -18,11 +18,12 @@ import * as ImagePicker from 'expo-image-picker'
 import { Feather } from '@expo/vector-icons'
 
 import * as yup from 'yup'
+import { useAuth } from '../../../context/auth'
 
 export default function CriarAnuncio() {
     const [loading, setLoading] = useState(false)
     const [images, setImages] = useState([])
-    const { navigate } = useNavigation()
+    const { usuario } = useAuth();
 
     const schema = yup.object().shape({
         exm_titulo: yup
@@ -38,18 +39,51 @@ export default function CriarAnuncio() {
     })
 
     async function handleRegister(values) {
+        const data = await handleFormData(values);
+        let exm_id = '';
+        console.log(data[1])
+
         await api
-            .post('/usuario', values)
+            .post('/exemplar', data[0])
             .then((response) => {
-                setLoading(false)
-                Alert.alert('Cadastro realizado com sucesso!')
+                exm_id = response.data.id;
+            });
+            console.log(exm_id)
+
+        await api
+            .post(`/exemplar/${exm_id}/imagem`, data[1])
+
+        await api
+            .post(`/usuario/${usuario.id}/exemplar/${exm_id}/anuncio`, data[2])
+            .then((response) => {
+                console.log(response.data)
             })
-            .then(setLoading(true))
-            .then(() => navigate('Login'))
-            .catch((err) => {
-                setLoading(false)
-                Alert.alert('Erro ao cadastrar!')
-            })
+    }
+
+    async function handleFormData(values) {
+
+        const dataAnuncio = {
+            anc_descricao: values.anc_descricao
+        }
+
+        const dataExemplar = {
+            exm_autor: values.exm_autor,
+            exm_editora: values.exm_editora,
+            exm_genero: values.exm_genero,
+            exm_titulo: values.exm_titulo
+        }
+
+        const dataImagens = new FormData();
+
+        images.forEach((image, index) => {
+            dataImagens.append('imagens', {
+              name: `_image${index}.jpg`,
+              type: 'image/jpg',
+              uri: image, 
+            });
+        });
+
+        return [ dataExemplar, dataImagens, dataAnuncio ];
     }
 
     async function handleSelectImages() {
@@ -67,19 +101,19 @@ export default function CriarAnuncio() {
             allowsEditing: true,
             quality: 1,
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        })
+        });
 
         if (result.cancelled) {
-            alert('Upload de foto cancelado.')
-            return
+            alert('Upload de foto cancelado.');
+            return;
         }
 
         // Renomeando o nome do parâmetro no meio da desestruturação
-        const { uri: image } = result
+        const { uri: image } = result;
 
         // Recriando o array inteiro do 0
         // (Copiando os elementos que já existiam e adicionando um novo)
-        setImages([...images, image])
+        setImages([...images, image]);
     }
 
     return (
@@ -90,7 +124,6 @@ export default function CriarAnuncio() {
                 exm_autor: '',
                 exm_editora: '',
                 anc_descricao: '',
-                image: '',
             }}
             validationSchema={schema}
             onSubmit={(values) => handleRegister(values)}
@@ -134,7 +167,7 @@ export default function CriarAnuncio() {
                             placeholder="Título"
                             autoCorrect={false}
                             value={values.exm_titulo}
-                            onChangeText={handleChange('usr_exm_titulo')}
+                            onChangeText={handleChange('exm_titulo')}
                         />
                         {errors.exm_titulo && touched.exm_titulo ? (
                             <Text>{errors.exm_titulo}</Text>
@@ -144,7 +177,7 @@ export default function CriarAnuncio() {
                             placeholder="Autor"
                             autoCorrect={false}
                             value={values.exm_autor}
-                            onChangeText={handleChange('usr_exm_autor')}
+                            onChangeText={handleChange('exm_autor')}
                         />
                         {errors.exm_autor && touched.exm_autor ? (
                             <Text>{errors.exm_autor}</Text>
