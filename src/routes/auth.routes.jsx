@@ -100,7 +100,7 @@ const FeedStackScreen = ({ navigation }) => (
 const AuthRoutes = () => (
     <Drawer.Navigator
         drawerContent={(props) => <DrawerContent {...props} />}
-        initialRouteName="Login"
+        initialRouteName="Feed"
     >
         <Drawer.Screen name="Login" component={LoginStackScreen} />
         <Drawer.Screen name="Feed" component={FeedStackScreen} />
