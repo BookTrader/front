@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import {
     View,
     StatusBar,
@@ -7,12 +7,37 @@ import {
     Image,
     ScrollView,
     Text,
-} from 'react-native'
+    RefreshControl,
+} from 'react-native';
+import { api } from '../../../service/api';
 import Card from './Card';
 
-//import { useAuth } from '../../../context/auth';
+
 
 export default function Feed({ navigation }) {
+    const [exemplares, setExemplares] = useState([]);
+    const [imagens, setImagens] = useState([]);
+    const [anuncios, setAnuncios] = useState([]);
+
+    const [refreshing, setRefreshing] = useState(false)
+
+    useEffect(() => {
+        const feedData = async () => {
+            await api.get('/anuncio').then(response => {
+                setExemplares(response.data.exemplares);
+                setAnuncios(response.data.anuncios);
+                setImagens(response.data.imagens);
+
+                setRefreshing(false)
+            });
+        }
+        feedData();
+    }, [refreshing]);
+
+    const onRefresh = () => {
+        setRefreshing(true)
+    }
+
     return (
         <View style={styles.container}>
             <StatusBar
@@ -20,8 +45,17 @@ export default function Feed({ navigation }) {
                 hidden={false}
                 backgroundColor="#77242a"
             />
-            <ScrollView style={styles.cardContainer}>
-                <TouchableOpacity onPress={() => {}}>
+            <ScrollView 
+                style={styles.cardContainer} 
+                refreshControl={
+                    <RefreshControl 
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
+            { anuncios.map((anuncio, index) => (
+                <TouchableOpacity onPress={() => {}} key={index}>
                     <Card>
                         <View style={{ flexDirection: 'row', flex: 1,}}>
                             <Image style={styles.ExemplarImage}
@@ -35,16 +69,16 @@ export default function Feed({ navigation }) {
                                 }}
                             >
                                 <Text style={styles.title}>
-                                    Estrutura de dados
+                                    {exemplares ? exemplares[index].exm_titulo : null}
                                 </Text>
                                 <Text style={styles.label}>
-                                Autor: <Text style={styles.caption}>André Backes</Text>
+                                Autor: <Text style={styles.caption}>{exemplares ? exemplares[index].exm_autor : null}</Text>
                                 </Text>
                                 <Text style={styles.label}>
-                                Gênero: <Text style={styles.caption}>Acadêmico</Text>
+                                Gênero: <Text style={styles.caption}>{exemplares ? exemplares[index].exm_genero : null}</Text>
                                 </Text>
                                 <Text style={styles.label}>
-                                Editora: <Text style={styles.caption}>Elsevier</Text>
+                                Editora: <Text style={styles.caption}>{exemplares ? exemplares[index].exm_editora : null}</Text>
                                 </Text>
 
                                 <Text style={styles.regiao}>
@@ -54,6 +88,7 @@ export default function Feed({ navigation }) {
                         </View>
                     </Card>
                 </TouchableOpacity>
+            ))}
             </ScrollView>
         </View>
     )

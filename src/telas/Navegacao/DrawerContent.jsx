@@ -8,7 +8,7 @@ import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../../context/auth';
 
-export function DrawerContent(props, {navigation}) {
+export function DrawerContent(props) {
     const { usuario, logOut } = useAuth();
 
     return (
@@ -52,7 +52,7 @@ export function DrawerContent(props, {navigation}) {
                                 props.navigation.navigate('Feed')
                             }}
                         />
-
+                    { !usuario ? (
                         <DrawerItem
                             icon={({ size }) => (
                                 <Icon
@@ -66,6 +66,8 @@ export function DrawerContent(props, {navigation}) {
                                 props.navigation.navigate('Login')
                             }}
                         />
+                    ) : null}
+
                     { usuario ? (
                         <>
                         <DrawerItem

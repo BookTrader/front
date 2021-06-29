@@ -100,13 +100,13 @@ const CriarAnuncioStackScreen = ({ navigation }) => (
 const AppRoutes = () => (
     <Drawer.Navigator
         drawerContent={(props) => <DrawerContent {...props} />}
-        initialRouteName="CriarAnuncio"
+        initialRouteName="Feed"
     >
+        <Drawer.Screen name="Feed" component={FeedStackScreen} />
         <Drawer.Screen
             name="CriarAnuncio"
             component={CriarAnuncioStackScreen}
         />
-        <Drawer.Screen name="Feed" component={FeedStackScreen} />
     </Drawer.Navigator>
 );
 

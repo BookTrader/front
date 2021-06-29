@@ -13,17 +13,18 @@ import {
 } from 'react-native'
 import { Formik } from 'formik'
 import { api } from '../../../service/api'
-import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker'
 import { Feather } from '@expo/vector-icons'
 
 import * as yup from 'yup'
 import { useAuth } from '../../../context/auth'
+import { useNavigation } from '@react-navigation/native'
 
 export default function CriarAnuncio() {
     const [loading, setLoading] = useState(false)
     const [images, setImages] = useState([])
     const { usuario } = useAuth();
+    const navigation = useNavigation();
 
     const schema = yup.object().shape({
         exm_titulo: yup
@@ -41,14 +42,13 @@ export default function CriarAnuncio() {
     async function handleRegister(values) {
         const data = await handleFormData(values);
         let exm_id = '';
-        console.log(data[1])
 
         await api
             .post('/exemplar', data[0])
             .then((response) => {
+                setLoading(true);
                 exm_id = response.data.id;
             });
-            console.log(exm_id)
 
         await api
             .post(`/exemplar/${exm_id}/imagem`, data[1])
@@ -56,7 +56,9 @@ export default function CriarAnuncio() {
         await api
             .post(`/usuario/${usuario.id}/exemplar/${exm_id}/anuncio`, data[2])
             .then((response) => {
-                console.log(response.data)
+                setLoading(false);
+                Alert.alert('Anúncio cadastrado!');
+                navigation.goBack();
             })
     }
 
@@ -77,7 +79,7 @@ export default function CriarAnuncio() {
 
         images.forEach((image, index) => {
             dataImagens.append('imagens', {
-              name: `_image${index}.jpg`,
+              name: `image_${index}.jpg`,
               type: 'image/jpg',
               uri: image, 
             });
@@ -214,11 +216,11 @@ export default function CriarAnuncio() {
                             onChangeText={handleChange('anc_descricao')}
                         />
 
-                        <TouchableOpacity style={styles.btnSubmit}>
-                            <Text
-                                onPress={handleSubmit}
-                                style={styles.btnSubmitText}
-                            >
+                        <TouchableOpacity 
+                            style={styles.btnSubmit}
+                            onPress={handleSubmit}
+                        >
+                            <Text style={styles.btnSubmitText}>
                                 {loading ? 'Criando...' : 'Criar anúncio'}
                             </Text>
                         </TouchableOpacity>
