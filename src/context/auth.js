@@ -41,7 +41,7 @@ export default function AuthProvider( {children} ){
         setUsuario(response.usuario);
         setToken(response.token);
 
-        api.defaults.headers["Authorization"] = `Bearer ${response.token}`;
+        api.defaults.headers["Authorization"] = `Bearer ${token}`;
 
         AsyncStorage.setItem("@alleybook:usuario", JSON.stringify(response.usuario));
         AsyncStorage.setItem("@alleybook:token", JSON.stringify(response.token));
