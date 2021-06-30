@@ -24,11 +24,11 @@ export default function Login({ navigation }) {
     const schema = yup.object().shape({
         usr_email: yup
             .string()
-            .required('Este campo é obrigatório!')
+            .required('Seu e-mail é obrigatório!')
             .email('Digite um email válido!'),
         usr_senha: yup
             .string()
-            .required('Este campo é obrigatório!')
+            .required('Sua senha é obrigatória!')
             .min(4, 'Senha deve possuir pelo menos 4 caracteres'),
     });
 
@@ -71,7 +71,7 @@ export default function Login({ navigation }) {
                             onChangeText={handleChange('usr_email')}
                         />
                         {errors.usr_email && touched.usr_email ? (
-                          <Text>{errors.usr_email}</Text>
+                          <Text style={{ color: 'red', fontSize: 13, textAlign: 'center', paddingBottom: 10}}>{errors.usr_email}</Text>
                         ) : null}
                         
                         <Text style={styles.label}>Senha *</Text>
@@ -105,7 +105,7 @@ export default function Login({ navigation }) {
                             </TouchableOpacity>
                         </View>
                         {errors.usr_senha && touched.usr_senha ? (
-                          <Text>{errors.usr_senha}</Text>
+                          <Text style={{ color: 'red', fontSize: 13, textAlign: 'center', paddingBottom: 10}}>{errors.usr_senha}</Text>
                         ) : null}
 
                         <TouchableOpacity style={styles.btnForgotPass}>

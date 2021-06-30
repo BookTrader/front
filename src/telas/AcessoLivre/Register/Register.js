@@ -26,15 +26,15 @@ export default function Register() {
     const schema = yup.object().shape({
         usr_apelido: yup
             .string()
-            .required('Este campo é obrigatório!')
+            .required('Seu apelido é obrigatório!')
             .min(2, 'Apelido deve possuir pelo menos 2 caracteres'),
         usr_email: yup
             .string()
-            .required('Este campo é obrigatório!')
+            .required('Seu e-mail é obrigatório!')
             .email('Digite um email válido!'),
         usr_confirmSenha: yup
             .string()
-            .required('Este campo é obrigatório!')
+            .required('Sua senha é obrigatória!')
             .min(4, 'Senha deve possuir pelo menos 4 caracteres!')
             .oneOf([yup.ref('usr_senha'), null], "Campos de senha devem ser iguais!"),
     })
@@ -81,7 +81,7 @@ export default function Register() {
                         onChangeText={handleChange('usr_apelido')}
                     />
                     {errors.usr_apelido && touched.usr_apelido ? (
-                        <Text>{errors.usr_apelido}</Text>
+                        <Text style={{ color: 'red', fontSize: 13, textAlign: 'center', paddingBottom: 10}}>{errors.usr_apelido}</Text>
                     ) : null}
                     <TextInput
                         style={styles.input}
@@ -91,7 +91,7 @@ export default function Register() {
                         onChangeText={handleChange('usr_email')}
                     />
                     {errors.usr_email && touched.usr_email ? (
-                        <Text>{errors.usr_email}</Text>
+                        <Text style={{ color: 'red', fontSize: 13, textAlign: 'center', paddingBottom: 10}}>{errors.usr_email}</Text>
                     ) : null}
                     <View style={styles.inputPassArea}>
                         <TextInput
@@ -142,7 +142,7 @@ export default function Register() {
                         </TouchableOpacity>
                     </View>
                     {errors.usr_confirmSenha && touched.usr_confirmSenha ? (
-                        <Text>{errors.usr_confirmSenha}</Text>
+                        <Text style={{ color: 'red', fontSize: 13, textAlign: 'center', paddingBottom: 10}}>{errors.usr_confirmSenha}</Text>
                     ) : null}
 
                     <TouchableOpacity style={styles.btnSubmit}>
