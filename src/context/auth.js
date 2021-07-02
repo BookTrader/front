@@ -44,7 +44,7 @@ export default function AuthProvider( {children} ){
         api.defaults.headers["Authorization"] = `Bearer ${response.token}`;
 
         AsyncStorage.setItem("@alleybook:usuario", JSON.stringify(response.usuario));
-        AsyncStorage.setItem("@alleybook:token", JSON.stringify(response.token));
+        AsyncStorage.setItem("@alleybook:token", JSON.stringify(token));
     }
 
     function logOut() {
@@ -52,7 +52,8 @@ export default function AuthProvider( {children} ){
             setUsuario(null);
             setToken(null);
         });
-				Alert.alert("Deslogado!!!")
+		
+        Alert.alert("Deslogado!!!")
     }
 
     return(

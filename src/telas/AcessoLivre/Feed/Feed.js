@@ -8,34 +8,40 @@ import {
     ScrollView,
     Text,
     RefreshControl,
+    ActivityIndicator
 } from 'react-native';
 import { api } from '../../../service/api';
 import Card from './Card';
-
+import { useRoute } from '@react-navigation/native';
 
 
 export default function Feed({ navigation }) {
-    const [exemplares, setExemplares] = useState([]);
-    const [imagens, setImagens] = useState([]);
-    const [anuncios, setAnuncios] = useState([]);
+    const [exemplares, setExemplares] = useState(null);
+    const [imagens, setImagens] = useState(null);
+    const [anuncios, setAnuncios] = useState(null);
 
     const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
-        const feedData = async () => {
-            await api.get('/anuncio').then(response => {
-                setExemplares(response.data.exemplares);
-                setAnuncios(response.data.anuncios);
-                setImagens(response.data.imagens);
+        api.get('/anuncio').then(response => {
+            setImagens(response.data.imagens);
+            setExemplares(response.data.exemplares);
+            setAnuncios(response.data.anuncios);
 
-                setRefreshing(false)
-            });
-        }
-        feedData();
+            setRefreshing(false);
+        });
     }, [refreshing]);
 
+    if(!imagens || !anuncios || !exemplares ) {
+        return (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <ActivityIndicator size="large" color="#000"/>
+            </View>
+        );
+    }
+
     const onRefresh = () => {
-        setRefreshing(true)
+        setRefreshing(true);
     }
 
     return (
@@ -55,11 +61,12 @@ export default function Feed({ navigation }) {
                 }
             >
             { anuncios.map((anuncio, index) => (
-                <TouchableOpacity onPress={() => {}} key={index}>
+                <TouchableOpacity onPress={() => {}} key={anuncio.id}>
                     <Card>
                         <View style={{ flexDirection: 'row', flex: 1,}}>
-                            <Image style={styles.ExemplarImage}
-                                source={require('../../Navegacao/assets/livro.jpg')}
+                            <Image 
+                                style={styles.ExemplarImage}
+                                source={{ uri: imagens[index].url }}
                             />
                             <View
                                 style={{

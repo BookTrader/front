@@ -113,13 +113,13 @@ export function DrawerContent(props) {
                 </View>
             </DrawerContentScrollView>
         { usuario ? (
-            <Drawer.Section style={styles.bottomDrawerSection}>
+            <Drawer.Section style={styles.bottomDrawerSection} {...props}>
                 <DrawerItem
                     icon={({ size }) => (
                         <Icon name="exit-to-app" color="#e53945" size={size} />
                     )}
                     label="Sair"
-                    onPress={logOut}
+                    onPress={() => {logOut(); props.navigation.closeDrawer();}}
                 />
             </Drawer.Section>
         ) : null }
