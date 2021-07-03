@@ -21,8 +21,10 @@ import { useAuth } from '../../../context/auth'
 import { useNavigation } from '@react-navigation/native'
 
 export default function CriarAnuncio() {
-    const [loading, setLoading] = useState(false)
-    const [images, setImages] = useState([])
+    const [loading, setLoading] = useState(false);
+    const [images, setImages] = useState([]);
+    const [formKey, setFormKey] = useState(1);
+
     const { usuario } = useAuth();
     const navigation = useNavigation();
 
@@ -58,6 +60,10 @@ export default function CriarAnuncio() {
             .then((response) => {
                 setLoading(false);
                 Alert.alert('Anúncio cadastrado!');
+
+                setImages([]);
+                setFormKey(formKey + 1);
+
                 navigation.goBack();
             })
     }
@@ -128,6 +134,7 @@ export default function CriarAnuncio() {
                 anc_descricao: '',
             }}
             validationSchema={schema}
+            key={formKey}
             onSubmit={(values) => handleRegister(values)}
         >
             {({ handleChange, handleSubmit, values, errors, touched }) => (
@@ -144,11 +151,11 @@ export default function CriarAnuncio() {
                             showsHorizontalScrollIndicator={false}
                             pagingEnabled={true}
                         >
-                            <View style={styles.uploadedImagesContainer}>
-                                {images.map((image) => {
+                            <View style={styles.uploadedImagesContainer} >
+                                {images.map((image, index) => {
                                     return (
                                         <Image
-                                            key={image}
+                                            key={images[index]}
                                             source={{ uri: image }}
                                             style={styles.uploadedImage}
                                         />

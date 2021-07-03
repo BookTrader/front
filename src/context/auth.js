@@ -41,10 +41,10 @@ export default function AuthProvider( {children} ){
         setUsuario(response.usuario);
         setToken(response.token);
 
-        api.defaults.headers["Authorization"] = `Bearer ${token}`;
+        api.defaults.headers["Authorization"] = `Bearer ${response.token}`;
 
         AsyncStorage.setItem("@alleybook:usuario", JSON.stringify(response.usuario));
-        AsyncStorage.setItem("@alleybook:token", JSON.stringify(token));
+        AsyncStorage.setItem("@alleybook:token", JSON.stringify(response.token));
     }
 
     function logOut() {
