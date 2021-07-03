@@ -1,6 +1,6 @@
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
-
+import { Image } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -60,6 +60,7 @@ const FeedStackScreen = ({ navigation }) => (
       screenOptions={{
           headerStyle: {
               backgroundColor: '#e53945',
+
           },
           headerTintColor: '#FFF',
           headerTitleAlign: 'center',
@@ -72,10 +73,13 @@ const FeedStackScreen = ({ navigation }) => (
           name="Feed"
           component={Feed}
           options={{
-              title: 'AlleyBook',
+            headerTitle: props => <Image
+              style={{ width: 110, height: 20}}
+              source={require('../../assets/Logo1.png')}
+            />,
               headerLeft: () => (
                   <Ionicons
-                      style={{ paddingLeft: 10 }}
+                      style={{ paddingLeft: 10,  }}
                       name="ios-menu"
                       size={35}
                       backgroundColor="#e53945"
@@ -92,6 +96,7 @@ const FeedStackScreen = ({ navigation }) => (
                     color="#FFF"
                 ></Ionicons>
             ),
+
           }}
       />
   </FeedStack.Navigator>
