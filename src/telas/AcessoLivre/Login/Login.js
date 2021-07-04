@@ -21,6 +21,8 @@ export default function Login({ navigation }) {
     const [hidePass, setHidePass] = useState(true)
     const [loading, setLoading] = useState(false)
 
+    /* Utilização do yup para validação de campos no formulário  */
+
     const schema = yup.object().shape({
         usr_email: yup
             .string()
@@ -48,7 +50,11 @@ export default function Login({ navigation }) {
             })
     }
 
+
+    {/* Utilização do Formik para criação do formulário */}
+
     return (
+
         <Formik
             initialValues={{ usr_email: '', usr_senha: '' }}
             validationSchema={schema}
@@ -144,6 +150,8 @@ export default function Login({ navigation }) {
         </Formik>
     )
 }
+
+/* Estilização dos componentes */
 
 const styles = StyleSheet.create({
     container: {

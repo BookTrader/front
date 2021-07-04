@@ -18,11 +18,14 @@ import * as yup from 'yup';
 
 export default function Register() {
 
+    {/* hidePass e hideConfirmPass para exibição e inibição da senha */}
     const [hidePass, setHidePass] = useState(true);
     const [hideConfirmPass, setHideConfirmPass] = useState(true);
     const [loading, setLoading] = useState(false);
     const {navigate} = useNavigation();
 
+
+    {/* Utilização do yup para validação dos campos do formulário */}
     const schema = yup.object().shape({
         usr_apelido: yup
             .string()
@@ -39,6 +42,7 @@ export default function Register() {
             .oneOf([yup.ref('usr_senha'), null], "Campos de senha devem ser iguais!"),
     })
 
+    {/* Utilização da função handleRegister para validar o cadastro */}
     async function handleRegister(values){
         await api.post('/usuario', values)
         .then(response => {
@@ -54,7 +58,7 @@ export default function Register() {
     }
 
     return (
-
+        /* Utilização do Formik para criação do formulário */
         <Formik
         initialValues={{usr_apelido: '', usr_email: '', usr_senha: '', usr_confirmSenha: ''}}
         validationSchema={schema}
@@ -154,6 +158,8 @@ export default function Register() {
     </Formik>
     );
 }
+
+{/* Estilização dos componentes */}
 
 const styles = StyleSheet.create({
     container: {

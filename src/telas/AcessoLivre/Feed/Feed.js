@@ -32,6 +32,7 @@ export default function Feed({ navigation }) {
         });
     }, [refreshing]);
 
+    /* Verificação de existência de imagens / anúncios / exemplares */
     if(!imagens || !anuncios || !exemplares ) {
         return (
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -40,6 +41,7 @@ export default function Feed({ navigation }) {
         );
     }
 
+    /* Utilização do onRefresh para reload do feed */
     const onRefresh = () => {
         setRefreshing(true);
     }
@@ -60,6 +62,7 @@ export default function Feed({ navigation }) {
                     />
                 }
             >
+            {/* Utilização do map para listar anúncios no feed */}    
             { anuncios.map((anuncio, index) => (
                 <TouchableOpacity onPress={() => {}} key={anuncio.id}>
                     <Card>
@@ -100,6 +103,8 @@ export default function Feed({ navigation }) {
         </View>
     )
 }
+
+{/* Estilização dos componentes */}
 
 const styles = StyleSheet.create({
     container: {

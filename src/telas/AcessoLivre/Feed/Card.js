@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+
+{/* Componentização do card */}
+
 export default function Card(props){
     return(
         <View style={styles.card}>
@@ -10,6 +13,9 @@ export default function Card(props){
         </View>
     )
 }
+
+{/* Estilização */}
+
 
 const styles = StyleSheet.create({
     card: {

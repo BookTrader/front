@@ -127,6 +127,8 @@ export function DrawerContent(props) {
     )
 }
 
+
+{/* Estilização dos componentes */}
 const styles = StyleSheet.create({
     drawerContent: {
         flex: 1,
