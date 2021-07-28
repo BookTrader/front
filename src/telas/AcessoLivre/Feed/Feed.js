@@ -8,12 +8,11 @@ import {
     ScrollView,
     Text,
     RefreshControl,
-    ActivityIndicator
 } from 'react-native';
+
 import { api } from '../../../service/api';
 import Card from './Card';
-import { useRoute } from '@react-navigation/native';
-
+import EmptyContent from '../../../components/EmptyContent';
 
 export default function Feed({ navigation }) {
     const [exemplares, setExemplares] = useState(null);
@@ -31,19 +30,27 @@ export default function Feed({ navigation }) {
             setRefreshing(false);
         });
     }, [refreshing]);
-
-    /* Verificação de existência de imagens / anúncios / exemplares */
-    if(!imagens || !anuncios || !exemplares ) {
-        return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <ActivityIndicator size="large" color="#000"/>
-            </View>
-        );
-    }
-
+            
     /* Utilização do onRefresh para reload do feed */
     const onRefresh = () => {
         setRefreshing(true);
+    }
+            
+    /* Verificação de existência de anúncios */
+    if(!anuncios) {
+        return (
+            <ScrollView 
+                contentContainerStyle={{ flexGrow : 1, justifyContent : 'center' }}
+                refreshControl={
+                    <RefreshControl 
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
+                <EmptyContent contentType="anuncio" />
+            </ScrollView>
+        )
     }
 
     return (
@@ -63,10 +70,10 @@ export default function Feed({ navigation }) {
                 }
             >
             {/* Utilização do map para listar anúncios no feed */}    
-            { anuncios.map((anuncio, index) => (
+            { anuncios ? anuncios.map((anuncio, index) => (
                 <TouchableOpacity onPress={() => {}} key={anuncio.id}>
                     <Card>
-                        <View style={{ flexDirection: 'row', flex: 1,}}>
+                        <View style={{ flexDirection: 'row', flex: 1 }}>
                             <Image 
                                 style={styles.ExemplarImage}
                                 source={{ uri: imagens[index].url }}
@@ -98,7 +105,7 @@ export default function Feed({ navigation }) {
                         </View>
                     </Card>
                 </TouchableOpacity>
-            ))}
+            )) : null}
             </ScrollView>
         </View>
     )
