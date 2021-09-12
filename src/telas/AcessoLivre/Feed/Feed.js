@@ -4,14 +4,12 @@ import {
     StatusBar,
     StyleSheet,
     TouchableOpacity,
-    Image,
     ScrollView,
-    Text,
     RefreshControl,
 } from 'react-native';
 
 import { api } from '../../../service/api';
-import Card from './Card';
+import Card from '../../../components/Card';
 import EmptyContent from '../../../components/EmptyContent';
 
 export default function Feed({ navigation }) {
@@ -48,7 +46,7 @@ export default function Feed({ navigation }) {
                     />
                 }
             >
-                <EmptyContent contentType="anuncio" />
+                <EmptyContent contentType="anúncio" />
             </ScrollView>
         )
     }
@@ -72,38 +70,13 @@ export default function Feed({ navigation }) {
             {/* Utilização do map para listar anúncios no feed */}    
             { anuncios ? anuncios.map((anuncio, index) => (
                 <TouchableOpacity onPress={() => {}} key={anuncio.id}>
-                    <Card>
-                        <View style={{ flexDirection: 'row', flex: 1 }}>
-                            <Image 
-                                style={styles.ExemplarImage}
-                                source={{ uri: imagens[index].url }}
-                            />
-                            <View
-                                style={{
-                                    flexDirection: 'column',
-                                    marginLeft: 15,
-                                    marginTop: 10,
-                                }}
-                            >
-                                <Text style={styles.title}>
-                                    {exemplares ? exemplares[index].exm_titulo : null}
-                                </Text>
-                                <Text style={styles.label}>
-                                Autor: <Text style={styles.caption}>{exemplares ? exemplares[index].exm_autor : null}</Text>
-                                </Text>
-                                <Text style={styles.label}>
-                                Gênero: <Text style={styles.caption}>{exemplares ? exemplares[index].exm_genero : null}</Text>
-                                </Text>
-                                <Text style={styles.label}>
-                                Editora: <Text style={styles.caption}>{exemplares ? exemplares[index].exm_editora : null}</Text>
-                                </Text>
-
-                                <Text style={styles.regiao}>
-                                Jardim Tranquilidade, Guarulhos
-                                </Text>
-                            </View>
-                        </View>
-                    </Card>
+                    <Card 
+                        tituloExemplar={exemplares[index].exm_titulo}
+                        image={imagens[index].url} 
+                        autorExemplar={exemplares[index].exm_autor}
+                        generoExemplar={exemplares[index].exm_genero}
+                        editoraExemplar={exemplares[index].exm_editora}
+                    />
                 </TouchableOpacity>
             )) : null}
             </ScrollView>
