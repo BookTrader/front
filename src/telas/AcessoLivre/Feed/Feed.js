@@ -13,19 +13,26 @@ import Card from '../../../components/Card';
 import EmptyContent from '../../../components/EmptyContent';
 
 export default function Feed({ navigation }) {
-    const [exemplares, setExemplares] = useState(null);
-    const [imagens, setImagens] = useState(null);
-    const [anuncios, setAnuncios] = useState(null);
+    const [exemplares, setExemplares] = useState([]);
+    const [imagens, setImagens] = useState([]);
+    const [anuncios, setAnuncios] = useState([]);
 
     const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
         api.get('/anuncio').then(response => {
-            setImagens(response.data.imagens);
-            setExemplares(response.data.exemplares);
-            setAnuncios(response.data.anuncios);
-
             setRefreshing(false);
+
+            setAnuncios(response.data.anuncios);
+            setExemplares(response.data.exemplares);
+            setImagens(response.data.imagens);
+        })
+        .catch((err) => {
+            setRefreshing(false)
+
+            setAnuncios(null);
+            setExemplares([]);
+            setImagens([]);
         });
     }, [refreshing]);
             
@@ -71,11 +78,11 @@ export default function Feed({ navigation }) {
             { anuncios ? anuncios.map((anuncio, index) => (
                 <TouchableOpacity onPress={() => {}} key={anuncio.id}>
                     <Card 
-                        tituloExemplar={exemplares[index].exm_titulo}
-                        image={imagens[index].url} 
-                        autorExemplar={exemplares[index].exm_autor}
-                        generoExemplar={exemplares[index].exm_genero}
-                        editoraExemplar={exemplares[index].exm_editora}
+                        image={imagens[index] ? imagens[index].url : null}
+                        tituloExemplar={exemplares[index] ? exemplares[index].exm_titulo : null}
+                        autorExemplar={exemplares[index] ? exemplares[index].exm_autor : null}
+                        generoExemplar={exemplares[index] ? exemplares[index].exm_genero : null}
+                        editoraExemplar={exemplares[index] ? exemplares[index].exm_editora : null}
                     />
                 </TouchableOpacity>
             )) : null}
@@ -97,28 +104,5 @@ const styles = StyleSheet.create({
         marginTop: 10,
         paddingHorizontal: 5,
         alignSelf: 'stretch',
-    },
-    ExemplarImage: {
-      width: 140,
-      height: 140,
-      borderTopLeftRadius: 5,
-      borderBottomLeftRadius: 5,
-    },
-    title: {
-      fontSize: 16,
-      marginBottom: 10,
-    },
-    caption: {
-      fontSize: 14,
-      fontWeight: 'normal',
-    },
-    label:{
-      fontSize: 14,
-      fontWeight: 'bold',
-    },
-    regiao:{
-      marginTop: 12,
-      fontSize: 12,
-      color: '#333',
     }
 })
