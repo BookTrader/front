@@ -46,7 +46,7 @@ export default function CriarAnuncio() {
         let exm_id = '';
 
         await api
-            .post('/exemplar', data[0])
+            .post(`/usuario/${usuario.id}/exemplar`, data[0])
             .then((response) => {
                 setLoading(true);
                 exm_id = response.data.id;

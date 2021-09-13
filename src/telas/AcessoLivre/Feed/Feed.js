@@ -41,7 +41,7 @@ export default function Feed({ navigation }) {
         setRefreshing(true);
     }
             
-    /* Verificação de existência de anúncios */
+    /* Em caso de não haver anúncios, exibir tela de conteúdo vazio */
     if(!anuncios) {
         return (
             <ScrollView 
@@ -74,18 +74,19 @@ export default function Feed({ navigation }) {
                     />
                 }
             >
-            {/* Utilização do map para listar anúncios no feed */}    
-            { anuncios ? anuncios.map((anuncio, index) => (
-                <TouchableOpacity onPress={() => {}} key={anuncio.id}>
-                    <Card 
-                        image={imagens[index] ? imagens[index].url : null}
-                        tituloExemplar={exemplares[index] ? exemplares[index].exm_titulo : null}
-                        autorExemplar={exemplares[index] ? exemplares[index].exm_autor : null}
-                        generoExemplar={exemplares[index] ? exemplares[index].exm_genero : null}
-                        editoraExemplar={exemplares[index] ? exemplares[index].exm_editora : null}
-                    />
-                </TouchableOpacity>
-            )) : null}
+                {/* Utilização do map para listar anúncios no feed */}    
+                { anuncios ? anuncios.map((anuncio, index) => (
+                    <TouchableOpacity onPress={() => {}} key={anuncio.id}>
+                        <Card 
+                            image={imagens[index] ? imagens[index].url : null}
+                            tituloExemplar={exemplares[index] ? exemplares[index].exm_titulo : null}
+                            autorExemplar={exemplares[index] ? exemplares[index].exm_autor : null}
+                            generoExemplar={exemplares[index] ? exemplares[index].exm_genero : null}
+                            editoraExemplar={exemplares[index] ? exemplares[index].exm_editora : null}
+                            local={"Jardim Tranquilidade, Guarulhos"}
+                        />
+                    </TouchableOpacity>
+                )) : null }
             </ScrollView>
         </View>
     )

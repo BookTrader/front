@@ -33,7 +33,7 @@ export default function Card(props){
                         </Text>
 
                         <Text style={styles.regiao}>
-                            Jardim Tranquilidade, Guarulhos
+                            { props.local }
                         </Text>
                     </View>
                 </View>

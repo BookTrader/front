@@ -93,7 +93,9 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Minha biblioteca"
-                            onPress={() => {}}
+                            onPress={() => {
+                                props.navigation.navigate('Biblioteca')
+                            }}
                         />
                             
                         <DrawerItem
