@@ -107,7 +107,9 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Configurações"
-                            onPress={() => {}}
+                            onPress={() => {
+                                props.navigation.navigate('Configuracao')
+                            }}
                         />
                         </>
                     ) : null }

@@ -9,10 +9,12 @@ const Drawer = createDrawerNavigator();
 const FeedStack = createStackNavigator();
 const CriarAnuncioStack = createStackNavigator();
 const BibliotecaStack = createStackNavigator();
+const ConfiguracaoStack = createStackNavigator();
 
 import Feed from '../telas/AcessoLivre/Feed/Feed';
 import CriarAnuncio from '../telas/AcessoUsuario/Anuncio/CriarAnuncio';
 import Biblioteca from '../telas/AcessoUsuario/Biblioteca/Biblioteca';
+import Configuracao from '../telas/AcessoUsuario/Configuracao/Configuracao';
 import { DrawerContent } from '../telas/Navegacao/DrawerContent';
 
 const FeedStackScreen = ({ navigation }) => (
@@ -135,6 +137,39 @@ const BibliotecaStackScreen = ({ navigation }) => (
     </BibliotecaStack.Navigator>
 );
 
+const ConfiguracaoStackScreen = ({ navigation }) => (
+    <ConfiguracaoStack.Navigator
+        screenOptions={{
+            headerStyle: {
+                backgroundColor: '#e53945',
+            },
+            headerTintColor: '#FFF',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        }}
+    >
+        <BibliotecaStack.Screen
+            name="Configuração"
+            component={Configuracao}
+            options={{
+                title: 'Configurações',
+                headerLeft: () => (
+                    <Ionicons
+                        style={{ paddingLeft: 10 }}
+                        name="ios-menu"
+                        size={35}
+                        backgroundColor="#e53945"
+                        color="#FFF"
+                        onPress={() => navigation.openDrawer()}
+                    ></Ionicons>
+                )
+            }}
+        />
+    </ConfiguracaoStack.Navigator>
+);
+
 const AppRoutes = () => (
     <Drawer.Navigator
         drawerContent={(props) => <DrawerContent {...props} />}
@@ -143,6 +178,8 @@ const AppRoutes = () => (
         <Drawer.Screen name="Feed" component={FeedStackScreen} />
         <Drawer.Screen name="CriarAnuncio" component={CriarAnuncioStackScreen} />
         <Drawer.Screen name="Biblioteca" component={BibliotecaStackScreen} />
+        <Drawer.Screen name="Configuracao" component={ConfiguracaoStackScreen} />
+
     </Drawer.Navigator>
 );
 
