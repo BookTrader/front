@@ -14,6 +14,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
 import { useAuth } from '../../../context/auth';
+import { api } from '../../../service/api';
 
 export default function Configuracao() {
   const { usuario } = useAuth();
@@ -25,7 +26,6 @@ export default function Configuracao() {
   const [labelOption, setLabelOption] = useState(false);
   const [scroll, setScroll] = useState(true);
   const [loading, setLoading] = useState(false);
-  
 
   async function handleSelectImage() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -127,6 +127,21 @@ export default function Configuracao() {
   }
 
   const LocalizacaoRoute = () => {
+    const [userAddress, setUserAddress] = useState();
+
+    function handleCep(e) {
+      const value = e.nativeEvent.text;
+
+      const cep = value?.replace(/[^0-9]/g, '');
+      if (cep?.length !== 8) {
+        return;
+      }
+      
+      fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then((res) => res.json())
+        .then((data) => setUserAddress(data));
+    }
+
     return (
       <Formik
         initialValues={{
@@ -147,8 +162,9 @@ export default function Configuracao() {
                   style={styles.input}
                   placeholder="CEP"
                   autoCorrect={false}
-                  value={values.usr_ender_cep}
+                  value={usuario.usr_ender_cep ? usuario.usr_ender_cep : values.usr_ender_cep}
                   onChangeText={handleChange('usr_ender_cep')}
+                  onEndEditing={handleCep}
                 />
                 {errors.usr_ender_cep && touched.usr_ender_cep ? (
                     <Text>{errors.usr_ender_cep}</Text>
@@ -160,7 +176,7 @@ export default function Configuracao() {
                   editable={false}
                   selectTextOnFocus={false}
                   autoCorrect={false}
-                  value={values.usr_ender_uf}
+                  value={usuario.usr_ender_uf ? usuario.usr_ender_uf : userAddress?.uf}
                   onChangeText={handleChange('usr_ender_uf')}
                 />
                 {errors.usr_ender_uf && touched.usr_ender_uf ? (
@@ -173,7 +189,7 @@ export default function Configuracao() {
                   editable={false}
                   selectTextOnFocus={false}
                   autoCorrect={false}
-                  value={values.usr_ender_cidade}
+                  value={usuario.usr_ender_cidade ? usuario.usr_ender_cidade : userAddress?.localidade}
                   onChangeText={handleChange('usr_ender_cidade')}
                 />
                 {errors.usr_ender_cidade && touched.usr_ender_cidade ? (
@@ -186,7 +202,7 @@ export default function Configuracao() {
                   editable={false}
                   selectTextOnFocus={false}
                   autoCorrect={false}
-                  value={values.usr_ender_bairro}
+                  value={usuario.usr_ender_bairro ? usuario.usr_ender_bairro : userAddress?.bairro}
                   onChangeText={handleChange('usr_ender_bairro')}
                 />
                 {errors.usr_ender_bairro && touched.usr_ender_bairro ? (
