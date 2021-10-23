@@ -10,6 +10,7 @@ import {
   TouchableOpacity, 
   View
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker'
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
@@ -17,7 +18,7 @@ import { useAuth } from '../../../context/auth';
 import { api } from '../../../service/api';
 
 export default function Configuracao() {
-  const { usuario } = useAuth();
+  const { usuario, setUsuario } = useAuth();
 
   const [tabViewIndex, setTabViewIndex] = useState(0);
   const [formKey, setFormKey] = useState(1);
@@ -55,6 +56,33 @@ export default function Configuracao() {
   }
 
   const PerfilRoute = () => {
+
+    async function handlePerfilSubmit(values) {
+      const data = await handleFormData(values);
+
+      await api
+        .patch(`/usuario/${usuario.id}`, data)
+        .then((response) => {
+            const updatedUser = response.data;
+            setUsuario(updatedUser);
+        })
+    }
+
+    async function handleFormData(values) {
+      const data = new FormData();
+
+      data.append('usr_apelido', values.usr_apelido);
+      data.append('usr_nome', values.usr_nome);
+      data.append('usr_cpf', values.usr_cpf);
+      data.append('imagem', {
+        name: `user_image_1.jpg`,
+        type: 'image/jpg',
+        uri: image
+      });
+
+      return data;
+    }
+
     return (
       <Formik
         initialValues={{
@@ -63,7 +91,7 @@ export default function Configuracao() {
           usr_cpf: usuario.usr_cpf ? usuario.usr_cpf : '',
         }}
         key={formKey}
-        onSubmit={(values) => handleUserData(values)}
+        onSubmit={(values) => handlePerfilSubmit(values)}
       >
         {({ handleChange, handleSubmit, values, errors, touched }) => (
           <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={80}>
@@ -72,8 +100,14 @@ export default function Configuracao() {
                 <TouchableOpacity onPress={handleSelectImage}>
                   <Image
                     key={1}
-                    source={{ uri: image }}
-                    style={null}
+                    source={
+                      image
+                      ? { uri: image }
+                      : usuario.usr_foto
+                      ? { uri: usuario.usr_foto.url }
+                      : require('../../../../assets/rodrigo-foto.jpg')
+                    }
+                    style={styles.image}
                   />
                 </TouchableOpacity>
 
@@ -113,6 +147,7 @@ export default function Configuracao() {
 
                 <TouchableOpacity 
                     style={styles.btnSubmit}
+                    onPress={handleSubmit}
                 >
                     <Text style={styles.btnSubmitText}>
                         {loading ? 'Atualizando...' : 'Atualizar dados'}
@@ -371,4 +406,9 @@ const styles = StyleSheet.create({
       marginBottom: 32,
       marginRight: 8,
   },
+  image: {
+    width: 50,
+    height: 50,
+    borderRadius: 50
+  }
 })
