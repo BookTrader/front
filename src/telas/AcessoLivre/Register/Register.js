@@ -47,7 +47,6 @@ export default function Register() {
         await api.post('/usuario', values)
         .then(response => {
             setLoading(false);
-            Alert.alert('Cadastro realizado com sucesso!');
         })
         .then(setLoading(true))
         .then(() => (navigate('Login')))

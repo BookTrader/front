@@ -31,7 +31,6 @@ export default function Login({ navigation }) {
         usr_senha: yup
             .string()
             .required('Sua senha é obrigatória!')
-            .min(4, 'Senha deve possuir pelo menos 4 caracteres'),
     });
 
     async function handleLogin(values) {
@@ -42,7 +41,6 @@ export default function Login({ navigation }) {
                 setLoading(false)
                 console.log(response.data)
                 login(response.data)
-                Alert.alert('Sucesso!')
             })
             .catch((err) => {
                 setLoading(false)
