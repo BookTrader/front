@@ -53,7 +53,6 @@ export default function AuthProvider( {children} ){
             setToken(null);
         });
 		
-        Alert.alert("Deslogado!!!")
     }
 
     return(

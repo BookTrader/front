@@ -10,11 +10,13 @@ const FeedStack = createStackNavigator();
 const CriarAnuncioStack = createStackNavigator();
 const BibliotecaStack = createStackNavigator();
 const ConfiguracaoStack = createStackNavigator();
+const TesteStack = createStackNavigator();
 
 import Feed from '../telas/AcessoLivre/Feed/Feed';
 import CriarAnuncio from '../telas/AcessoUsuario/Anuncio/CriarAnuncio';
 import Biblioteca from '../telas/AcessoUsuario/Biblioteca/Biblioteca';
 import Configuracao from '../telas/AcessoUsuario/Configuracao/Configuracao';
+import Teste from '../telas/AcessoUsuario/TestePerfil/TestePerfil';
 import { DrawerContent } from '../telas/Navegacao/DrawerContent';
 
 const FeedStackScreen = ({ navigation }) => (
@@ -150,7 +152,7 @@ const ConfiguracaoStackScreen = ({ navigation }) => (
             },
         }}
     >
-        <BibliotecaStack.Screen
+        <ConfiguracaoStack.Screen
             name="Configuração"
             component={Configuracao}
             options={{
@@ -170,6 +172,39 @@ const ConfiguracaoStackScreen = ({ navigation }) => (
     </ConfiguracaoStack.Navigator>
 );
 
+const TesteStackScreen = ({ navigation }) => (
+    <TesteStack.Navigator
+        screenOptions={{
+            headerStyle: {
+                backgroundColor: '#e53945',
+            },
+            headerTintColor: '#FFF',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        }}
+    >
+        <TesteStack.Screen
+            name="Teste"
+            component={Teste}
+            options={{
+                title: 'Testes',
+                headerLeft: () => (
+                    <Ionicons
+                        style={{ paddingLeft: 10 }}
+                        name="ios-menu"
+                        size={35}
+                        backgroundColor="#e53945"
+                        color="#FFF"
+                        onPress={() => navigation.openDrawer()}
+                    ></Ionicons>
+                )
+            }}
+        />
+    </TesteStack.Navigator>
+);
+
 const AppRoutes = () => (
     <Drawer.Navigator
         drawerContent={(props) => <DrawerContent {...props} />}
@@ -179,6 +214,7 @@ const AppRoutes = () => (
         <Drawer.Screen name="CriarAnuncio" component={CriarAnuncioStackScreen} />
         <Drawer.Screen name="Biblioteca" component={BibliotecaStackScreen} />
         <Drawer.Screen name="Configuracao" component={ConfiguracaoStackScreen} />
+        <Drawer.Screen name="Teste" component={TesteStackScreen} />
 
     </Drawer.Navigator>
 );

@@ -115,6 +115,20 @@ export function DrawerContent(props) {
                                 props.navigation.navigate('Configuracao')
                             }}
                         />
+
+                        <DrawerItem
+                            icon={({ size }) => (
+                                <Icon
+                                    name="account"
+                                    color="#e53945"
+                                    size={size}
+                                />
+                            )}
+                            label="Teste"
+                            onPress={() => {
+                                props.navigation.navigate('Teste')
+                            }}
+                        />
                         </>
                     ) : null }
                     </Drawer.Section>

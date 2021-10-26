@@ -42,7 +42,6 @@ export default function Login({ navigation }) {
                 setLoading(false)
                 console.log(response.data)
                 login(response.data)
-                Alert.alert('Sucesso!')
             })
             .catch((err) => {
                 setLoading(false)
