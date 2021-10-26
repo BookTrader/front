@@ -19,7 +19,11 @@ export function DrawerContent(props) {
                     <View style={styles.userInfoSection}>
                         <View style={{ flexDirection: 'row', marginTop: 15 }}>
                             <Avatar.Image
-                                source={require('./assets/rodrigo-foto.jpg')}
+                                source={
+                                    usuario.usr_foto 
+                                    ? { uri: usuario.usr_foto.url }
+                                    : require('../../../assets/rodrigo-foto.jpg')
+                                }
                                 size={50}
                             />
                             <View
