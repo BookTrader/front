@@ -72,7 +72,7 @@ export default function TestePerfil({ navigation }) {
       <View style={styles.menuWrapper}>
         <TouchableRipple>
           <View style={styles.menuItem}>
-            <Icon name="heart" color="#FF6347" size={25}/>
+            <Icon name="heart-outline" color="#FF6347" size={25}/>
             <Text style={styles.menuItemText}>Livros favoritos</Text>
 
           </View>
@@ -88,13 +88,6 @@ export default function TestePerfil({ navigation }) {
           <View style={styles.menuItem}>
             <Icon name="tools" color="#FF6347" size={25}/>
             <Text style={styles.menuItemText}>Preferências de troca</Text>
-
-          </View>
-        </TouchableRipple>
-        <TouchableRipple>
-          <View style={styles.menuItem}>
-            <Icon name="tools" color="#FF6347" size={25}/>
-            <Text style={styles.menuItemText}>Configurações da conta</Text>
 
           </View>
         </TouchableRipple>

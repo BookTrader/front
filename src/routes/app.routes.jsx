@@ -17,6 +17,7 @@ import CriarAnuncio from '../telas/AcessoUsuario/Anuncio/CriarAnuncio';
 import Biblioteca from '../telas/AcessoUsuario/Biblioteca/Biblioteca';
 import Configuracao from '../telas/AcessoUsuario/Configuracao/Configuracao';
 import Teste from '../telas/AcessoUsuario/TestePerfil/TestePerfil';
+import EditarPerfil from '../telas/AcessoUsuario/TestePerfil/EditarPerfil';
 import { DrawerContent } from '../telas/Navegacao/DrawerContent';
 
 const FeedStackScreen = ({ navigation }) => (
@@ -183,13 +184,14 @@ const TesteStackScreen = ({ navigation }) => (
             headerTitleStyle: {
                 fontWeight: 'bold',
             },
+            
         }}
     >
         <TesteStack.Screen
             name="Teste"
             component={Teste}
             options={{
-                title: 'Testes',
+                title: 'Perfil',
                 headerLeft: () => (
                     <Ionicons
                         style={{ paddingLeft: 10 }}
@@ -199,9 +201,26 @@ const TesteStackScreen = ({ navigation }) => (
                         color="#FFF"
                         onPress={() => navigation.openDrawer()}
                     ></Ionicons>
-                )
+                ),
+                headerRight: () => (
+                    <Ionicons
+                        style={{ paddingRight: 10 }}
+                        name="create-outline"
+                        size={30}
+                        backgroundColor="#e53945"
+                        color="#FFF"
+                        onPress={() => navigation.navigate('EditarPerfil')}
+                    ></Ionicons>
+                ),
             }}
         />
+        <TesteStack.Screen
+            name="EditarPerfil"
+            component={EditarPerfil}
+            options={{
+                title: 'Editar Perfil'
+            }}/>
+        
     </TesteStack.Navigator>
 );
 
