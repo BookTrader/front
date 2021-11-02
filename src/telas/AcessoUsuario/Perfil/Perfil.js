@@ -14,7 +14,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-export default function TestePerfil({ navigation }) {
+export default function Perfil({ navigation }) {
 
   return (
     <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={80}>
