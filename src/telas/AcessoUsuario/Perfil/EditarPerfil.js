@@ -17,7 +17,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function Perfil({ navigation }) {
 
-  renderInner = () => (
+  const bs = React.useRef();
+  const fall = new Animated.Value(1);
+
+  
+  const renderInner = () => (
     <View style={styles.panel}>
       <View style={{alignItems: 'center'}}>
         <Text style={styles.panelTitle}>Upload de Foto</Text>
@@ -30,14 +34,14 @@ export default function Perfil({ navigation }) {
         <Text style={styles.panelButtonTitle}>Escolher da galeria</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.panelButtom}
-        onPress={() => this.bs.current.snapTo(1)}>
+        onPress={() => bs.current.snapTo(1)}
+        style={styles.panelButtom}>
         <Text style={styles.panelButtonTitle}>Cancelar</Text>
       </TouchableOpacity>
     </View>
   );
 
-  renderHeader = () => (
+  const renderHeader = () => (
     <View style={styles.header}>
       <View style={styles.panelHeader}>
         <View style={styles.panelHandle}/>
@@ -45,25 +49,23 @@ export default function Perfil({ navigation }) {
     </View>
   );
   
-  bs = React.createRef();
-  fall = new Animated.Value(1);
 
   return (
     <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={80}>
-      <BottomSheet ref={this.bs}
+      <BottomSheet ref={bs}
                   snapPoints={[330, 0]}
-                  renderContent={this.renderInner}
-                  renderHeader={this.renderHeader}
+                  renderContent={renderInner}
+                  renderHeader={renderHeader}
                   initialSnap={1}
-                  callbackNode={this.fall}
+                  callbackNode={fall}
                   enabledGestureInteraction={true} 
-                  />
-        <Animated.View style={{margin: 20,
-          opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
-      }}/>            
+                  />   
+          <Animated.View style={{margin: 20,
+          opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+          }}>  
       <View style={{margin: 20}}>
         <View style={{alignItems: 'center'}}>
-          <TouchableOpacity onPress={()=> this.bs.current.snapTo(0)}>
+          <TouchableOpacity onPress={()=> bs.current.snapTo(0)}>
             <View style={{
               height: 100,
               width: 100,
@@ -93,7 +95,7 @@ export default function Perfil({ navigation }) {
               </ImageBackground>
             </View>
           </TouchableOpacity>
-        </View>
+        </View> 
       </View>
 
       <View style={styles.form}>
@@ -124,10 +126,10 @@ export default function Perfil({ navigation }) {
               </Text>
           </TouchableOpacity>
       </View>
+      </Animated.View>
     </KeyboardAvoidingView>
-  )
-
-}
+  );
+};
 
 
 const styles = StyleSheet.create({
@@ -202,8 +204,11 @@ const styles = StyleSheet.create({
     shadowOffset: {width: -1, height: -3},
     shadowRadius: 2,
     shadowOpacity: 0.4,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
   },
   panelHeader: {
+    paddingTop: 15,
     alignItems: 'center',
   },
   panelHandle: {
