@@ -12,17 +12,23 @@ import {
   TouchableRipple,
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useAuth } from '../../../context/auth';
 
 
 export default function Perfil({ navigation }) {
+  const {usuario}  = useAuth();
 
   return (
     <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={80}>
       
       {/* Nome, imagem e user */}
       <View style={styles.userInfoSection}>
+      
           <View style={{flexDirection: 'row', marginTop: 15}}>
-            <Avatar.Image source={require(
+            <Avatar.Image source={
+            usuario.usr_foto
+            ? { uri: usuario.usr_foto.url }
+            : require(
             '../../../../assets/rodrigo-foto.jpg'
             )}
             size={80}/>
@@ -30,8 +36,8 @@ export default function Perfil({ navigation }) {
               <Title style={[styles.title, {
                 marginTop: 15,
                 marginBottom: 5,
-              }]}>José Serra</Title>
-              <Caption style={styles.caption}>@jose_serrinha</Caption>
+              }]}>{usuario ? usuario.usr_apelido : ''}</Title>
+              <Caption style={styles.caption}>{usuario ? usuario.usr_email : ''}</Caption>
             </View>
         </View>
       </View>
@@ -48,7 +54,7 @@ export default function Perfil({ navigation }) {
         </View>
         <View style={styles.row}>
             <Icon name="email" color="#000000" size={20}/>
-            <Text style={{color:"#000000", marginLeft: 20}}>joseserrabrasil@gmail.com</Text>
+            <Text style={{color:"#000000", marginLeft: 20}}>{usuario ? usuario.usr_email : ''}</Text>
         </View>
       </View>
 

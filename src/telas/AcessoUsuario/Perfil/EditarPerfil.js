@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {
     KeyboardAvoidingView,
     View,
@@ -9,12 +9,114 @@ import {
     StyleSheet,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as ImagePicker from 'expo-image-picker';
 import { Modalize } from 'react-native-modalize';
+import { useAuth } from '../../../context/auth';
+import { api } from '../../../service/api';
 
 export default function Perfil({ navigation }) {
 
+    const {usuario, setUsuario, loading} = useAuth();
+
+    const [userApelido, setUserApelido] = useState(usuario.usr_apelido ? usuario.usr_apelido : '');
+    const [userNome, setUserNome] = useState(usuario.usr_nome ? usuario.usr_nome : '');
+    const [userCpf, setUserCpf] = useState(usuario.usr_cpf ? usuario.usr_cpf : '');
+    const [image, setImage] = useState();
+
     const modalizeRef = useRef(null);
+
+
+    //Func p/ selecionar foto da galeria
+    async function handleSelectImage() {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     
+        if (status !== 'granted') {
+            alert(
+                'Você precisa liberar o acesso à galeria para selecionarmos uma foto.'
+            )
+            return
+        }
+    
+        const result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            quality: 1,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        });
+    
+        if (result.cancelled) {
+            alert('Upload de foto cancelado.');
+            return;
+        }
+    
+        // Renomeando o nome do parâmetro no meio da desestruturação
+        const { uri: image } = result;
+    
+        setImage(image);
+
+        onClose();
+    }
+
+
+    //Func p/ tirar foto da câmera
+    async function handleTakeImage() {
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    
+        if (status !== 'granted') {
+            alert(
+                'Você precisa liberar o acesso à câmera.'
+            )
+            return
+        }
+    
+        const result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            quality: 1,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        });
+    
+        if (result.cancelled) {
+            alert('Upload de foto cancelado.');
+            return;
+        }
+    
+        // Renomeando o nome do parâmetro no meio da desestruturação
+        const { uri: image } = result;
+    
+        setImage(image);
+
+        onClose();
+    }
+
+    async function handlePerfilSubmit() {
+        const data = await handleFormData();
+        console.log(data)
+    
+        await api
+          .patch(`/usuario/${usuario.id}`, data)
+          .then((response) => {
+              const updatedUser = response.data;
+              setUsuario(updatedUser);
+          })
+      }
+    
+      async function handleFormData() {
+        const data = new FormData();
+    
+        data.append('usr_apelido', userApelido);
+        data.append('usr_nome', userNome);
+        data.append('usr_cpf', userCpf);
+    
+        data.append('imagem', {
+          name: 'user_image_1.jpg',
+          type: 'image/jpg',
+          uri: image
+        });
+    
+        return data;
+      }
+
+
+    //Funcs p/ abrir e fechar o modal
     function onOpen(){
         modalizeRef.current?.open();
     }
@@ -42,7 +144,11 @@ export default function Perfil({ navigation }) {
                             }}
                         >
                             <ImageBackground
-                                source={require('../../../../assets/rodrigo-foto.jpg')}
+                                source={image
+                                    ? { uri: image }
+                                    : usuario.usr_foto
+                                    ? { uri: usuario.usr_foto.url }
+                                    : require('../../../../assets/rodrigo-foto.jpg')}
                                 style={{
                                     height: 100,
                                     width: 100,
@@ -82,22 +188,29 @@ export default function Perfil({ navigation }) {
                     style={styles.input}
                     placeholder="Apelido"
                     autoCorrect={false}
+                    value={userApelido}
+                    onChangeText={setUserApelido}
                 />
 
                 <TextInput
                     style={styles.input}
                     placeholder="Nome"
                     autoCorrect={false}
+                    value={userNome}
+                    onChangeText={setUserNome}
                 />
 
                 <TextInput
                     style={styles.input}
                     placeholder="CPF"
                     autoCorrect={false}
+                    value={userCpf}
+                    onChangeText={setUserCpf}
                 />
 
-                <TouchableOpacity style={styles.btnSubmit}>
-                    <Text style={styles.btnSubmitText}>Atualizar</Text>
+                <TouchableOpacity style={styles.btnSubmit} onPress={handlePerfilSubmit}>
+                    <Text style={styles.btnSubmitText}>
+                        {loading ? 'Atualizando...' : 'Atualizar'}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -108,11 +221,11 @@ export default function Perfil({ navigation }) {
             >
                 <View style={styles.modalContent}>
 
-                    <TouchableOpacity style={styles.btnModal}>
+                    <TouchableOpacity style={styles.btnModal} onPress={handleTakeImage}>
                         <Text style={styles.btnModalText}>Tirar foto</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btnModal}>
+                    <TouchableOpacity style={styles.btnModal} onPress={handleSelectImage}>
                         <Text style={styles.btnModalText}>Escolher da galeria</Text>
                     </TouchableOpacity>
 
