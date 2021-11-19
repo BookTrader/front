@@ -1,7 +1,6 @@
-import React, { useContext, createContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../service/api';
-import { Alert } from 'react-native';
 
 const AuthContext = createContext();
 
@@ -52,7 +51,6 @@ export default function AuthProvider( {children} ){
             setUsuario(null);
             setToken(null);
         });
-		
     }
 
     return(

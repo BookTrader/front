@@ -6,11 +6,13 @@ import {
     TouchableOpacity,
     ScrollView,
     RefreshControl,
+    Text
 } from 'react-native';
 
 import { api } from '../../../service/api';
 import Card from '../../../components/Card';
 import EmptyContent from '../../../components/EmptyContent';
+import { useLocation } from '../../../context/location';
 
 export default function Feed({ navigation }) {
     const [exemplares, setExemplares] = useState([]);
@@ -18,6 +20,8 @@ export default function Feed({ navigation }) {
     const [anuncios, setAnuncios] = useState([]);
 
     const [refreshing, setRefreshing] = useState(false)
+
+    const { location } = useLocation();
 
     useEffect(() => {
         api.get('/anuncio').then(response => {
@@ -87,6 +91,7 @@ export default function Feed({ navigation }) {
                         />
                     </TouchableOpacity>
                 )) : null }
+                <Text>{JSON.stringify(location)}</Text>
             </ScrollView>
         </View>
     )
