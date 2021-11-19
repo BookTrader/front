@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Formik } from 'formik';
 import { 
   Image, 
   KeyboardAvoidingView, 
