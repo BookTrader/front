@@ -25,6 +25,7 @@
     "react-native-elements": "git+https://github.com/react-native-elements/react-native-elements.git#dist",
     "react-native-feather": "^1.1.1",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-modalize": "^2.0.10",
     "react-native-pager-view": "5.0.12",
     "react-native-paper": "^4.9.1",
     "react-native-reanimated": "^2.1.0",
@@ -35,6 +36,7 @@
     "react-native-web": "^0.16.3",
     "react-navigation": "^4.4.4",
     "react-navigation-drawer": "^2.7.1",
+    "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "yup": "^0.32.9"
   },
   "devDependencies": {

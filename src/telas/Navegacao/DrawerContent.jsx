@@ -74,6 +74,20 @@ export function DrawerContent(props) {
 
                     { usuario ? (
                         <>
+
+                        <DrawerItem
+                            icon={({ size }) => (
+                                <Icon
+                                    name="account"
+                                    color="#e53945"
+                                    size={size}
+                                />
+                            )}
+                            label="Meu Perfil"
+                            onPress={() => {
+                                props.navigation.navigate('Perfil')
+                            }}
+                        />
                         <DrawerItem
                             icon={({ size }) => (
                                 <Icon
@@ -115,6 +129,8 @@ export function DrawerContent(props) {
                                 props.navigation.navigate('Configuracao')
                             }}
                         />
+
+                        
                         </>
                     ) : null }
                     </Drawer.Section>
@@ -145,11 +161,13 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
     title: {
+        color: '#031d44',
         fontSize: 16,
         marginTop: 3,
         fontWeight: 'bold',
     },
     caption: {
+        color: '#000000',
         fontSize: 14,
         lineHeight: 14,
     },
