@@ -8,7 +8,6 @@ export default function Biblioteca() {
     const { usuario } = useAuth();
 
     const [exemplares, setExemplares] = useState([]);
-    const [imagens, setImagens] = useState([]);
 
     const [refreshing, setRefreshing] = useState(false);
 
@@ -17,13 +16,11 @@ export default function Biblioteca() {
             setRefreshing(false);
 
             setExemplares(response.data.exemplares);
-            setImagens(response.data.imagens);
         })
         .catch((err) => {
             setRefreshing(false)
 
             setExemplares(null);
-            setImagens(null);
         });
     }, [refreshing]);
 
@@ -69,7 +66,7 @@ export default function Biblioteca() {
                 {exemplares ? exemplares.map((exemplar, index) => (
                     <TouchableOpacity onPress={() => {}} key={exemplar.id}>
                         <Card
-                            image={ imagens[index] ? imagens[index].url : null }
+                            image={ exemplares[index] ? exemplares[index].imagens[0].url : null }
                             tituloExemplar={ exemplares[index] ? exemplares[index].exm_titulo : null }
                             autorExemplar={ exemplares[index] ? exemplares[index].exm_autor : null }
                             generoExemplar={ exemplares[index] ? exemplares[index].exm_genero : null }
