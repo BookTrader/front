@@ -89,7 +89,6 @@ export default function Perfil({ navigation }) {
 
     async function handlePerfilSubmit() {
         const data = await handleFormData();
-        console.log(data)
     
         await api
           .patch(`/usuario/${usuario.id}`, data)
@@ -114,7 +113,6 @@ export default function Perfil({ navigation }) {
     
         return data;
       }
-
 
     //Funcs p/ abrir e fechar o modal
     function onOpen(){
