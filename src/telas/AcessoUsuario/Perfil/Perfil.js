@@ -13,10 +13,10 @@ import {
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../../../context/auth';
-
+import { useLocation } from '../../../context/location';
 
 export default function Perfil({ navigation }) {
-  const {usuario}  = useAuth();
+  const {usuario} = useAuth();
 
   return (
     <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={80}>
@@ -88,7 +88,7 @@ export default function Perfil({ navigation }) {
 
           </View>
         </TouchableRipple>
-        <TouchableRipple>
+        <TouchableRipple onPress={() => navigation.navigate('ConfigurarTroca')}>
           <View style={styles.menuItem}>
             <Icon name="tools" color="#FF6347" size={25}/>
             <Text style={styles.menuItemText}>Preferências de troca</Text>
