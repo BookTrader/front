@@ -80,7 +80,15 @@ export default function Feed({ navigation }) {
             >
                 {/* Utilização do map para listar anúncios no feed */}    
                 { anuncios ? anuncios.map((anuncio, index) => (
-                    <TouchableOpacity onPress={() => {}} key={anuncio.id}>
+                    <TouchableOpacity 
+                        onPress={() => {
+                            navigation.navigate(
+                                "DetalheAnuncio", 
+                                {anc_id: anuncio.id}
+                            )
+                        }} 
+                        key={anuncio.id}
+                    >
                         <Card 
                             image={imagens[index] ? imagens[index].url : null}
                             tituloExemplar={exemplares[index] ? exemplares[index].exm_titulo : null}
