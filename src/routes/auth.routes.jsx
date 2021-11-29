@@ -96,8 +96,14 @@ const FeedStackScreen = ({ navigation }) => (
                     color="#FFF"
                 ></Ionicons>
             ),
-
           }}
+      />
+      <FeedStack.Screen
+        name="DetalheAnuncio"
+        component={DetalheAnuncio}
+        options={{
+            title: 'Detalhe do Anuncio'
+        }}
       />
   </FeedStack.Navigator>
 );
