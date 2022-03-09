@@ -49,10 +49,6 @@ export default function Perfil({ navigation }) {
             <Text style={{color:"#000000", marginLeft: 20}}>São Paulo, Brasil</Text>
         </View>
         <View style={styles.row}>
-            <Icon name="phone" color="#000000" size={20}/>
-            <Text style={{color:"#000000", marginLeft: 20}}>+55 11 992766210</Text>
-        </View>
-        <View style={styles.row}>
             <Icon name="email" color="#000000" size={20}/>
             <Text style={{color:"#000000", marginLeft: 20}}>{usuario ? usuario.usr_email : ''}</Text>
         </View>
@@ -69,18 +65,11 @@ export default function Perfil({ navigation }) {
         </View>
         <View style={styles.infoBox}>
           <Title style={{color: '#031d44'}}>17</Title>
-          <Caption style={{color: '#000000'}}>Trocas realizadas</Caption>
+          <Caption style={{color: '#000000'}}>Anúncios ativos</Caption>
         </View>
       </View>
 
       <View style={styles.menuWrapper}>
-        <TouchableRipple>
-          <View style={styles.menuItem}>
-            <Icon name="heart" color="#FF6347" size={25}/>
-            <Text style={styles.menuItemText}>Livros favoritos</Text>
-
-          </View>
-        </TouchableRipple>
         <TouchableRipple>
           <View style={styles.menuItem}>
             <Icon name="map-outline" color="#FF6347" size={25}/>

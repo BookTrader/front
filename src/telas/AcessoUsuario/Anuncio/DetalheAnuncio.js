@@ -51,6 +51,7 @@ export default function DetalheAnuncio({ route }) {
           <Image 
             style={{ height: 100, width: 100 }}
             source={{ uri: imagem.url }}
+            key={ imagem.id }
           />
          )) : null }
         <Text>{exemplar?.exm_titulo}</Text>

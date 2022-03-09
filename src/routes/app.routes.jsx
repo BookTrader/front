@@ -65,6 +65,13 @@ const FeedStackScreen = ({ navigation }) => (
                 ),
             }}
         />
+        <FeedStack.Screen
+            name="DetalheAnuncio"
+            component={DetalheAnuncio}
+            options={{
+                title: 'Detalhe do Anuncio'
+            }}
+        />
     </FeedStack.Navigator>
 );
 
