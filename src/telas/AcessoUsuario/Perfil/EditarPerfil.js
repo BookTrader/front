@@ -25,7 +25,7 @@ export default function Perfil({ navigation }) {
 
     const modalizeRef = useRef(null);
 
-
+    //teste
     //Func p/ selecionar foto da galeria
     async function handleSelectImage() {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
