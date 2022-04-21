@@ -98,7 +98,6 @@ export default function ConfigurarTroca({ navigation }) {
         <TouchableOpacity 
             style={styles.btnSubmit}
             onPress={handleSubmit}
-
         >
             <Text style={styles.btnSubmitText}>
                 Atualizar dados

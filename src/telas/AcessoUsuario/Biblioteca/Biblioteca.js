@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { RefreshControl, ScrollView, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Card from '../../../components/Card';
+import EmptyContent from '../../../components/EmptyContent';
 import { useAuth } from '../../../context/auth';
 import { api } from '../../../service/api';
 
@@ -15,7 +16,7 @@ export default function Biblioteca() {
         api.get(`/usuario/${usuario.id}/exemplar`).then(response => {
             setRefreshing(false);
 
-            setExemplares(response.data.exemplares);
+            setExemplares(response.data);
         })
         .catch((err) => {
             setRefreshing(false)
