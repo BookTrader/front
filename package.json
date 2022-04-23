@@ -28,6 +28,7 @@
     "react-native-elements": "git+https://github.com/react-native-elements/react-native-elements.git#dist",
     "react-native-feather": "^1.1.1",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-maps": "^0.27.1",
     "react-native-modalize": "^2.0.10",
     "react-native-pager-view": "5.0.12",
     "react-native-paper": "^4.9.1",

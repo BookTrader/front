@@ -11,7 +11,7 @@ const LocationContext = createContext();
 export default function LocationProvider({children}) {
 
   const [location, setLocation] = useState();
-  const { usuario } = useAuth();
+  const { usuario, setUsuario } = useAuth();
 
   async function getLocation() {
 
@@ -28,13 +28,16 @@ export default function LocationProvider({children}) {
 
     if (usuario) {
       await api.patch(`/usuario/${usuario.id}`, { usr_latitude, usr_longitude })
+        .then((user) => {
+          setUsuario(user.data);
+        })
     }
 
   };
 
   useEffect(() => {
     getLocation();
-  }, [usuario]);
+  }, []);
 
   return(
     <LocationContext.Provider value={{location, setLocation, getLocation}}>

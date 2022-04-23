@@ -4,7 +4,16 @@ import {Image} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
-const Drawer = createDrawerNavigator();
+import Feed from '../telas/AcessoLivre/Feed/Feed';
+import DetalheAnuncio from '../telas/AcessoUsuario/Anuncio/DetalheAnuncio';
+import CriarAnuncio from '../telas/AcessoUsuario/Anuncio/CriarAnuncio';
+import Biblioteca from '../telas/AcessoUsuario/Biblioteca/Biblioteca';
+import Configuracao from '../telas/AcessoUsuario/Configuracao/Configuracao';
+import Perfil from '../telas/AcessoUsuario/Perfil/Perfil';
+import EditarPerfil from '../telas/AcessoUsuario/Perfil/EditarPerfil';
+import ConfigurarTroca from '../telas/AcessoUsuario/Perfil/ConfigurarTroca';
+
+import { DrawerContent } from '../telas/Navegacao/DrawerContent';
 
 const FeedStack = createStackNavigator();
 const CriarAnuncioStack = createStackNavigator();
@@ -12,13 +21,7 @@ const BibliotecaStack = createStackNavigator();
 const ConfiguracaoStack = createStackNavigator();
 const PerfilStack = createStackNavigator();
 
-import Feed from '../telas/AcessoLivre/Feed/Feed';
-import CriarAnuncio from '../telas/AcessoUsuario/Anuncio/CriarAnuncio';
-import Biblioteca from '../telas/AcessoUsuario/Biblioteca/Biblioteca';
-import Configuracao from '../telas/AcessoUsuario/Configuracao/Configuracao';
-import Perfil from '../telas/AcessoUsuario/Perfil/Perfil';
-import EditarPerfil from '../telas/AcessoUsuario/Perfil/EditarPerfil';
-import { DrawerContent } from '../telas/Navegacao/DrawerContent';
+const Drawer = createDrawerNavigator();
 
 const FeedStackScreen = ({ navigation }) => (
     <FeedStack.Navigator
@@ -60,6 +63,13 @@ const FeedStackScreen = ({ navigation }) => (
                         color="#FFF"
                     ></Ionicons>
                 ),
+            }}
+        />
+        <FeedStack.Screen
+            name="DetalheAnuncio"
+            component={DetalheAnuncio}
+            options={{
+                title: 'Detalhe do Anuncio'
             }}
         />
     </FeedStack.Navigator>
@@ -219,7 +229,15 @@ const PerfilStackScreen = ({ navigation }) => (
             component={EditarPerfil}
             options={{
                 title: 'Editar Perfil'
-            }}/>
+            }}
+        />
+        <PerfilStack.Screen
+            name="ConfigurarTroca"
+            component={ConfigurarTroca}
+            options={
+                ({ navigation, route }) => ({title: 'Configurar Troca'})
+            }
+        />
         
     </PerfilStack.Navigator>
 );

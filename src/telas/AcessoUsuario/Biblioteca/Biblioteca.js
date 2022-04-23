@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { RefreshControl, ScrollView, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Card from '../../../components/Card';
+import EmptyContent from '../../../components/EmptyContent';
 import { useAuth } from '../../../context/auth';
 import { api } from '../../../service/api';
 
@@ -8,7 +9,6 @@ export default function Biblioteca() {
     const { usuario } = useAuth();
 
     const [exemplares, setExemplares] = useState([]);
-    const [imagens, setImagens] = useState([]);
 
     const [refreshing, setRefreshing] = useState(false);
 
@@ -16,14 +16,12 @@ export default function Biblioteca() {
         api.get(`/usuario/${usuario.id}/exemplar`).then(response => {
             setRefreshing(false);
 
-            setExemplares(response.data.exemplares);
-            setImagens(response.data.imagens);
+            setExemplares(response.data);
         })
         .catch((err) => {
             setRefreshing(false)
 
             setExemplares(null);
-            setImagens(null);
         });
     }, [refreshing]);
 
@@ -69,7 +67,7 @@ export default function Biblioteca() {
                 {exemplares ? exemplares.map((exemplar, index) => (
                     <TouchableOpacity onPress={() => {}} key={exemplar.id}>
                         <Card
-                            image={ imagens[index] ? imagens[index].url : null }
+                            image={ exemplares[index] ? exemplares[index].imagens[0].url : null }
                             tituloExemplar={ exemplares[index] ? exemplares[index].exm_titulo : null }
                             autorExemplar={ exemplares[index] ? exemplares[index].exm_autor : null }
                             generoExemplar={ exemplares[index] ? exemplares[index].exm_genero : null }

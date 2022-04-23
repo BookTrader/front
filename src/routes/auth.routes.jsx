@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../telas/AcessoLivre/Login/Login';
 import Register from "../telas/AcessoLivre/Register/Register";
 import Feed from '../telas/AcessoLivre/Feed/Feed';
+import DetalheAnuncio from '../telas/AcessoUsuario/Anuncio/DetalheAnuncio';
 import { DrawerContent } from '../telas/Navegacao/DrawerContent';
 
 const Drawer = createDrawerNavigator();
@@ -96,8 +97,14 @@ const FeedStackScreen = ({ navigation }) => (
                     color="#FFF"
                 ></Ionicons>
             ),
-
           }}
+      />
+      <FeedStack.Screen
+        name="DetalheAnuncio"
+        component={DetalheAnuncio}
+        options={{
+            title: 'Detalhe do Anuncio'
+        }}
       />
   </FeedStack.Navigator>
 );

@@ -12,7 +12,6 @@ import {
 import { api } from '../../../service/api';
 import Card from '../../../components/Card';
 import EmptyContent from '../../../components/EmptyContent';
-import { useLocation } from '../../../context/location';
 
 export default function Feed({ navigation }) {
     const [exemplares, setExemplares] = useState([]);
@@ -20,8 +19,6 @@ export default function Feed({ navigation }) {
     const [anuncios, setAnuncios] = useState([]);
 
     const [refreshing, setRefreshing] = useState(false)
-
-    const { location } = useLocation();
 
     useEffect(() => {
         api.get('/anuncio').then(response => {
@@ -80,7 +77,15 @@ export default function Feed({ navigation }) {
             >
                 {/* Utilização do map para listar anúncios no feed */}    
                 { anuncios ? anuncios.map((anuncio, index) => (
-                    <TouchableOpacity onPress={() => {}} key={anuncio.id}>
+                    <TouchableOpacity 
+                        onPress={() => {
+                            navigation.navigate(
+                                "DetalheAnuncio", 
+                                {anc_id: anuncio.id}
+                            )
+                        }} 
+                        key={anuncio.id}
+                    >
                         <Card 
                             image={imagens[index] ? imagens[index].url : null}
                             tituloExemplar={exemplares[index] ? exemplares[index].exm_titulo : null}
@@ -91,7 +96,6 @@ export default function Feed({ navigation }) {
                         />
                     </TouchableOpacity>
                 )) : null }
-                <Text>{JSON.stringify(location)}</Text>
             </ScrollView>
         </View>
     )
