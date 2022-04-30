@@ -1,4 +1,5 @@
 import React from 'react';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -8,6 +9,7 @@ import Routes from './src/routes';
 
 function App() {
     return (
+      <RootSiblingParent>
         <NavigationContainer>
           <AuthProvider>
             <LocationProvider>
@@ -15,6 +17,7 @@ function App() {
             </LocationProvider>
           </AuthProvider>
         </NavigationContainer>
+      </RootSiblingParent>
     );
 }
 
