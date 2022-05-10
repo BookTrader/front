@@ -7,6 +7,7 @@ import {
     ImageBackground,
     TextInput,
     StyleSheet,
+    ScrollView,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as ImagePicker from 'expo-image-picker';
@@ -21,6 +22,10 @@ export default function Perfil({ navigation }) {
     const [userApelido, setUserApelido] = useState(usuario.usr_apelido ? usuario.usr_apelido : '');
     const [userNome, setUserNome] = useState(usuario.usr_nome ? usuario.usr_nome : '');
     const [userCpf, setUserCpf] = useState(usuario.usr_cpf ? usuario.usr_cpf : '');
+    const [userCEP, setUserCEP] = useState(usuario.usr_ender_cep ? usuario.usr_ender_cep : '');
+    const [userUF, setUserUF] = useState(usuario.usr_ender_uf ? usuario.usr_ender_uf : '');
+    const [userCidade, setUserCidade] = useState(usuario.usr_ender_cidade ? usuario.usr_ender_cidade : '');
+    const [userBairro, setUserBairro] = useState(usuario.usr_ender_bairro ? usuario.usr_ender_bairro : '');
     const [image, setImage] = useState();
 
     const modalizeRef = useRef(null);
@@ -96,23 +101,53 @@ export default function Perfil({ navigation }) {
               const updatedUser = response.data;
               setUsuario(updatedUser);
           })
-      }
+    }
     
-      async function handleFormData() {
+    async function handleFormData() {
         const data = new FormData();
-    
+
         data.append('usr_apelido', userApelido);
         data.append('usr_nome', userNome);
         data.append('usr_cpf', userCpf);
-    
+        data.append('usr_ender_cep', userCEP);
+        data.append('usr_ender_uf', userUF);
+        data.append('usr_ender_cidade', userCidade);
+        data.append('usr_ender_bairro', userBairro);
+
         data.append('imagem', {
-          name: 'user_image_1.jpg',
-          type: 'image/jpg',
-          uri: image
+            name: 'user_image_1.jpg',
+            type: 'image/jpg',
+            uri: image
         });
-    
+
         return data;
-      }
+    }
+
+    function handleCep(e) {
+        const value = e.nativeEvent.text;
+    
+        const cep = value?.replace(/[^0-9]/g, '');
+        if (cep?.length !== 8) {
+          props.setUserUf(null);
+          props.setUserCidade(null);
+          props.setUserBairro(null);
+          
+          return;
+        }
+        
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data)
+            if(data) {
+              setUserCEP(data.cep);
+              setUserUF(data.uf);
+              setUserCidade(data.localidade);
+              setUserBairro(data.bairro);
+            }
+          }
+        );
+    }
 
     //Funcs p/ abrir e fechar o modal
     function onOpen(){
@@ -129,111 +164,146 @@ export default function Perfil({ navigation }) {
             style={styles.container}
             keyboardVerticalOffset={80}
         >
-            <View style={{ margin: 20 }}>
-                <View style={{ alignItems: 'center' }}>
-                    <TouchableOpacity onPress={onOpen}>
-                        <View
-                            style={{
-                                height: 100,
-                                width: 100,
-                                borderRadius: 15,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <ImageBackground
-                                source={image
-                                    ? { uri: image }
-                                    : usuario.usr_foto
-                                    ? { uri: usuario.usr_foto.url }
-                                    : require('../../../../assets/rodrigo-foto.jpg')}
+            <ScrollView>
+                <View style={{ margin: 20 }}>
+                    <View style={{ alignItems: 'center' }}>
+                        <TouchableOpacity onPress={onOpen}>
+                            <View
                                 style={{
                                     height: 100,
                                     width: 100,
+                                    borderRadius: 15,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
                                 }}
-                                imageStyle={{ borderRadius: 15 }}
                             >
-                                <View
+                                <ImageBackground
+                                    source={image
+                                        ? { uri: image }
+                                        : usuario.usr_foto
+                                        ? { uri: usuario.usr_foto.url }
+                                        : require('../../../../assets/rodrigo-foto.jpg')}
                                     style={{
-                                        flex: 1,
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
+                                        height: 100,
+                                        width: 100,
                                     }}
+                                    imageStyle={{ borderRadius: 15 }}
                                 >
-                                    <Icon
-                                        name="camera"
-                                        size={35}
-                                        color="#fff"
+                                    <View
                                         style={{
-                                            opacity: 0.7,
-                                            alignItems: 'center',
+                                            flex: 1,
                                             justifyContent: 'center',
-                                            borderWidth: 1,
-                                            borderColor: '#fff',
-                                            borderRadius: 10,
+                                            alignItems: 'center',
                                         }}
-                                    />
-                                </View>
-                            </ImageBackground>
-                        </View>
+                                    >
+                                        <Icon
+                                            name="camera"
+                                            size={35}
+                                            color="#fff"
+                                            style={{
+                                                opacity: 0.7,
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                borderWidth: 1,
+                                                borderColor: '#fff',
+                                                borderRadius: 10,
+                                            }}
+                                        />
+                                    </View>
+                                </ImageBackground>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <View style={styles.form}>
+                    <Text style={styles.label}>Dados Pessoais</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Apelido"
+                        autoCorrect={false}
+                        value={userApelido}
+                        onChangeText={setUserApelido}
+                    />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Nome"
+                        autoCorrect={false}
+                        value={userNome}
+                        onChangeText={setUserNome}
+                    />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="CPF"
+                        autoCorrect={false}
+                        value={userCpf}
+                        onChangeText={setUserCpf}
+                    />
+
+                    <Text style={styles.label}>Endereço</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="CEP"
+                        autoCorrect={false}
+                        value={userCEP}
+                        onChangeText={setUserCEP}
+                        onEndEditing={handleCep}
+                    />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="UF"
+                        autoCorrect={false}
+                        value={userUF}
+                        onChangeText={setUserUF}
+                    />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Cidade"
+                        autoCorrect={false}
+                        value={userCidade}
+                        onChangeText={setUserCidade}
+                    />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Bairro"
+                        autoCorrect={false}
+                        value={userBairro}
+                        onChangeText={setUserBairro}
+                    />
+
+                    <TouchableOpacity style={styles.btnSubmit} onPress={handlePerfilSubmit}>
+                        <Text style={styles.btnSubmitText}>
+                            {loading ? 'Atualizando...' : 'Atualizar'}</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
 
-            <View style={styles.form}>
-                <Text style={styles.label}>Dados Pessoais</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Apelido"
-                    autoCorrect={false}
-                    value={userApelido}
-                    onChangeText={setUserApelido}
-                />
+                <Modalize
+                    ref={modalizeRef}
+                    snapPoint={220}
+                    modalHeight={220}
+                >
+                    <View style={styles.modalContent}>
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Nome"
-                    autoCorrect={false}
-                    value={userNome}
-                    onChangeText={setUserNome}
-                />
+                        <TouchableOpacity style={styles.btnModal} onPress={handleTakeImage}>
+                            <Text style={styles.btnModalText}>Tirar foto</Text>
+                        </TouchableOpacity>
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="CPF"
-                    autoCorrect={false}
-                    value={userCpf}
-                    onChangeText={setUserCpf}
-                />
+                        <TouchableOpacity style={styles.btnModal} onPress={handleSelectImage}>
+                            <Text style={styles.btnModalText}>Escolher da galeria</Text>
+                        </TouchableOpacity>
 
-                <TouchableOpacity style={styles.btnSubmit} onPress={handlePerfilSubmit}>
-                    <Text style={styles.btnSubmitText}>
-                        {loading ? 'Atualizando...' : 'Atualizar'}</Text>
-                </TouchableOpacity>
-            </View>
+                        <TouchableOpacity onPress={onClose} style={styles.btnModal}>
+                            <Text style={styles.btnModalText}>Cancelar</Text>
+                        </TouchableOpacity>
 
-            <Modalize
-                ref={modalizeRef}
-                snapPoint={220}
-                modalHeight={220}
-            >
-                <View style={styles.modalContent}>
-
-                    <TouchableOpacity style={styles.btnModal} onPress={handleTakeImage}>
-                        <Text style={styles.btnModalText}>Tirar foto</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.btnModal} onPress={handleSelectImage}>
-                        <Text style={styles.btnModalText}>Escolher da galeria</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={onClose} style={styles.btnModal}>
-                        <Text style={styles.btnModalText}>Cancelar</Text>
-                    </TouchableOpacity>
-
-                </View>
-            </Modalize>
-
+                    </View>
+                </Modalize>
+            </ScrollView>
         </KeyboardAvoidingView>
     )
 }
