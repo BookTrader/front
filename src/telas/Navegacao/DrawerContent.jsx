@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { Avatar, Title, Caption, Drawer } from 'react-native-paper';
 
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
@@ -98,7 +98,11 @@ export function DrawerContent(props) {
                             )}
                             label="Criar um anúncio"
                             onPress={() => {
-                                props.navigation.navigate('CriarAnuncio')
+                                if(!!usuario.is_active) {
+                                    props.navigation.navigate('CriarAnuncio')
+                                } else {
+                                    Alert.alert("Cadastro incompleto! Atualize seus dados na página de perfil.")
+                                }
                             }}
                         />
                     

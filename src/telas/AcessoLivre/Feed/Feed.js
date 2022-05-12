@@ -14,9 +14,7 @@ import Card from '../../../components/Card';
 import EmptyContent from '../../../components/EmptyContent';
 
 export default function Feed({ navigation }) {
-    const [exemplares, setExemplares] = useState([]);
-    const [imagens, setImagens] = useState([]);
-    const [anuncios, setAnuncios] = useState([]);
+    const [anuncioData, setAnuncioData] = useState([]);
 
     const [refreshing, setRefreshing] = useState(false)
 
@@ -24,16 +22,13 @@ export default function Feed({ navigation }) {
         api.get('/anuncio').then(response => {
             setRefreshing(false);
 
-            setAnuncios(response.data.anuncios);
-            setExemplares(response.data.exemplares);
-            setImagens(response.data.imagens);
+            setAnuncioData(response.data);
+            console.log(anuncioData)
         })
         .catch((err) => {
             setRefreshing(false)
 
-            setAnuncios(null);
-            setExemplares([]);
-            setImagens([]);
+            setAnuncioData(null);
         });
     }, [refreshing]);
             
@@ -43,7 +38,7 @@ export default function Feed({ navigation }) {
     }
             
     /* Em caso de não haver anúncios, exibir tela de conteúdo vazio */
-    if(!anuncios) {
+    if(!anuncioData.anuncios) {
         return (
             <ScrollView 
                 contentContainerStyle={{ flexGrow : 1, justifyContent : 'center' }}
@@ -76,7 +71,7 @@ export default function Feed({ navigation }) {
                 }
             >
                 {/* Utilização do map para listar anúncios no feed */}    
-                { anuncios ? anuncios.map((anuncio, index) => (
+                { anuncioData.anuncios ? anuncioData.anuncios.map((anuncio, index) => (
                     <TouchableOpacity 
                         onPress={() => {
                             navigation.navigate(
@@ -87,12 +82,12 @@ export default function Feed({ navigation }) {
                         key={anuncio.id}
                     >
                         <Card 
-                            image={imagens[index] ? imagens[index].url : null}
-                            tituloExemplar={exemplares[index] ? exemplares[index].exm_titulo : null}
-                            autorExemplar={exemplares[index] ? exemplares[index].exm_autor : null}
-                            generoExemplar={exemplares[index] ? exemplares[index].exm_genero : null}
-                            editoraExemplar={exemplares[index] ? exemplares[index].exm_editora : null}
-                            local={"Jardim Tranquilidade, Guarulhos"}
+                            image={anuncioData.imagens[index] ? anuncioData.imagens[index].url : null}
+                            tituloExemplar={anuncioData.exemplares[index] ? anuncioData.exemplares[index].exm_titulo : null}
+                            autorExemplar={anuncioData.exemplares[index] ? anuncioData.exemplares[index].exm_autor : null}
+                            generoExemplar={anuncioData.exemplares[index] ? anuncioData.exemplares[index].exm_genero : null}
+                            editoraExemplar={anuncioData.exemplares[index] ? anuncioData.exemplares[index].exm_editora : null}
+                            local={`${anuncioData.usuarios[index]?.usr_ender_bairro}, ${anuncioData.usuarios[index]?.usr_ender_cidade}`}
                         />
                     </TouchableOpacity>
                 )) : null }
