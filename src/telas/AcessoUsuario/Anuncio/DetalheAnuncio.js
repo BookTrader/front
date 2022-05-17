@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Image, ScrollView, Text, View } from 'react-native';
+import { Alert, Button, Image, ScrollView, Text, View } from 'react-native';
 
 import { api } from '../../../service/api';
+import { useAuth } from '../../../context/auth'
 
-export default function DetalheAnuncio({ route }) {
+export default function DetalheAnuncio({ route, navigation }) {
 
   const anc_id = route.params?.anc_id;
+  const { usuario } = useAuth();
 
   const [anuncio, setAnuncio] = useState();
   const [exemplar, setExemplar] = useState();
-  const [usuario, setUsuario] = useState();
+  const [user, setUser] = useState();
 
   useEffect(() => {
     const setData = async () => {
       await api.get(`/anuncio/${anc_id}`).then(async (response) => {
         await (
           setAnuncio(response.data.anuncio),
-          setUsuario(response.data.usuario),
+          setUser(response.data.usuario),
           setExemplar(response.data.exemplar)
         )
       })
@@ -27,6 +29,14 @@ export default function DetalheAnuncio({ route }) {
     setData();
   }, []) 
   
+  const handleProposal = () => {
+    !!usuario?.is_active ? 
+      navigation.navigate(
+        "CriarProposta", 
+        {anc_id: anc_id}
+      )
+    : Alert.alert("Cadastro incompleto! Atualize seus dados na página de perfil.")
+  }
 
   return (
     <ScrollView 
@@ -36,14 +46,14 @@ export default function DetalheAnuncio({ route }) {
         <Image 
           style={{ height: 100, width: 100 }}
           source={
-            usuario?.usr_foto?.url 
-            ? { uri: usuario.usr_foto.url }
+            user?.usr_foto?.url 
+            ? { uri: user.usr_foto.url }
             : require('../../../../assets/rodrigo-foto.jpg')
           }
         />
-        <Text>{usuario?.usr_nome}</Text>
-        { usuario?.usr_ender_uf ? 
-          <Text>{ usuario?.usr_ender_cidade }, { usuario?.usr_ender_uf }</Text>
+        <Text>{user?.usr_nome}</Text>
+        { user?.usr_ender_uf ? 
+          <Text>{ user?.usr_ender_cidade }, { user?.usr_ender_uf }</Text>
          : null }
       </View>
       <View>
@@ -60,7 +70,7 @@ export default function DetalheAnuncio({ route }) {
         <Text>{anuncio?.anc_descricao}</Text>
       </View>
       <View>
-        <Button title={'Fazer Proposta'}/>
+        <Button title={'Fazer Proposta'} onPress={() => handleProposal()} disabled={!usuario}/>
       </View>
     </ScrollView>
   );

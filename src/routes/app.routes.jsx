@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Feed from '../telas/AcessoLivre/Feed/Feed';
 import DetalheAnuncio from '../telas/AcessoUsuario/Anuncio/DetalheAnuncio';
 import CriarAnuncio from '../telas/AcessoUsuario/Anuncio/CriarAnuncio';
+import CriarProposta from '../telas/AcessoUsuario/Proposta/CriarProposta';
 import Biblioteca from '../telas/AcessoUsuario/Biblioteca/Biblioteca';
 import Configuracao from '../telas/AcessoUsuario/Configuracao/Configuracao';
 import Perfil from '../telas/AcessoUsuario/Perfil/Perfil';
@@ -70,6 +71,13 @@ const FeedStackScreen = ({ navigation }) => (
             component={DetalheAnuncio}
             options={{
                 title: 'Detalhe do Anuncio'
+            }}
+        />
+        <FeedStack.Screen
+            name="CriarProposta"
+            component={CriarProposta}
+            options={{
+                title: 'Criar uma proposta'
             }}
         />
     </FeedStack.Navigator>
