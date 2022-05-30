@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Image, ScrollView, Text, View } from 'react-native';
+import { Alert, Button, Image, RefreshControl, ScrollView, Text, View } from 'react-native';
 
 import { api } from '../../../service/api';
 import { useAuth } from '../../../context/auth'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function DetalheAnuncio({ route, navigation }) {
 
@@ -12,22 +13,32 @@ export default function DetalheAnuncio({ route, navigation }) {
   const [anuncio, setAnuncio] = useState();
   const [exemplar, setExemplar] = useState();
   const [user, setUser] = useState();
+  const [proposta, setProposta] = useState();
+  
+  const [refresh, setRefresh] = useState(false);
+
+  const loadPage = async () => {
+    await api.get(`/anuncio/${anc_id}`).then((response) => {
+      setAnuncio(response.data.anuncio),
+      setUser(response.data.usuario),
+      setExemplar(response.data.exemplar)
+      setRefresh(false);
+    })
+    .catch((err) => {
+      console.log("Erro na busca de anuncio!")
+      setRefresh(false)
+    });
+
+    await api.get(`/anuncio/${anc_id}/proposta`)
+      .then((res) => {
+        setProposta(res.data);
+        setRefresh(false);
+      })
+  }
 
   useEffect(() => {
-    const setData = async () => {
-      await api.get(`/anuncio/${anc_id}`).then(async (response) => {
-        await (
-          setAnuncio(response.data.anuncio),
-          setUser(response.data.usuario),
-          setExemplar(response.data.exemplar)
-        )
-      })
-      .catch((err) => {
-        console.log("Erro na busca de anuncio!")
-      });
-    }
-    setData();
-  }, []) 
+    loadPage();
+  }, [anc_id, refresh])
   
   const handleProposal = () => {
     !!usuario?.is_active ? 
@@ -38,9 +49,20 @@ export default function DetalheAnuncio({ route, navigation }) {
     : Alert.alert("Cadastro incompleto! Atualize seus dados na página de perfil.")
   }
 
+  const goToProposal = (id) => {
+    console.log(id)
+    navigation.navigate("DetalheProposta", {prop_id: id})
+  }
+
   return (
     <ScrollView 
       contentContainerStyle={{ flexGrow : 1, justifyContent : 'center' }}
+      refreshControl={
+        <RefreshControl 
+            refreshing={refresh}
+            onRefresh={() => setRefresh(true)}
+        />
+    }
     >
       <View>
         <Image 
@@ -71,6 +93,25 @@ export default function DetalheAnuncio({ route, navigation }) {
       </View>
       <View>
         <Button title={'Fazer Proposta'} onPress={() => handleProposal()} disabled={!usuario}/>
+      </View>
+
+      <View>
+          <Text>Propostas</Text>
+          {proposta && proposta.map((prop) => (
+            <TouchableOpacity onPress={() => goToProposal(prop.proposta?.prop_id)} key={prop.proposta?.prop_id}>
+              <View >
+                <Image 
+                  style={{ height: 100, width: 100 }}
+                  source={{ uri: prop.exemplar?.imagem?.url }}
+                  key={ prop.exemplar.exm_id }
+                  />
+                <Text>{prop?.exemplar?.exm_titulo}</Text>
+                <Text>{prop?.exemplar?.exm_genero}</Text>
+                <Text>{prop?.exemplar?.exm_autor}</Text>
+                <Text>{prop?.usuario?.usr_apelido}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
       </View>
     </ScrollView>
   );

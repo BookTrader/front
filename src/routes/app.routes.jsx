@@ -8,6 +8,7 @@ import Feed from '../telas/AcessoLivre/Feed/Feed';
 import DetalheAnuncio from '../telas/AcessoUsuario/Anuncio/DetalheAnuncio';
 import CriarAnuncio from '../telas/AcessoUsuario/Anuncio/CriarAnuncio';
 import CriarProposta from '../telas/AcessoUsuario/Proposta/CriarProposta';
+import DetalheProposta from '../telas/AcessoUsuario/Proposta/DetalheProposta';
 import Biblioteca from '../telas/AcessoUsuario/Biblioteca/Biblioteca';
 import Configuracao from '../telas/AcessoUsuario/Configuracao/Configuracao';
 import Perfil from '../telas/AcessoUsuario/Perfil/Perfil';
@@ -78,6 +79,13 @@ const FeedStackScreen = ({ navigation }) => (
             component={CriarProposta}
             options={{
                 title: 'Criar uma proposta'
+            }}
+        />
+        <FeedStack.Screen
+            name="DetalheProposta"
+            component={DetalheProposta}
+            options={{
+                title: 'Detalhe da Proposta'
             }}
         />
     </FeedStack.Navigator>
