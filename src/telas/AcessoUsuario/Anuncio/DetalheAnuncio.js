@@ -95,24 +95,26 @@ export default function DetalheAnuncio({ route, navigation }) {
         <Button title={'Fazer Proposta'} onPress={() => handleProposal()} disabled={!usuario}/>
       </View>
 
-      <View>
-          <Text>Propostas</Text>
-          {proposta && proposta.map((prop) => (
-            <TouchableOpacity onPress={() => goToProposal(prop.proposta?.prop_id)} key={prop.proposta?.prop_id}>
-              <View >
-                <Image 
-                  style={{ height: 100, width: 100 }}
-                  source={{ uri: prop.exemplar?.imagem?.url }}
-                  key={ prop.exemplar.exm_id }
-                  />
-                <Text>{prop?.exemplar?.exm_titulo}</Text>
-                <Text>{prop?.exemplar?.exm_genero}</Text>
-                <Text>{prop?.exemplar?.exm_autor}</Text>
-                <Text>{prop?.usuario?.usr_apelido}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-      </View>
+      {usuario && (
+        <View>
+            <Text>Propostas</Text>
+            {proposta && proposta.map((prop) => (
+              <TouchableOpacity onPress={() => goToProposal(prop.proposta?.prop_id)} key={prop.proposta?.prop_id}>
+                <View >
+                  <Image 
+                    style={{ height: 100, width: 100 }}
+                    source={{ uri: prop.exemplar?.imagem?.url }}
+                    key={ prop.exemplar.exm_id }
+                    />
+                  <Text>{prop?.exemplar?.exm_titulo}</Text>
+                  <Text>{prop?.exemplar?.exm_genero}</Text>
+                  <Text>{prop?.exemplar?.exm_autor}</Text>
+                  <Text>{prop?.usuario?.usr_apelido}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+        </View>
+      )}
     </ScrollView>
   );
 }
