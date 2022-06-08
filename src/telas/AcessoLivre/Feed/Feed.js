@@ -38,7 +38,7 @@ export default function Feed({ navigation }) {
     }
             
     /* Em caso de não haver anúncios, exibir tela de conteúdo vazio */
-    if(!anuncioData.anuncios) {
+    if(!anuncioData?.anuncios) {
         return (
             <ScrollView 
                 contentContainerStyle={{ flexGrow : 1, justifyContent : 'center' }}
