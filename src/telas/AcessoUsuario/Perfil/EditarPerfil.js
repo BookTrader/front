@@ -23,6 +23,7 @@ export default function Perfil({ navigation }) {
     const [userNome, setUserNome] = useState(usuario.usr_nome ? usuario.usr_nome : '');
     const [userCpf, setUserCpf] = useState(usuario.usr_cpf ? usuario.usr_cpf : '');
     const [userCEP, setUserCEP] = useState(usuario.usr_ender_cep ? usuario.usr_ender_cep : '');
+    const [userTelefone, setUserTelefone] = useState(usuario.usr_telefone ? usuario.usr_telefone : '');
     const [userUF, setUserUF] = useState(usuario.usr_ender_uf ? usuario.usr_ender_uf : '');
     const [userCidade, setUserCidade] = useState(usuario.usr_ender_cidade ? usuario.usr_ender_cidade : '');
     const [userBairro, setUserBairro] = useState(usuario.usr_ender_bairro ? usuario.usr_ender_bairro : '');
@@ -240,6 +241,14 @@ export default function Perfil({ navigation }) {
                         autoCorrect={false}
                         value={userCpf}
                         onChangeText={setUserCpf}
+                    />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Celular"
+                        autoCorrect={false}
+                        value={userTelefone}
+                        onChangeText={setUserTelefone}
                     />
 
                     <Text style={styles.label}>Endereço</Text>
