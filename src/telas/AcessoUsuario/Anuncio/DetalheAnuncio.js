@@ -92,7 +92,7 @@ export default function DetalheAnuncio({ route, navigation }) {
         <Text>{anuncio?.anc_descricao}</Text>
       </View>
       <View>
-        <Button title={'Fazer Proposta'} onPress={() => handleProposal()} disabled={!usuario}/>
+        <Button title={'Fazer Proposta'} onPress={() => handleProposal()} disabled={!usuario || usuario?.id === anuncio?.usr_id}/>
       </View>
 
       {usuario && (

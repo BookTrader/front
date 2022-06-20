@@ -44,10 +44,12 @@ export default function Perfil({ navigation }) {
       
       {/* Infos adicionais */}
       <View style={styles.userInfoSection}>
-        <View style={styles.row}>
-            <Icon name="map-marker-radius" color="#000000" size={20}/>
-            <Text style={{color:"#000000", marginLeft: 20}}>São Paulo, Brasil</Text>
-        </View>
+        {usuario?.usr_ender_cidade && usuario?.usr_ender_uf && (
+          <View style={styles.row}>
+              <Icon name="map-marker-radius" color="#000000" size={20}/>
+              <Text style={{color:"#000000", marginLeft: 20}}>{usuario.usr_ender_cidade}, {usuario.usr_ender_uf}</Text>
+          </View>
+        )}
         <View style={styles.row}>
             <Icon name="email" color="#000000" size={20}/>
             <Text style={{color:"#000000", marginLeft: 20}}>{usuario ? usuario.usr_email : ''}</Text>

@@ -8,6 +8,7 @@ import {
     TextInput,
     StyleSheet,
     ScrollView,
+    Alert,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as ImagePicker from 'expo-image-picker';
@@ -94,17 +95,21 @@ export default function Perfil({ navigation }) {
     }
 
     async function handlePerfilSubmit() {
-        const data = await handleFormData();
-    
+        const data = handleFormData();
+        
         await api
-          .patch(`/usuario/${usuario.id}`, data)
-          .then((response) => {
-              const updatedUser = response.data;
-              setUsuario(updatedUser);
-          })
+            .patch(`/usuario/${usuario.id}`, data)
+            .then((response) => {
+                const updatedUser = response.data;
+                setUsuario(updatedUser);
+            }).catch((err) => {
+                Alert.alert("Erro ao editar dados")
+            })
+
+        navigation.goBack();
     }
     
-    async function handleFormData() {
+    function handleFormData() {
         const data = new FormData();
 
         data.append('usr_apelido', userApelido);
@@ -114,12 +119,15 @@ export default function Perfil({ navigation }) {
         data.append('usr_ender_uf', userUF);
         data.append('usr_ender_cidade', userCidade);
         data.append('usr_ender_bairro', userBairro);
+        data.append('usr_telefone', userTelefone);
 
-        data.append('imagem', {
-            name: 'user_image_1.jpg',
-            type: 'image/jpg',
-            uri: image
-        });
+        if(image) {
+            data.append('imagem', {
+                name: 'user_image_1.jpg',
+                type: 'image/jpg',
+                uri: image
+            });
+        }
 
         return data;
     }
@@ -139,7 +147,6 @@ export default function Perfil({ navigation }) {
         fetch(`https://viacep.com.br/ws/${cep}/json/`)
           .then((res) => res.json())
           .then((data) => {
-            console.log(data)
             if(data) {
               setUserCEP(data.cep);
               setUserUF(data.uf);

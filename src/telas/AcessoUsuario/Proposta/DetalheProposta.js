@@ -64,7 +64,7 @@ export default function DetalheAnuncio({ route, navigation }) {
         <Text>{proposta?.prop_descricao}</Text>
       </View>
       <View>
-        <Button title={'Aceitar Proposta'} onPress={() => acceptProposal()}/>
+        <Button title={'Aceitar Proposta'} onPress={() => acceptProposal()} disabled={!usuario || usuario?.id === user?.usr_id}/>
       </View>
     </ScrollView>
   );
