@@ -5,18 +5,20 @@ import { api } from '../../../service/api';
 import { useAuth } from '../../../context/auth'
 
 export default function DetalheAnuncio({ route, navigation }) {
-  const {prop_id} = route.params;
+  const { prop_id } = route.params;
   const { usuario } = useAuth();
 
   const [exemplar, setExemplar] = useState();
   const [user, setUser] = useState();
   const [proposta, setProposta] = useState();
+  const [anuncio, setAnuncio] = useState();
   
   const loadPage = async () => {
     await api.get(`/proposta/${prop_id}`).then((response) => {
       setProposta(response.data.proposta),
       setUser(response.data.usuario),
       setExemplar(response.data.exemplar)
+      setAnuncio(response.data.anuncio)
     })
     .catch((err) => {
       console.log("Erro na busca de proposta!")
@@ -27,8 +29,16 @@ export default function DetalheAnuncio({ route, navigation }) {
     loadPage();
   }, [prop_id])
 
-  const acceptProposal = () => {
-    console.log('Foi')
+  const acceptProposal = async () => {
+    const anc_id = anuncio.anc_id
+
+    await api.post(`anuncio/${anc_id}/proposta/${prop_id}/troca`)
+      .then((response) => {
+        navigation.navigate('DetalheTroca', { anc_id })
+      })
+      .catch((err) => {
+        Alert.alert("Erro ao criar troca.")
+      })
   }
 
   return (
@@ -63,9 +73,11 @@ export default function DetalheAnuncio({ route, navigation }) {
         <Text>{exemplar?.exm_autor}</Text>
         <Text>{proposta?.prop_descricao}</Text>
       </View>
-      <View>
-        <Button title={'Aceitar Proposta'} onPress={() => acceptProposal()} disabled={!usuario || usuario?.id === user?.usr_id}/>
-      </View>
+      {usuario?.id === anuncio?.usr_id && (
+        <View>
+          <Button title={'Aceitar Proposta'} onPress={() => acceptProposal()} disabled={!usuario || usuario?.id === user?.usr_id}/>
+        </View>
+      )}
     </ScrollView>
   );
 }
