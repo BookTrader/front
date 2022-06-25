@@ -10,7 +10,7 @@ import CriarAnuncio from '../telas/AcessoUsuario/Anuncio/CriarAnuncio';
 import CriarProposta from '../telas/AcessoUsuario/Proposta/CriarProposta';
 import DetalheProposta from '../telas/AcessoUsuario/Proposta/DetalheProposta';
 import Biblioteca from '../telas/AcessoUsuario/Biblioteca/Biblioteca';
-import Configuracao from '../telas/AcessoUsuario/Configuracao/Configuracao';
+//import Configuracao from '../telas/AcessoUsuario/Configuracao/Configuracao';
 import Perfil from '../telas/AcessoUsuario/Perfil/Perfil';
 import EditarPerfil from '../telas/AcessoUsuario/Perfil/EditarPerfil';
 import ConfigurarTroca from '../telas/AcessoUsuario/Perfil/ConfigurarTroca';
@@ -20,7 +20,7 @@ import { DrawerContent } from '../telas/Navegacao/DrawerContent';
 const FeedStack = createStackNavigator();
 const CriarAnuncioStack = createStackNavigator();
 const BibliotecaStack = createStackNavigator();
-const ConfiguracaoStack = createStackNavigator();
+//const ConfiguracaoStack = createStackNavigator();
 const PerfilStack = createStackNavigator();
 
 const Drawer = createDrawerNavigator();
@@ -166,38 +166,38 @@ const BibliotecaStackScreen = ({ navigation }) => (
     </BibliotecaStack.Navigator>
 );
 
-const ConfiguracaoStackScreen = ({ navigation }) => (
-    <ConfiguracaoStack.Navigator
-        screenOptions={{
-            headerStyle: {
-                backgroundColor: '#e53945',
-            },
-            headerTintColor: '#FFF',
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
-        }}
-    >
-        <ConfiguracaoStack.Screen
-            name="Configuração"
-            component={Configuracao}
-            options={{
-                title: 'Configurações',
-                headerLeft: () => (
-                    <Ionicons
-                        style={{ paddingLeft: 10 }}
-                        name="ios-menu"
-                        size={35}
-                        backgroundColor="#e53945"
-                        color="#FFF"
-                        onPress={() => navigation.openDrawer()}
-                    ></Ionicons>
-                )
-            }}
-        />
-    </ConfiguracaoStack.Navigator>
-);
+// const ConfiguracaoStackScreen = ({ navigation }) => (
+//     <ConfiguracaoStack.Navigator
+//         screenOptions={{
+//             headerStyle: {
+//                 backgroundColor: '#e53945',
+//             },
+//             headerTintColor: '#FFF',
+//             headerTitleAlign: 'center',
+//             headerTitleStyle: {
+//                 fontWeight: 'bold',
+//             },
+//         }}
+//     >
+//         <ConfiguracaoStack.Screen
+//             name="Configuração"
+//             component={Configuracao}
+//             options={{
+//                 title: 'Configurações',
+//                 headerLeft: () => (
+//                     <Ionicons
+//                         style={{ paddingLeft: 10 }}
+//                         name="ios-menu"
+//                         size={35}
+//                         backgroundColor="#e53945"
+//                         color="#FFF"
+//                         onPress={() => navigation.openDrawer()}
+//                     ></Ionicons>
+//                 )
+//             }}
+//         />
+//     </ConfiguracaoStack.Navigator>
+// );
 
 const PerfilStackScreen = ({ navigation }) => (
     <PerfilStack.Navigator
@@ -266,7 +266,7 @@ const AppRoutes = () => (
         <Drawer.Screen name="Feed" component={FeedStackScreen} />
         <Drawer.Screen name="CriarAnuncio" component={CriarAnuncioStackScreen} />
         <Drawer.Screen name="Biblioteca" component={BibliotecaStackScreen} />
-        <Drawer.Screen name="Configuracao" component={ConfiguracaoStackScreen} />
+        {/* <Drawer.Screen name="Configuracao" component={ConfiguracaoStackScreen} /> */}
         <Drawer.Screen name="Perfil" component={PerfilStackScreen} />
 
     </Drawer.Navigator>
