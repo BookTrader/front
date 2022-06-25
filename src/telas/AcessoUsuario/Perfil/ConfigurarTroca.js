@@ -86,23 +86,35 @@ export default function ConfigurarTroca({ navigation }) {
             setRange(values[0]);
             setLabelOption(false);
           }}
+          markerStyle={{
+            backgroundColor: '#e53945',    
+            height:17,
+            width: 17,
+            borderRadius: 15,
+          }}
+          trackStyle={{
+            height:3,
+          }}
+
+          selectedStyle={{
+            backgroundColor: '#e53945',
+          }}
           values={[range]}
           enableLabel={labelOption}
           min={0}
           max={51}
           snapped={true}
         />
-
-        <Text>{range}</Text>
-
-        <TouchableOpacity 
-            style={styles.btnSubmit}
-            onPress={handleSubmit}
-        >
-            <Text style={styles.btnSubmitText}>
-                Atualizar dados
-            </Text>
-        </TouchableOpacity>
+        </View>
+        <View style={styles.container2}>
+          <TouchableOpacity 
+              style={styles.btnSubmit}
+              onPress={handleSubmit}
+          >
+              <Text style={styles.btnSubmitText}>
+                  Atualizar dados
+              </Text>
+          </TouchableOpacity>
       </View>
     </>
   )
@@ -110,9 +122,17 @@ export default function ConfigurarTroca({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 30,
+    backgroundColor: '#ECECEC'
+  },
+  container2: {
     alignSelf: 'stretch',
     paddingHorizontal: 30,
-    backgroundColor: '#FFF'
+    backgroundColor: '#ECECEC',
+    paddingBottom: 15,
   },
   label: {
       fontWeight: 'bold',
