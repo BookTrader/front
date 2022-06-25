@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 
-export default function Anuncio(){
+export default function Anuncio({img, exemplar, onPress}){
 
     function filterTitle(title){
         if(title.length < 24){
@@ -12,13 +12,13 @@ export default function Anuncio(){
     }
 
     return (
-        <TouchableOpacity styles={styles.container}>
+        <TouchableOpacity styles={styles.container} onPress={onPress}>
             <Image 
-                source={require('../../assets/rodrigo-foto.jpg')}
+                source={{uri: img}}
                 style={styles.anuncioImg}
             />
             <Text style={styles.anuncioText}>
-                {filterTitle('Anuncio XYZXYZXYZXYZXYZXYZXYZ')}
+                {filterTitle(exemplar)}
             </Text>
         </TouchableOpacity>
     );

@@ -2,7 +2,12 @@ import React from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import Anuncio from './anuncio';
 
-export default function Footer(){
+export default function Footer({propostas, navigation}){
+    const goToProposal = (id) => {
+        console.log(id)
+        navigation.navigate("DetalheProposta", {prop_id: id})
+    }
+
     return (
         <View>
             <Text style={styles.title}>
@@ -10,17 +15,11 @@ export default function Footer(){
             </Text>
             <View style={{flexDirection: 'row', marginBottom: '2%', marginTop: '1%'}}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    <View style={{marginHorizontal: 10}}>
-                        <Anuncio img={require('../../assets/rodrigo-foto.jpg')}></Anuncio>
-                    </View>
-
-                    <View style={{marginHorizontal: 10}}>
-                        <Anuncio img={require('../../assets/rodrigo-foto.jpg')}></Anuncio>
-                    </View>
-
-                    <View style={{marginHorizontal: 10}}>
-                        <Anuncio img={require('../../assets/rodrigo-foto.jpg')}></Anuncio>
-                    </View>
+                    {propostas && propostas.map((elem) => (
+                        <View style={{marginHorizontal: 10}} key={elem.proposta?.prop_id}>
+                            <Anuncio img={elem.exemplar?.imagem?.url} exemplar={elem.exemplar?.exm_titulo} onPress={() => goToProposal(elem.proposta?.prop_id)} />
+                        </View>
+                    ))}
                 </ScrollView>
             </View>
         </View>

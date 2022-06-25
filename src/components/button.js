@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-export default function Button(){
+export default function Button({onPress}) {
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.btnContainer}>
+            <TouchableOpacity style={styles.btnContainer} onPress={onPress}>
                 <Text style={styles.title}>
                     Fazer proposta
                 </Text>
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginVertical: '5%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     title:{
         fontSize: 17,

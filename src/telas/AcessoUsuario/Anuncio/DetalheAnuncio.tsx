@@ -6,7 +6,6 @@ import WppButton from '../../../components/WppButton';
 
 import { api } from '../../../service/api';
 import { useAuth } from '../../../context/auth'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Carousel from 'react-native-snap-carousel';
 
 
@@ -15,10 +14,10 @@ export default function DetalheAnuncio({ route, navigation }) {
   const anc_id = route.params?.anc_id;
   const { usuario } = useAuth();
 
-  const [anuncio, setAnuncio] = useState();
-  const [exemplar, setExemplar] = useState();
-  const [user, setUser] = useState();
-  const [proposta, setProposta] = useState();
+  const [anuncio, setAnuncio] = useState(null);
+  const [exemplar, setExemplar] = useState(null);
+  const [user, setUser] = useState(null);
+  const [proposta, setProposta] = useState(null);
   
   const [refresh, setRefresh] = useState(false);
 
@@ -38,11 +37,11 @@ export default function DetalheAnuncio({ route, navigation }) {
       .then((res) => {
         setProposta(res.data);
         setRefresh(false);
-      })
+      }).catch((err) => console.log(err.response))
   }
 
   useEffect(() => {
-    loadPage();
+    anc_id && loadPage();
   }, [anc_id, refresh])
   
   const handleProposal = () => {
@@ -54,25 +53,17 @@ export default function DetalheAnuncio({ route, navigation }) {
     : Alert.alert("Cadastro incompleto! Atualize seus dados na página de perfil.")
   }
 
-  const goToProposal = (id) => {
-    console.log(id)
-    navigation.navigate("DetalheProposta", {prop_id: id})
-  }
+  // const goToProposal = (id) => {
+  //   console.log(id)
+  //   navigation.navigate("DetalheProposta", {prop_id: id})
+  // }
 
   const slider_width = Dimensions.get('window').width;
   const item_width = slider_width * 0.88;
 
-  const carouselItems =[
-    {
-      imgUrl:'https://assets.adin.com.br/clientes/arezzo/emkt/Arezzo/2022/06/footer-bolsas-miranda.png'
-    },
-    {
-      imgUrl:'https://assets.adin.com.br/clientes/arezzo/emkt/Arezzo/2022/06/footer-megan.jpg'
-    },
-    {
-      imgUrl:'https://assets.adin.com.br/clientes/arezzo/emkt/Arezzo/2022/06/footer-inverno.png'
-    },
-  ]
+  const carouselItems = exemplar && exemplar.imagens.map((img) => {
+    return {imgUrl: img?.url}
+  })
 
   type Props = {
     item: {
@@ -89,99 +80,63 @@ export default function DetalheAnuncio({ route, navigation }) {
     )
   }
 
+  {!anuncio || !exemplar || !proposta && (
+    <Text style={{textAlign: 'center', textAlignVertical:'center'}}>Carregando...</Text>
+  )}
+
   return (
-    
-    <ScrollView style={styles.container}>
-          
-          <Carousel
-            data={carouselItems}
-            renderItem={carouselCardItem}
-            sliderWidth={slider_width}
-            itemWidth={item_width}
-            useScrollView={true}
-          />
+    <ScrollView 
+      style={styles.container}
+      refreshControl={
+        <RefreshControl 
+            refreshing={refresh}
+            onRefresh={() => setRefresh(true)}
+        />
+      }
+    >
+        <Carousel
+          data={carouselItems}
+          renderItem={carouselCardItem}
+          sliderWidth={slider_width}
+          itemWidth={item_width}
+          useScrollView={true}
+        />
 
-          <View style={styles.bloco}>
-            <View style={styles.textContent}>
-              <Text style={styles.title}>O poder do hábito</Text>
-              <Text style={styles.title}>Autor:<Text style={styles.textList}> Charles Duhigg</Text></Text>
-              <Text style={styles.title}>Gênero:<Text style={styles.textList}> Filosofia</Text></Text>
-              <Text style={styles.title}>Editora:<Text style={styles.textList}> Abril</Text></Text>
-            </View>
+        <View style={styles.bloco}>
+          <View style={styles.textContent}>
+            <Text style={styles.title}>{exemplar?.exm_titulo}</Text>
+            <Text style={styles.title}>Autor:<Text style={styles.textList}> {exemplar?.exm_autor}</Text></Text>
+            <Text style={styles.title}>Gênero:<Text style={styles.textList}> {exemplar?.exm_genero}</Text></Text>
+            <Text style={styles.title}>Editora:<Text style={styles.textList}> {exemplar?.exm_editora}</Text></Text>
+          </View>
 
-            <View style={styles.textContent}>
-              <Text style={styles.desc}>Descrição</Text>
-            </View>
-            <View style={styles.textContent}>
-              <Text style={styles.textContent}>
-              Durante os últimos dois anos, uma jovem transformou quase todos os aspectos de sua vida. Parou de fumar, correu uma maratona e foi promovida. Em um laboratório, neurologistas descobriram que os padrões dentro do cérebro dela mudaram de maneira fundamental. Publicitários da Procter & Gamble observaram vídeos de pessoas fazendo a cama.
-              </Text>
-            </View>
+          <View style={styles.textContent}>
+            <Text style={styles.desc}>Descrição</Text>
+          </View>
+          <View style={styles.textContent}>
+            <Text style={styles.textContent}>
+              {anuncio?.anc_descricao ? anuncio?.anc_descricao : 'Sem descrição...'}
+            </Text>
+          </View>
 
+          {usuario && usuario?.id !== anuncio?.usr_id && (
+            <ButtonCustom onPress={() => handleProposal()}/>
+          )}
 
-            <ButtonCustom/>
+          {usuario && proposta && (
+            <>
+              <View style={styles.line}>
+                <Footer propostas={proposta} navigation={navigation} />
+              </View>
+            </>
+          )}
 
-            <View style={styles.line}/>
-              <Footer/>
-            </View>
-
+          {usuario && usuario?.id !== anuncio?.usr_id && (
             <WppButton 
               style={{bottom: 80, right: 60}}
             />
-
-
-          
-      {/* <View>
-        <Image 
-          style={{ height: 100, width: 100 }}
-          source={
-            user?.usr_foto?.url 
-            ? { uri: user.usr_foto.url }
-            : require('../../../../assets/rodrigo-foto.jpg')
-          }
-        />
-        <Text>{user?.usr_nome}</Text>
-        { user?.usr_ender_uf ? 
-          <Text>{ user?.usr_ender_cidade }, { user?.usr_ender_uf }</Text>
-         : null }
-      </View>
-      <View>
-        { exemplar?.imagens ? exemplar?.imagens.map((imagem) => (
-          <Image 
-            style={{ height: 100, width: 100 }}
-            source={{ uri: imagem.url }}
-            key={ imagem.id }
-          />
-         )) : null }
-        <Text>{exemplar?.exm_titulo}</Text>
-        <Text>{exemplar?.exm_genero}</Text>
-        <Text>{exemplar?.exm_autor}</Text>
-        <Text>{anuncio?.anc_descricao}</Text>
-      </View>
-      <View>
-        <Button title={'Fazer Proposta'} onPress={() => handleProposal()} disabled={!usuario}/>
-      </View>
-
-      {usuario && (
-        <View>
-            <Text>Propostas</Text>
-            {proposta && proposta.map((prop) => (
-              <TouchableOpacity onPress={() => goToProposal(prop.proposta?.prop_id)} key={prop.proposta?.prop_id}>
-                <View >
-                  <Image 
-                    style={{ height: 100, width: 100 }}
-                    source={{ uri: prop.exemplar?.imagem?.url }}
-                    key={ prop.exemplar.exm_id }
-                    />
-                  <Text>{prop?.exemplar?.exm_titulo}</Text>
-                  <Text>{prop?.exemplar?.exm_genero}</Text>
-                  <Text>{prop?.exemplar?.exm_autor}</Text>
-                  <Text>{prop?.usuario?.usr_apelido}</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
+          )}
         </View>
-      )} */}
     </ScrollView>
   );
 }
