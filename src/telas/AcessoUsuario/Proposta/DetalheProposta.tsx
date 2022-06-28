@@ -11,7 +11,7 @@ import Carousel from 'react-native-snap-carousel';
 
 export default function DetalheAnuncio({ route, navigation }) {
 
-  const anc_id = route.params?.anc_id;
+  const { prop_id } = route.params;
   const { usuario } = useAuth();
 
   const [anuncio, setAnuncio] = useState(null);
@@ -19,50 +19,42 @@ export default function DetalheAnuncio({ route, navigation }) {
   const [user, setUser] = useState(null);
   const [proposta, setProposta] = useState(null);
   
-  const [refresh, setRefresh] = useState(false);
-
   const loadPage = async () => {
-    await api.get(`/anuncio/${anc_id}`).then((response) => {
-      setAnuncio(response.data.anuncio),
+    await api.get(`/proposta/${prop_id}`).then((response) => {
+      setProposta(response.data.proposta),
       setUser(response.data.usuario),
       setExemplar(response.data.exemplar)
-      setRefresh(false);
+      setAnuncio(response.data.anuncio)
     })
     .catch((err) => {
-      console.log("Erro na busca de anuncio!")
-      setRefresh(false)
+      console.log("Erro na busca de proposta!")
     });
-
-    await api.get(`/anuncio/${anc_id}/proposta`)
-      .then((res) => {
-        setProposta(res.data);
-        setRefresh(false);
-      }).catch((err) => console.log(err.response))
   }
 
   useEffect(() => {
-    anc_id && loadPage();
-  }, [anc_id, refresh])
+    loadPage();
+  }, [prop_id])
 
   useEffect(() => {
     if(anuncio?.status === 'closed' && usuario?.id === anuncio?.usr_id) {
-      navigation.navigate('DetalheTroca', { anc_id })
+      navigation.navigate('DetalheTroca', { anc_id: anuncio?.anc_id })
     }
-  }, [anuncio])
-  
-  const handleProposal = () => {
-    !!usuario?.is_active ? 
-      navigation.navigate(
-        "CriarProposta", 
-        {anc_id: anc_id}
-      )
-    : Alert.alert("Cadastro incompleto! Atualize seus dados na página de perfil.")
-  }
+  }, [proposta])
 
-  // const goToProposal = (id) => {
-  //   console.log(id)
-  //   navigation.navigate("DetalheProposta", {prop_id: id})
-  // }
+  const acceptProposal = async () => {
+    const anc_id = anuncio.anc_id
+    console.log(anc_id)
+    console.log(prop_id)
+
+    await api.post(`anuncio/${anc_id}/proposta/${prop_id}/troca`)
+      .then((response) => {
+        navigation.navigate('DetalheTroca', { anc_id })
+      })
+      .catch((err) => {
+        console.log(err.response)
+        Alert.alert("Erro ao criar troca.")
+      })
+  }
 
   const slider_width = Dimensions.get('window').width;
   const item_width = slider_width * 0.88;
@@ -94,12 +86,6 @@ export default function DetalheAnuncio({ route, navigation }) {
   return (
     <ScrollView 
       style={styles.container}
-      refreshControl={
-        <RefreshControl 
-            refreshing={refresh}
-            onRefresh={() => setRefresh(true)}
-        />
-      }
     >
         {carouselItems && (
           <Carousel
@@ -124,20 +110,18 @@ export default function DetalheAnuncio({ route, navigation }) {
           </View>
           <View style={styles.textContent}>
             <Text style={styles.textContent}>
-              {anuncio?.anc_descricao ? anuncio?.anc_descricao : 'Sem descrição...'}
+              {proposta?.prop_descricao ? proposta?.prop_descricao : 'Sem descrição...'}
             </Text>
           </View>
 
-          {usuario && usuario?.id !== anuncio?.usr_id && (
-            <ButtonCustom onPress={() => handleProposal()}>Fazer proposta</ButtonCustom>
+          {usuario && usuario?.id !== user?.usr_id && (
+            <ButtonCustom onPress={() => acceptProposal()}>Aceitar proposta</ButtonCustom>
           )}
 
-          {usuario && proposta && (
-            <>
-              <View style={styles.line}>
-                <Footer propostas={proposta} navigation={navigation} />
-              </View>
-            </>
+          {usuario && usuario?.id !== user?.usr_id && (
+            <WppButton 
+              style={{bottom: 80, right: 60}}
+            />
           )}
         </View>
     </ScrollView>
