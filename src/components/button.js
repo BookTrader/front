@@ -1,12 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-export default function Button({onPress}) {
+export default function Button({onPress, children}) {
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.btnContainer} onPress={onPress}>
                 <Text style={styles.title}>
-                    Fazer proposta
+                    {children}
                 </Text>
             </TouchableOpacity>
         </View>

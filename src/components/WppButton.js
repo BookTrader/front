@@ -2,25 +2,26 @@ import React , {Component} from 'react';
 import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {Feather as Icon } from "@expo/vector-icons";
 
-
-export default class WppButton extends Component {
-    render(){
-        return (
-            <View style={[styles.container, this.props.style]}>
-                <TouchableWithoutFeedback>
-                    <View style={[styles.button, styles.menu]}>
-                        <Icon name="message-square" color={'#FFF'} size={26}/>
-                    </View>
-                </TouchableWithoutFeedback>
-            </View>
-        );
-    }
+const WppButton = ({ onPress }) => {
+    return (
+        <View style={styles.container}>
+            <TouchableWithoutFeedback onPress={onPress}>
+                <View style={[styles.button, styles.menu]}>
+                    <Icon name="message-square" color={'#FFF'} size={26}/>
+                </View>
+            </TouchableWithoutFeedback>
+        </View>
+    );
 }
+
+export default WppButton;
 
 const styles = StyleSheet.create({
     container:{
         alignItems: 'center',
         position: 'absolute',
+        bottom: 80,
+        right: 50,
     },
     button:{
         position: 'absolute',

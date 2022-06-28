@@ -9,7 +9,9 @@ import DetalheAnuncio from '../telas/AcessoUsuario/Anuncio/DetalheAnuncio';
 import CriarAnuncio from '../telas/AcessoUsuario/Anuncio/CriarAnuncio';
 import CriarProposta from '../telas/AcessoUsuario/Proposta/CriarProposta';
 import DetalheProposta from '../telas/AcessoUsuario/Proposta/DetalheProposta';
+import Troca from '../telas/AcessoUsuario/Troca/Troca';
 import Biblioteca from '../telas/AcessoUsuario/Biblioteca/Biblioteca';
+import MeusAnuncios from '../telas/AcessoUsuario/Anuncio/MeusAnuncios';
 //import Configuracao from '../telas/AcessoUsuario/Configuracao/Configuracao';
 import Perfil from '../telas/AcessoUsuario/Perfil/Perfil';
 import EditarPerfil from '../telas/AcessoUsuario/Perfil/EditarPerfil';
@@ -20,7 +22,7 @@ import { DrawerContent } from '../telas/Navegacao/DrawerContent';
 const FeedStack = createStackNavigator();
 const CriarAnuncioStack = createStackNavigator();
 const BibliotecaStack = createStackNavigator();
-//const ConfiguracaoStack = createStackNavigator();
+const MeusAnunciosStack = createStackNavigator();
 const PerfilStack = createStackNavigator();
 
 const Drawer = createDrawerNavigator();
@@ -86,6 +88,13 @@ const FeedStackScreen = ({ navigation }) => (
             component={DetalheProposta}
             options={{
                 title: 'Detalhe da Proposta'
+            }}
+        />
+        <FeedStack.Screen
+            name="DetalheTroca"
+            component={Troca}
+            options={{
+                title: 'Detalhe da Troca'
             }}
         />
     </FeedStack.Navigator>
@@ -166,38 +175,38 @@ const BibliotecaStackScreen = ({ navigation }) => (
     </BibliotecaStack.Navigator>
 );
 
-// const ConfiguracaoStackScreen = ({ navigation }) => (
-//     <ConfiguracaoStack.Navigator
-//         screenOptions={{
-//             headerStyle: {
-//                 backgroundColor: '#e53945',
-//             },
-//             headerTintColor: '#FFF',
-//             headerTitleAlign: 'center',
-//             headerTitleStyle: {
-//                 fontWeight: 'bold',
-//             },
-//         }}
-//     >
-//         <ConfiguracaoStack.Screen
-//             name="Configuração"
-//             component={Configuracao}
-//             options={{
-//                 title: 'Configurações',
-//                 headerLeft: () => (
-//                     <Ionicons
-//                         style={{ paddingLeft: 10 }}
-//                         name="ios-menu"
-//                         size={35}
-//                         backgroundColor="#e53945"
-//                         color="#FFF"
-//                         onPress={() => navigation.openDrawer()}
-//                     ></Ionicons>
-//                 )
-//             }}
-//         />
-//     </ConfiguracaoStack.Navigator>
-// );
+const MeusAnunciosStackScreen = ({ navigation }) => (
+    <MeusAnunciosStack.Navigator
+        screenOptions={{
+            headerStyle: {
+                backgroundColor: '#e53945',
+            },
+            headerTintColor: '#FFF',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        }}
+    >
+        <MeusAnunciosStack.Screen
+            name="MeusAnuncios"
+            component={MeusAnuncios}
+            options={{
+                title: 'Meus Anúncios',
+                headerLeft: () => (
+                    <Ionicons
+                        style={{ paddingLeft: 10 }}
+                        name="ios-menu"
+                        size={35}
+                        backgroundColor="#e53945"
+                        color="#FFF"
+                        onPress={() => navigation.openDrawer()}
+                    ></Ionicons>
+                )
+            }}
+        />
+    </MeusAnunciosStack.Navigator>
+);
 
 const PerfilStackScreen = ({ navigation }) => (
     <PerfilStack.Navigator
@@ -266,7 +275,7 @@ const AppRoutes = () => (
         <Drawer.Screen name="Feed" component={FeedStackScreen} />
         <Drawer.Screen name="CriarAnuncio" component={CriarAnuncioStackScreen} />
         <Drawer.Screen name="Biblioteca" component={BibliotecaStackScreen} />
-        {/* <Drawer.Screen name="Configuracao" component={ConfiguracaoStackScreen} /> */}
+        <Drawer.Screen name="MeusAnuncios" component={MeusAnunciosStackScreen} />
         <Drawer.Screen name="Perfil" component={PerfilStackScreen} />
 
     </Drawer.Navigator>
