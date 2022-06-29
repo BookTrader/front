@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Image, RefreshControl, ScrollView, Text, View, StyleSheet, Dimensions } from 'react-native';
 import ButtonCustom from '../../../components/button';
-import Footer from '../../../components/footer';
-import WppButton from '../../../components/WppButton';
 
 import { api } from '../../../service/api';
 import { useAuth } from '../../../context/auth'
@@ -118,11 +116,6 @@ export default function DetalheAnuncio({ route, navigation }) {
             <ButtonCustom onPress={() => acceptProposal()}>Aceitar proposta</ButtonCustom>
           )}
 
-          {usuario && usuario?.id !== user?.usr_id && (
-            <WppButton 
-              style={{bottom: 80, right: 60}}
-            />
-          )}
         </View>
     </ScrollView>
   );
