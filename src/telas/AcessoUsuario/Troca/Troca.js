@@ -7,27 +7,27 @@ import { useAuth } from '../../../context/auth';
 import WppButton from '../../../components/WppButton';
 
 const Troca = ({ route, navigation }) => {
-  const { anc_id } = route.params;
+  const { troca_id } = route.params;
   const { usuario } = useAuth()
 
   const [anuncio, setAnuncio] = useState(null);
   const [proposta, setProposta] = useState(null);
 
   useEffect(() => {
-    api.get(`/troca/${anc_id}`).then((resp) => {
+    api.get(`/troca/${troca_id}`).then((resp) => {
       setAnuncio(resp.data.anuncio);
       setProposta(resp.data.proposta);
     })
     .catch((err) => {
       console.log(err.response)
     })
-  }, [anc_id]);
+  }, [troca_id]);
 
   let url = '';
   let message = ''
-  const openChat = useCallback(async () => {
+  const openChat = async () => {
     console.log(anuncio)
-    if (usuario.id === anuncio.anc_user.id) {
+    if (usuario.id === anuncio?.anc_user?.id) {
       message = `Olá ${proposta.prop_user.usr_nome}, vamos fazer uma troca?`;
       url = `whatsapp://send?text=${message}&phone=+55${proposta.prop_user.usr_telefone}`;
     } else {
@@ -41,7 +41,7 @@ const Troca = ({ route, navigation }) => {
     } else {
       Alert.alert(`Don't know how to open this URL: ${url}`);
     }
-  }, [url]);
+  };
 
   if(!anuncio || !proposta) {
     return (
@@ -60,7 +60,6 @@ const Troca = ({ route, navigation }) => {
                   {anc_id: anuncio?.anc_id}
               )
           }} 
-          key={anuncio?.anc_id}
       >
           <Card 
               image={anuncio?.anc_exm.imagem ? anuncio.anc_exm.imagem.url : null}
@@ -84,7 +83,6 @@ const Troca = ({ route, navigation }) => {
                   {prop_id: proposta?.prop_id}
               )
           }} 
-          key={proposta?.prop_id}
       >
           <Card 
               image={proposta?.prop_exm.imagem ? proposta.prop_exm.imagem.url : null}

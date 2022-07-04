@@ -105,18 +105,19 @@ export function DrawerContent(props) {
                                 }
                             }}
                         />
+                        
                         <DrawerItem
                             icon={({ size }) => (
                                 <Icon
-                                    name="book-plus-multiple-outline"
+                                    name="swap-horizontal-bold"
                                     color="#e53945"
                                     size={size}
                                 />
                             )}
-                            label="Meus anúncios"
+                            label="Minhas Trocas"
                             onPress={() => {
                                 if(!!usuario.is_active) {
-                                    props.navigation.navigate('MeusAnuncios')
+                                    props.navigation.navigate('MinhasTrocas')
                                 } else {
                                     Alert.alert("Cadastro incompleto! Atualize seus dados na página de perfil.")
                                 }

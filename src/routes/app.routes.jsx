@@ -11,7 +11,7 @@ import CriarProposta from '../telas/AcessoUsuario/Proposta/CriarProposta';
 import DetalheProposta from '../telas/AcessoUsuario/Proposta/DetalheProposta';
 import Troca from '../telas/AcessoUsuario/Troca/Troca';
 import Biblioteca from '../telas/AcessoUsuario/Biblioteca/Biblioteca';
-import MeusAnuncios from '../telas/AcessoUsuario/Anuncio/MeusAnuncios';
+import MinhasTrocas from '../telas/AcessoUsuario/Troca/MinhasTrocas';
 //import Configuracao from '../telas/AcessoUsuario/Configuracao/Configuracao';
 import Perfil from '../telas/AcessoUsuario/Perfil/Perfil';
 import EditarPerfil from '../telas/AcessoUsuario/Perfil/EditarPerfil';
@@ -22,7 +22,7 @@ import { DrawerContent } from '../telas/Navegacao/DrawerContent';
 const FeedStack = createStackNavigator();
 const CriarAnuncioStack = createStackNavigator();
 const BibliotecaStack = createStackNavigator();
-const MeusAnunciosStack = createStackNavigator();
+const MinhasTrocasStack = createStackNavigator();
 const PerfilStack = createStackNavigator();
 
 const Drawer = createDrawerNavigator();
@@ -175,8 +175,8 @@ const BibliotecaStackScreen = ({ navigation }) => (
     </BibliotecaStack.Navigator>
 );
 
-const MeusAnunciosStackScreen = ({ navigation }) => (
-    <MeusAnunciosStack.Navigator
+const MinhasTrocasStackScreen = ({ navigation }) => (
+    <MinhasTrocasStack.Navigator
         screenOptions={{
             headerStyle: {
                 backgroundColor: '#e53945',
@@ -188,11 +188,11 @@ const MeusAnunciosStackScreen = ({ navigation }) => (
             },
         }}
     >
-        <MeusAnunciosStack.Screen
-            name="MeusAnuncios"
-            component={MeusAnuncios}
+        <MinhasTrocasStack.Screen
+            name="MinhasTrocas"
+            component={MinhasTrocas}
             options={{
-                title: 'Meus Anúncios',
+                title: 'Minhas Trocas',
                 headerLeft: () => (
                     <Ionicons
                         style={{ paddingLeft: 10 }}
@@ -205,7 +205,7 @@ const MeusAnunciosStackScreen = ({ navigation }) => (
                 )
             }}
         />
-    </MeusAnunciosStack.Navigator>
+    </MinhasTrocasStack.Navigator>
 );
 
 const PerfilStackScreen = ({ navigation }) => (
@@ -275,7 +275,7 @@ const AppRoutes = () => (
         <Drawer.Screen name="Feed" component={FeedStackScreen} />
         <Drawer.Screen name="CriarAnuncio" component={CriarAnuncioStackScreen} />
         <Drawer.Screen name="Biblioteca" component={BibliotecaStackScreen} />
-        <Drawer.Screen name="MeusAnuncios" component={MeusAnunciosStackScreen} />
+        <Drawer.Screen name="MinhasTrocas" component={MinhasTrocasStackScreen} />
         <Drawer.Screen name="Perfil" component={PerfilStackScreen} />
 
     </Drawer.Navigator>

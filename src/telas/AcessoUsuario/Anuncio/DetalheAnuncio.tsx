@@ -42,12 +42,6 @@ export default function DetalheAnuncio({ route, navigation }) {
   useEffect(() => {
     anc_id && loadPage();
   }, [anc_id, refresh])
-
-  useEffect(() => {
-    if(anuncio?.status === 'closed' && usuario?.id === anuncio?.usr_id) {
-      navigation.navigate('DetalheTroca', { anc_id })
-    }
-  }, [anuncio])
   
   const handleProposal = () => {
     !!usuario?.is_active ? 
@@ -128,7 +122,7 @@ export default function DetalheAnuncio({ route, navigation }) {
           </View>
 
           {usuario && usuario?.id !== anuncio?.usr_id && (
-            <ButtonCustom onPress={() => handleProposal()}>Fazer proposta</ButtonCustom>
+            <ButtonCustom onPress={() => handleProposal()} disabled={anuncio?.status === 'closed'}>{anuncio?.status === 'closed' ? 'Anúncio fechado' : 'Fazer proposta'}</ButtonCustom>
           )}
 
           {usuario && proposta && (

@@ -33,20 +33,12 @@ export default function DetalheAnuncio({ route, navigation }) {
     loadPage();
   }, [prop_id])
 
-  useEffect(() => {
-    if(anuncio?.status === 'closed' && usuario?.id === anuncio?.usr_id) {
-      navigation.navigate('DetalheTroca', { anc_id: anuncio?.anc_id })
-    }
-  }, [proposta])
-
   const acceptProposal = async () => {
-    const anc_id = anuncio.anc_id
-    console.log(anc_id)
-    console.log(prop_id)
+    const anc_id = anuncio.anc_id;
 
     await api.post(`anuncio/${anc_id}/proposta/${prop_id}/troca`)
       .then((response) => {
-        navigation.navigate('DetalheTroca', { anc_id })
+        navigation.navigate('DetalheTroca', { troca_id: response.data.troca.id })
       })
       .catch((err) => {
         console.log(err.response)
@@ -113,7 +105,7 @@ export default function DetalheAnuncio({ route, navigation }) {
           </View>
 
           {usuario && usuario?.id !== user?.usr_id && (
-            <ButtonCustom onPress={() => acceptProposal()}>Aceitar proposta</ButtonCustom>
+            <ButtonCustom onPress={() => acceptProposal()} disabled={anuncio?.status === 'closed'}>{anuncio?.status === 'closed' ? 'Anúncio fechado' : 'Aceitar proposta'}</ButtonCustom>
           )}
 
         </View>
