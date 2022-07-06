@@ -34,6 +34,7 @@ export default function DetalheAnuncio({ route, navigation }) {
         setProposta(res.data);
         setRefresh(false);
       })
+      .catch((err) => console.log(err.response))
   }
 
   useEffect(() => {

@@ -29,7 +29,8 @@ export default function AuthProvider( {children} ){
                             setToken(null);
                         });
                     }
-                });
+                })
+                .catch((err) => console.log(err.response));
             }
             TokenValido();
         }

@@ -31,6 +31,7 @@ export default function LocationProvider({children}) {
         .then((user) => {
           setUsuario(user.data);
         })
+        .catch((err) => console.log(err.response))
     }
 
   };

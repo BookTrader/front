@@ -105,6 +105,24 @@ export function DrawerContent(props) {
                                 }
                             }}
                         />
+                        
+                        <DrawerItem
+                            icon={({ size }) => (
+                                <Icon
+                                    name="swap-horizontal-bold"
+                                    color="#e53945"
+                                    size={size}
+                                />
+                            )}
+                            label="Minhas Trocas"
+                            onPress={() => {
+                                if(!!usuario.is_active) {
+                                    props.navigation.navigate('MinhasTrocas')
+                                } else {
+                                    Alert.alert("Cadastro incompleto! Atualize seus dados na página de perfil.")
+                                }
+                            }}
+                        />
                     
                         <DrawerItem
                             icon={({ size }) => (
@@ -118,23 +136,7 @@ export function DrawerContent(props) {
                             onPress={() => {
                                 props.navigation.navigate('Biblioteca')
                             }}
-                        />
-                            
-                        <DrawerItem
-                            icon={({ size }) => (
-                                <Icon
-                                    name="tools"
-                                    color="#e53945"
-                                    size={size}
-                                />
-                            )}
-                            label="Configurações"
-                            onPress={() => {
-                                props.navigation.navigate('Configuracao')
-                            }}
-                        />
-
-                        
+                        />                        
                         </>
                     ) : null }
                     </Drawer.Section>
