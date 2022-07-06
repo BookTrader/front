@@ -12,14 +12,15 @@ import {
 import { api } from '../../../service/api';
 import Card from '../../../components/Card';
 import EmptyContent from '../../../components/EmptyContent';
+import { useAuth } from '../../../context/auth';
 
 export default function Feed({ navigation }) {
     const [anuncioData, setAnuncioData] = useState([]);
-
-    const [refreshing, setRefreshing] = useState(false)
+    const [refreshing, setRefreshing] = useState(false);
+    const { usuario } = useAuth()
 
     useEffect(() => {
-        api.get('/anuncio').then(response => {
+        api.get(`/anuncio/all/${usuario?.id}`).then(response => {
             setRefreshing(false);
 
             setAnuncioData(response.data);
@@ -38,7 +39,7 @@ export default function Feed({ navigation }) {
     }
             
     /* Em caso de não haver anúncios, exibir tela de conteúdo vazio */
-    if(!anuncioData?.anuncios) {
+    if(anuncioData.length === 0) {
         return (
             <ScrollView 
                 contentContainerStyle={{ flexGrow : 1, justifyContent : 'center' }}
@@ -71,23 +72,23 @@ export default function Feed({ navigation }) {
                 }
             >
                 {/* Utilização do map para listar anúncios no feed */}    
-                { anuncioData.anuncios ? anuncioData.anuncios.map((anuncio, index) => (
+                { anuncioData.length > 0 ? anuncioData.map((data, index) => (
                     <TouchableOpacity 
                         onPress={() => {
                             navigation.navigate(
                                 "DetalheAnuncio", 
-                                {anc_id: anuncio.id}
+                                {anc_id: data.id}
                             )
                         }} 
-                        key={anuncio.id}
+                        key={data.id}
                     >
                         <Card 
-                            image={anuncioData.imagens[index] ? anuncioData.imagens[index].url : null}
-                            tituloExemplar={anuncioData.exemplares[index] ? anuncioData.exemplares[index].exm_titulo : null}
-                            autorExemplar={anuncioData.exemplares[index] ? anuncioData.exemplares[index].exm_autor : null}
-                            generoExemplar={anuncioData.exemplares[index] ? anuncioData.exemplares[index].exm_genero : null}
-                            editoraExemplar={anuncioData.exemplares[index] ? anuncioData.exemplares[index].exm_editora : null}
-                            local={`${anuncioData.usuarios[index]?.usr_ender_bairro}, ${anuncioData.usuarios[index]?.usr_ender_cidade}`}
+                            image={data?.exemplares?.imagens ? data.exemplares.imagens.url : null}
+                            tituloExemplar={data?.exemplares ? data.exemplares.exm_titulo : null}
+                            autorExemplar={data?.exemplares ? data.exemplares.exm_autor : null}
+                            generoExemplar={data?.exemplares ? data.exemplares.exm_genero : null}
+                            editoraExemplar={data?.exemplares ? data.exemplares.exm_editora : null}
+                            local={`${data?.usuario?.usr_ender_bairro}, ${data.usuarios?.usr_ender_cidade}`}
                         />
                     </TouchableOpacity>
                 )) : null }
