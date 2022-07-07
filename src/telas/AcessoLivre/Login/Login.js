@@ -27,7 +27,8 @@ export default function Login({ navigation }) {
         usr_email: yup
             .string()
             .required('Seu e-mail é obrigatório!')
-            .email('Digite um email válido!'),
+            .email('Digite um email válido!')
+            .trim(),
         usr_senha: yup
             .string()
             .required('Sua senha é obrigatória!')

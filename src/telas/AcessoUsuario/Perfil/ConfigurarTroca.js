@@ -35,6 +35,17 @@ export default function ConfigurarTroca({ navigation }) {
     await api.patch(`/usuario/${usuario.id}`, { usr_range_troca: range })
       .then((user) => {
         setUsuario(user.data)
+        navigation.goBack()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  async function setLocation(coord) {
+    await api.patch(`usuario/${usuario.id}`, { usr_latitude: coord.latitude, usr_longitude: coord.longitude })
+      .then((resp) => {
+        setUsuario(resp.data)
       })
       .catch((err) => {
         console.log(err)
@@ -53,6 +64,7 @@ export default function ConfigurarTroca({ navigation }) {
             latitudeDelta: usuario.usr_latitude ? 0.011 : 40,
             longitudeDelta: usuario.usr_longitude ? 0.011 : 40
           }}
+          onPress={(e) => setLocation(e.nativeEvent.coordinate)}
         >
           { usuario.usr_latitude ? 
                 <>
@@ -95,14 +107,13 @@ export default function ConfigurarTroca({ navigation }) {
           trackStyle={{
             height:3,
           }}
-
           selectedStyle={{
             backgroundColor: '#e53945',
           }}
           values={[range]}
           enableLabel={labelOption}
           min={0}
-          max={51}
+          max={21}
           snapped={true}
         />
         </View>

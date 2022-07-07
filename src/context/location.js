@@ -17,7 +17,6 @@ export default function LocationProvider({children}) {
 
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('Permission to access location was denied');
       return;
     }
 

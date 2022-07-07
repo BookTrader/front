@@ -4,7 +4,7 @@ import { api } from '../service/api';
 
 const AuthContext = createContext();
 
-export default function AuthProvider( {children} ){
+export default function AuthProvider({ children }) {
     
     const [usuario, setUsuario] = useState(null);
     const [token, setToken] = useState(null);

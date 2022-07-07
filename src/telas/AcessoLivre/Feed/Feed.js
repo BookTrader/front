@@ -88,7 +88,7 @@ export default function Feed({ navigation }) {
                             autorExemplar={data?.exemplares ? data.exemplares.exm_autor : null}
                             generoExemplar={data?.exemplares ? data.exemplares.exm_genero : null}
                             editoraExemplar={data?.exemplares ? data.exemplares.exm_editora : null}
-                            local={`${data?.usuario?.usr_ender_bairro}, ${data.usuarios?.usr_ender_cidade}`}
+                            local={`${data?.usuario?.usr_ender_bairro}, ${data.usuario?.usr_ender_cidade}`}
                         />
                     </TouchableOpacity>
                 )) : null }

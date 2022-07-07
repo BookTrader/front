@@ -30,11 +30,13 @@ export default function Register() {
         usr_apelido: yup
             .string()
             .required('Seu apelido é obrigatório!')
-            .min(2, 'Apelido deve possuir pelo menos 2 caracteres'),
+            .min(2, 'Apelido deve possuir pelo menos 2 caracteres')
+            .trim(),
         usr_email: yup
             .string()
             .required('Seu e-mail é obrigatório!')
-            .email('Digite um email válido!'),
+            .email('Digite um email válido!')
+            .trim(),
         usr_confirmSenha: yup
             .string()
             .required('Sua senha é obrigatória!')
@@ -148,8 +150,8 @@ export default function Register() {
                         <Text style={{ color: 'red', fontSize: 13, textAlign: 'center', paddingBottom: 10}}>{errors.usr_confirmSenha}</Text>
                     ) : null}
 
-                    <TouchableOpacity style={styles.btnSubmit}>
-                    <Text onPress={handleSubmit} style={styles.btnSubmitText}>{loading ? 'Cadastrando...' : 'Cadastrar'}</Text>
+                    <TouchableOpacity onPress={handleSubmit} style={styles.btnSubmit}>
+                    <Text style={styles.btnSubmitText}>{loading ? 'Cadastrando...' : 'Cadastrar'}</Text>
                     </TouchableOpacity>
                 </View>
         </KeyboardAvoidingView>

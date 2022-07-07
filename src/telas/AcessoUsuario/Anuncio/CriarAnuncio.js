@@ -59,12 +59,10 @@ export default function CriarAnuncio() {
             .post(`/usuario/${usuario.id}/exemplar/${exm_id}/anuncio`, data[2])
             .then((response) => {
                 setLoading(false);
-                Alert.alert('Anúncio cadastrado!');
-
                 setImages([]);
                 setFormKey(formKey + 1);
 
-                navigation.goBack();
+                navigation.navigate('Feed');
             })
     }
 
@@ -112,7 +110,6 @@ export default function CriarAnuncio() {
         });
 
         if (result.cancelled) {
-            alert('Upload de foto cancelado.');
             return;
         }
 

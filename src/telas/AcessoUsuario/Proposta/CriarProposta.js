@@ -62,7 +62,6 @@ export default function CriarProposta({ route }) {
             .post(`/usuario/${usuario.id}/exemplar/${exm_id}/anuncio/${anc_id}/proposta`, data[2])
             .then((response) => {
                 setLoading(false);
-                Alert.alert('Proposta cadastrado!');
 
                 setImages([]);
                 setFormKey(formKey + 1);

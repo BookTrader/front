@@ -65,6 +65,7 @@ const FeedStackScreen = ({ navigation }) => (
                         size={30}
                         backgroundColor="#e53945"
                         color="#FFF"
+                        onPress={() => navigation.navigate('ConfigurarTroca')}
                     ></Ionicons>
                 ),
             }}
@@ -126,15 +127,6 @@ const CriarAnuncioStackScreen = ({ navigation }) => (
                         backgroundColor="#e53945"
                         color="#FFF"
                         onPress={() => navigation.openDrawer()}
-                    ></Ionicons>
-                ),
-                headerRight: () => (
-                    <Ionicons
-                        style={{ paddingRight: 10 }}
-                        name="camera-outline"
-                        size={30}
-                        backgroundColor="#e53945"
-                        color="#FFF"
                     ></Ionicons>
                 ),
             }}

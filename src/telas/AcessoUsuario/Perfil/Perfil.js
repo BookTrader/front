@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   KeyboardAvoidingView, 
   StyleSheet, 
@@ -14,9 +14,22 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../../../context/auth';
 import { useLocation } from '../../../context/location';
+import { api } from '../../../service/api';
 
 export default function Perfil({ navigation }) {
   const {usuario} = useAuth();
+
+  const [anuncios, setAnuncios] = useState()
+  const [exemplares, setExemplares] = useState()
+
+  useEffect(() => {
+    api.get(`/list/exemplar/usuario/${usuario.id}`)
+      .then((resp) => {
+        setAnuncios(resp.data.anuncios)
+        setExemplares(resp.data.exemplares)
+      })
+      .catch((err) => console.log(err))
+  }, [])
 
   return (
     <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={80}>
@@ -62,23 +75,16 @@ export default function Perfil({ navigation }) {
           borderRightColor: '#dddddd',
           borderRightWidth: 1,
         }]}>
-          <Title style={{color: '#031d44'}}>4.8</Title>
-          <Caption style={{color: '#000000'}}>Nota</Caption>
+          <Title style={{color: '#031d44'}}>{exemplares}</Title>
+          <Caption style={{color: '#000000'}}>Exemplares criados</Caption>
         </View>
         <View style={styles.infoBox}>
-          <Title style={{color: '#031d44'}}>17</Title>
-          <Caption style={{color: '#000000'}}>Anúncios ativos</Caption>
+          <Title style={{color: '#031d44'}}>{anuncios}</Title>
+          <Caption style={{color: '#000000'}}>Anúncios criados</Caption>
         </View>
       </View>
 
       <View style={styles.menuWrapper}>
-        <TouchableRipple>
-          <View style={styles.menuItem}>
-            <Icon name="map-outline" color="#FF6347" size={25}/>
-            <Text style={styles.menuItemText}>Configurações de localização</Text>
-
-          </View>
-        </TouchableRipple>
         <TouchableRipple onPress={() => navigation.navigate('ConfigurarTroca')}>
           <View style={styles.menuItem}>
             <Icon name="tools" color="#FF6347" size={25}/>
@@ -86,7 +92,7 @@ export default function Perfil({ navigation }) {
 
           </View>
         </TouchableRipple>
-        <TouchableRipple>
+        <TouchableRipple onPress={() => navigation.navigate('EditarPerfil')}>
           <View style={styles.menuItem}>
             <Icon name="tools" color="#FF6347" size={25}/>
             <Text style={styles.menuItemText}>Configurações da conta</Text>

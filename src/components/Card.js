@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text } from 'react-native';
+import { StyleSheet, View, Image, Text, Touchable, Pressable } from 'react-native';
+import {Feather as Icon } from "@expo/vector-icons";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 {/* Componentização do card */}
 
@@ -36,6 +38,11 @@ export default function Card(props){
                             { props.local }
                         </Text>
                     </View>
+                    {props.onDelete && (
+                        <Pressable style={{position: 'absolute', top: 55, right: 20}} onPress={props.onDelete}>
+                            <Icon name='trash-2' size={30} color='#e53945'></Icon>
+                        </Pressable>
+                    )}
                 </View>
             </View>
         </View>
